@@ -1,4 +1,4 @@
-namespace CFMART_2_
+namespace CFMART
 {
     internal static class Program
     {
@@ -11,7 +11,8 @@ namespace CFMART_2_
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new Views.LoginKasir());
+            Application.Run(new Views.DashboardKasir());
         }
     }
 }

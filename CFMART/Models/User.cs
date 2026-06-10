@@ -11,6 +11,6 @@ namespace CFMART.Models
         public string? Username { get; set; }
         public string? Password { get; set; }
         public int Role_Id_Role { get; set; }
-        public string? Status_Karyawan { get; set; }
+        public Boolean Status_Karyawan { get; set; }
     }
 }

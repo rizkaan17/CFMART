@@ -13,7 +13,7 @@ namespace CFMART.Models
         public int Status_Order_Id_Status_Order { get; set; }
         public int Meja_Id_Meja { get; set; }
         public int Tipe_Pesanan_Id_Tipe_Pesanan { get; set; }
-        public string? Status_Pembayaran { get; set; }
+        public Boolean Status_Pembayaran { get; set; }
         public string? Nama_Pelanggan { get; set; }
         public int? Metode_Pembayaran_Id_Metode_Pembayaran { get; set; }
         public string? Nomor_Pelanggan { get; set; }
