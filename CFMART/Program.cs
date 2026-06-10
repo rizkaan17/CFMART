@@ -13,6 +13,7 @@ namespace CFMART
             ApplicationConfiguration.Initialize();
             Application.Run(new Views.LoginKasir());
             Application.Run(new Views.DashboardKasir());
+            Application.Run(new Views.Kasir.BiodataKasir());
         }
     }
 }

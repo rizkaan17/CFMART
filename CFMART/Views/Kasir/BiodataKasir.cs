@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace CFMART.Views.Kasir
+{
+    public partial class BiodataKasir : Form
+    {
+        public BiodataKasir()
+        {
+            InitializeComponent();
+        }
+    }
+}
