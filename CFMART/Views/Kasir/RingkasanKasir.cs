@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace CFMART.Views.Kasir
 {
-    public partial class BiodataKasir : Form
+    public partial class UCRingkasanKasir : UserControl
     {
-        public BiodataKasir()
+        public UCRingkasanKasir()
         {
             InitializeComponent();
         }

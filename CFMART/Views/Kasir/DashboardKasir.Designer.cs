@@ -1,6 +1,6 @@
 ﻿namespace CFMART.Views
 {
-    partial class DashboardKasir
+    partial class FormDbKasir
     {
         /// <summary>
         /// Required designer variable.
@@ -33,119 +33,107 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardKasir));
-            panel1 = new Panel();
-            label2 = new Label();
-            pictureBox2 = new PictureBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDbKasir));
+            pnlHeader = new Panel();
+            lblKasir = new Label();
+            pbLogo = new PictureBox();
             pictureBox1 = new PictureBox();
-            button4 = new Button();
-            panel2 = new Panel();
-            button3 = new Button();
-            button2 = new Button();
-            button1 = new Button();
-            label1 = new Label();
-            label3 = new Label();
-            pictureBox4 = new PictureBox();
-            panel3 = new Panel();
-            pictureBox9 = new PictureBox();
-            button5 = new Button();
-            label5 = new Label();
-            label6 = new Label();
+            btnLogout = new Button();
+            pnlFitur = new Panel();
+            btnBiodata = new Button();
+            btnRingkasan = new Button();
+            btnKasir = new Button();
+            lblCfmart = new Label();
+            lblPilihProduk = new Label();
+            pbLeleGoreng = new PictureBox();
+            pnlLeleGoreng = new Panel();
+            btnTambahLeleGoreng = new Button();
+            lblStokLeleGoreng = new Label();
+            lblHargaLeleGoreng = new Label();
             label4 = new Label();
-            panel4 = new Panel();
-            pictureBox10 = new PictureBox();
-            button6 = new Button();
-            label7 = new Label();
-            label8 = new Label();
-            pictureBox3 = new PictureBox();
-            label9 = new Label();
-            panel5 = new Panel();
-            pictureBox11 = new PictureBox();
-            button7 = new Button();
-            label10 = new Label();
-            label11 = new Label();
-            pictureBox5 = new PictureBox();
-            label12 = new Label();
-            panel6 = new Panel();
-            pictureBox14 = new PictureBox();
+            pnlLeleBakar = new Panel();
+            btnTambahLeleBakar = new Button();
+            lblStokLeleBakar = new Label();
+            lblHargaLeleBakar = new Label();
+            pbLeleBakar = new PictureBox();
+            lblLeleBakar = new Label();
+            pnlMangutLele = new Panel();
+            btnTambahMangutLele = new Button();
+            lblStokMangutLele = new Label();
+            lblHargaMangutLele = new Label();
+            pbMangutLele = new PictureBox();
+            lblMangutLele = new Label();
+            pnlEsTeh = new Panel();
             button8 = new Button();
-            label13 = new Label();
-            label14 = new Label();
-            pictureBox6 = new PictureBox();
-            label15 = new Label();
-            panel7 = new Panel();
-            pictureBox13 = new PictureBox();
-            button9 = new Button();
-            label16 = new Label();
-            label17 = new Label();
-            pictureBox7 = new PictureBox();
-            label18 = new Label();
-            panel8 = new Panel();
-            pictureBox12 = new PictureBox();
-            button10 = new Button();
-            label19 = new Label();
-            label20 = new Label();
-            pictureBox8 = new PictureBox();
-            label21 = new Label();
-            label22 = new Label();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            lblStokEsTeh = new Label();
+            lblHargaEsTeh = new Label();
+            pbEsTeh = new PictureBox();
+            lblEsTeh = new Label();
+            pnlEsJeruk = new Panel();
+            btnTambahEsJeruk = new Button();
+            lblStokEsJeruk = new Label();
+            lblHargaEsJeruk = new Label();
+            pbEsJeruk = new PictureBox();
+            lblEsJeruk = new Label();
+            pnlAirMineral = new Panel();
+            btnTambahAirMineral = new Button();
+            lblStokAirMineral = new Label();
+            lblHargaAirMineral = new Label();
+            pbAirMineral = new PictureBox();
+            lblAirMineral = new Label();
+            pnlHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
-            panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
-            panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox14).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
-            panel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox13).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
-            panel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
+            pnlFitur.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbLeleGoreng).BeginInit();
+            pnlLeleGoreng.SuspendLayout();
+            pnlLeleBakar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbLeleBakar).BeginInit();
+            pnlMangutLele.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbMangutLele).BeginInit();
+            pnlEsTeh.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbEsTeh).BeginInit();
+            pnlEsJeruk.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbEsJeruk).BeginInit();
+            pnlAirMineral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbAirMineral).BeginInit();
             SuspendLayout();
             // 
-            // panel1
+            // pnlHeader
             // 
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(pictureBox2);
-            panel1.Controls.Add(pictureBox1);
-            panel1.Controls.Add(button4);
-            panel1.Controls.Add(panel2);
-            panel1.Controls.Add(label1);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1927, 118);
-            panel1.TabIndex = 0;
+            pnlHeader.BackColor = Color.LightSlateGray;
+            pnlHeader.Controls.Add(lblKasir);
+            pnlHeader.Controls.Add(pbLogo);
+            pnlHeader.Controls.Add(pictureBox1);
+            pnlHeader.Controls.Add(btnLogout);
+            pnlHeader.Controls.Add(pnlFitur);
+            pnlHeader.Controls.Add(lblCfmart);
+            pnlHeader.Location = new Point(0, 0);
+            pnlHeader.Name = "pnlHeader";
+            pnlHeader.Size = new Size(1927, 118);
+            pnlHeader.TabIndex = 0;
             // 
-            // label2
+            // lblKasir
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.AliceBlue;
-            label2.Location = new Point(399, 39);
-            label2.Name = "label2";
-            label2.Size = new Size(63, 40);
-            label2.TabIndex = 2;
-            label2.Text = "kasir";
+            lblKasir.AutoSize = true;
+            lblKasir.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblKasir.ForeColor = Color.AliceBlue;
+            lblKasir.Location = new Point(399, 39);
+            lblKasir.Name = "lblKasir";
+            lblKasir.Size = new Size(63, 40);
+            lblKasir.TabIndex = 2;
+            lblKasir.Text = "kasir";
             // 
-            // pictureBox2
+            // pbLogo
             // 
-            pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
-            pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox2.Dock = DockStyle.Left;
-            pictureBox2.Location = new Point(0, 0);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(150, 118);
-            pictureBox2.TabIndex = 1;
-            pictureBox2.TabStop = false;
+            pbLogo.BackgroundImage = (Image)resources.GetObject("pbLogo.BackgroundImage");
+            pbLogo.BackgroundImageLayout = ImageLayout.Stretch;
+            pbLogo.Dock = DockStyle.Left;
+            pbLogo.Location = new Point(0, 0);
+            pbLogo.Name = "pbLogo";
+            pbLogo.Size = new Size(150, 118);
+            pbLogo.TabIndex = 1;
+            pbLogo.TabStop = false;
             // 
             // pictureBox1
             // 
@@ -158,157 +146,156 @@
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
             // 
-            // button4
+            // btnLogout
             // 
-            button4.BackColor = Color.FromArgb(192, 0, 0);
-            button4.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.ForeColor = Color.White;
-            button4.Location = new Point(1635, 28);
-            button4.Name = "button4";
-            button4.Size = new Size(253, 58);
-            button4.TabIndex = 1;
-            button4.Text = "Keluar";
-            button4.UseVisualStyleBackColor = false;
+            btnLogout.BackColor = Color.FromArgb(192, 0, 0);
+            btnLogout.FlatStyle = FlatStyle.Popup;
+            btnLogout.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLogout.ForeColor = Color.White;
+            btnLogout.Location = new Point(1635, 28);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(253, 58);
+            btnLogout.TabIndex = 1;
+            btnLogout.Text = "Keluar";
+            btnLogout.UseVisualStyleBackColor = false;
             // 
-            // panel2
+            // pnlFitur
             // 
-            panel2.BackColor = Color.DimGray;
-            panel2.Controls.Add(button3);
-            panel2.Controls.Add(button2);
-            panel2.Controls.Add(button1);
-            panel2.Location = new Point(1017, 14);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(568, 88);
-            panel2.TabIndex = 1;
+            pnlFitur.BackColor = Color.DimGray;
+            pnlFitur.Controls.Add(btnBiodata);
+            pnlFitur.Controls.Add(btnRingkasan);
+            pnlFitur.Controls.Add(btnKasir);
+            pnlFitur.Location = new Point(1017, 14);
+            pnlFitur.Name = "pnlFitur";
+            pnlFitur.Size = new Size(568, 88);
+            pnlFitur.TabIndex = 1;
             // 
-            // button3
+            // btnBiodata
             // 
-            button3.BackColor = Color.LightSlateGray;
-            button3.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(387, 18);
-            button3.Name = "button3";
-            button3.Size = new Size(149, 51);
-            button3.TabIndex = 2;
-            button3.Text = "Biodata";
-            button3.UseVisualStyleBackColor = false;
+            btnBiodata.BackColor = Color.LightSlateGray;
+            btnBiodata.FlatStyle = FlatStyle.Popup;
+            btnBiodata.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBiodata.ForeColor = Color.White;
+            btnBiodata.Location = new Point(387, 18);
+            btnBiodata.Name = "btnBiodata";
+            btnBiodata.Size = new Size(149, 51);
+            btnBiodata.TabIndex = 2;
+            btnBiodata.Text = "Biodata";
+            btnBiodata.UseVisualStyleBackColor = false;
+            btnBiodata.Click += btnBiodata_Click;
             // 
-            // button2
+            // btnRingkasan
             // 
-            button2.BackColor = Color.LightSlateGray;
-            button2.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(215, 18);
-            button2.Name = "button2";
-            button2.Size = new Size(149, 51);
-            button2.TabIndex = 1;
-            button2.Text = "Ringkasan";
-            button2.UseVisualStyleBackColor = false;
+            btnRingkasan.BackColor = Color.LightSlateGray;
+            btnRingkasan.FlatStyle = FlatStyle.Popup;
+            btnRingkasan.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnRingkasan.ForeColor = Color.White;
+            btnRingkasan.Location = new Point(215, 18);
+            btnRingkasan.Name = "btnRingkasan";
+            btnRingkasan.Size = new Size(149, 51);
+            btnRingkasan.TabIndex = 1;
+            btnRingkasan.Text = "Ringkasan";
+            btnRingkasan.UseVisualStyleBackColor = false;
+            btnRingkasan.Click += button2_Click;
             // 
-            // button1
+            // btnKasir
             // 
-            button1.BackColor = Color.LightSlateGray;
-            button1.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(37, 18);
-            button1.Name = "button1";
-            button1.Size = new Size(149, 51);
-            button1.TabIndex = 0;
-            button1.Text = "Kasir";
-            button1.UseVisualStyleBackColor = false;
+            btnKasir.BackColor = Color.LightSlateGray;
+            btnKasir.FlatStyle = FlatStyle.Popup;
+            btnKasir.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKasir.ForeColor = Color.White;
+            btnKasir.Location = new Point(37, 18);
+            btnKasir.Name = "btnKasir";
+            btnKasir.Size = new Size(149, 51);
+            btnKasir.TabIndex = 0;
+            btnKasir.Text = "Kasir";
+            btnKasir.UseVisualStyleBackColor = false;
+            btnKasir.Click += btnKasir_Click;
             // 
-            // label1
+            // lblCfmart
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Dubai", 25.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.OrangeRed;
-            label1.Location = new Point(178, 14);
-            label1.Name = "label1";
-            label1.Size = new Size(235, 88);
-            label1.TabIndex = 0;
-            label1.Text = "CFMART";
+            lblCfmart.AutoSize = true;
+            lblCfmart.Font = new Font("Dubai", 25.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblCfmart.ForeColor = Color.OrangeRed;
+            lblCfmart.Location = new Point(178, 14);
+            lblCfmart.Name = "lblCfmart";
+            lblCfmart.Size = new Size(235, 88);
+            lblCfmart.TabIndex = 0;
+            lblCfmart.Text = "CFMART";
             // 
-            // label3
+            // lblPilihProduk
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Dubai Medium", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.Silver;
-            label3.Location = new Point(12, 135);
-            label3.Name = "label3";
-            label3.Size = new Size(154, 40);
-            label3.TabIndex = 1;
-            label3.Text = "Pilih Produk";
+            lblPilihProduk.AutoSize = true;
+            lblPilihProduk.BackColor = Color.Transparent;
+            lblPilihProduk.Font = new Font("Dubai Medium", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPilihProduk.ForeColor = Color.Silver;
+            lblPilihProduk.Location = new Point(12, 135);
+            lblPilihProduk.Name = "lblPilihProduk";
+            lblPilihProduk.Size = new Size(154, 40);
+            lblPilihProduk.TabIndex = 1;
+            lblPilihProduk.Text = "Pilih Produk";
             // 
-            // pictureBox4
+            // pbLeleGoreng
             // 
-            pictureBox4.BackColor = Color.Transparent;
-            pictureBox4.BackgroundImage = (Image)resources.GetObject("pictureBox4.BackgroundImage");
-            pictureBox4.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox4.Location = new Point(0, 0);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(287, 205);
-            pictureBox4.TabIndex = 6;
-            pictureBox4.TabStop = false;
-            pictureBox4.Click += pictureBox4_Click;
+            pbLeleGoreng.BackColor = Color.Transparent;
+            pbLeleGoreng.BackgroundImage = (Image)resources.GetObject("pbLeleGoreng.BackgroundImage");
+            pbLeleGoreng.BackgroundImageLayout = ImageLayout.Stretch;
+            pbLeleGoreng.Location = new Point(0, 0);
+            pbLeleGoreng.Name = "pbLeleGoreng";
+            pbLeleGoreng.Size = new Size(287, 205);
+            pbLeleGoreng.TabIndex = 6;
+            pbLeleGoreng.TabStop = false;
+            pbLeleGoreng.Click += pictureBox4_Click;
             // 
-            // panel3
+            // pnlLeleGoreng
             // 
-            panel3.Controls.Add(pictureBox9);
-            panel3.Controls.Add(button5);
-            panel3.Controls.Add(label5);
-            panel3.Controls.Add(label6);
-            panel3.Controls.Add(pictureBox4);
-            panel3.Controls.Add(label4);
-            panel3.Location = new Point(28, 178);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(287, 334);
-            panel3.TabIndex = 7;
+            pnlLeleGoreng.Controls.Add(btnTambahLeleGoreng);
+            pnlLeleGoreng.Controls.Add(lblStokLeleGoreng);
+            pnlLeleGoreng.Controls.Add(lblHargaLeleGoreng);
+            pnlLeleGoreng.Controls.Add(pbLeleGoreng);
+            pnlLeleGoreng.Controls.Add(label4);
+            pnlLeleGoreng.Location = new Point(28, 178);
+            pnlLeleGoreng.Name = "pnlLeleGoreng";
+            pnlLeleGoreng.Size = new Size(287, 334);
+            pnlLeleGoreng.TabIndex = 7;
             // 
-            // pictureBox9
+            // btnTambahLeleGoreng
             // 
-            pictureBox9.BackColor = Color.MidnightBlue;
-            pictureBox9.BackgroundImage = (Image)resources.GetObject("pictureBox9.BackgroundImage");
-            pictureBox9.Location = new Point(193, 259);
-            pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(42, 43);
-            pictureBox9.TabIndex = 10;
-            pictureBox9.TabStop = false;
+            btnTambahLeleGoreng.Anchor = AnchorStyles.None;
+            btnTambahLeleGoreng.BackColor = Color.MidnightBlue;
+            btnTambahLeleGoreng.FlatStyle = FlatStyle.Popup;
+            btnTambahLeleGoreng.Font = new Font("Dubai", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTambahLeleGoreng.ForeColor = Color.White;
+            btnTambahLeleGoreng.Location = new Point(165, 251);
+            btnTambahLeleGoreng.Name = "btnTambahLeleGoreng";
+            btnTambahLeleGoreng.Size = new Size(98, 60);
+            btnTambahLeleGoreng.TabIndex = 8;
+            btnTambahLeleGoreng.TabStop = false;
+            btnTambahLeleGoreng.Text = "+";
+            btnTambahLeleGoreng.UseVisualStyleBackColor = false;
             // 
-            // button5
+            // lblStokLeleGoreng
             // 
-            button5.BackColor = Color.MidnightBlue;
-            button5.FlatStyle = FlatStyle.Popup;
-            button5.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button5.Location = new Point(165, 251);
-            button5.Name = "button5";
-            button5.Size = new Size(98, 60);
-            button5.TabIndex = 8;
-            button5.TabStop = false;
-            button5.UseVisualStyleBackColor = false;
+            lblStokLeleGoreng.AutoSize = true;
+            lblStokLeleGoreng.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStokLeleGoreng.ForeColor = Color.White;
+            lblStokLeleGoreng.Location = new Point(9, 287);
+            lblStokLeleGoreng.Name = "lblStokLeleGoreng";
+            lblStokLeleGoreng.Size = new Size(68, 34);
+            lblStokLeleGoreng.TabIndex = 8;
+            lblStokLeleGoreng.Text = "Stok: ";
+            lblStokLeleGoreng.Click += label5_Click;
             // 
-            // label5
+            // lblHargaLeleGoreng
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(9, 287);
-            label5.Name = "label5";
-            label5.Size = new Size(68, 34);
-            label5.TabIndex = 8;
-            label5.Text = "Stok: ";
-            label5.Click += label5_Click;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.MidnightBlue;
-            label6.Location = new Point(8, 251);
-            label6.Name = "label6";
-            label6.Size = new Size(117, 37);
-            label6.TabIndex = 9;
-            label6.Text = "Rp. 12.000";
+            lblHargaLeleGoreng.AutoSize = true;
+            lblHargaLeleGoreng.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHargaLeleGoreng.ForeColor = Color.MidnightBlue;
+            lblHargaLeleGoreng.Location = new Point(8, 251);
+            lblHargaLeleGoreng.Name = "lblHargaLeleGoreng";
+            lblHargaLeleGoreng.Size = new Size(117, 37);
+            lblHargaLeleGoreng.TabIndex = 9;
+            lblHargaLeleGoreng.Text = "Rp. 12.000";
             // 
             // label4
             // 
@@ -321,519 +308,448 @@
             label4.TabIndex = 7;
             label4.Text = "Lele Goreng";
             // 
-            // panel4
+            // pnlLeleBakar
             // 
-            panel4.Controls.Add(pictureBox10);
-            panel4.Controls.Add(button6);
-            panel4.Controls.Add(label7);
-            panel4.Controls.Add(label8);
-            panel4.Controls.Add(pictureBox3);
-            panel4.Controls.Add(label9);
-            panel4.Location = new Point(345, 178);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(287, 334);
-            panel4.TabIndex = 9;
+            pnlLeleBakar.Controls.Add(btnTambahLeleBakar);
+            pnlLeleBakar.Controls.Add(lblStokLeleBakar);
+            pnlLeleBakar.Controls.Add(lblHargaLeleBakar);
+            pnlLeleBakar.Controls.Add(pbLeleBakar);
+            pnlLeleBakar.Controls.Add(lblLeleBakar);
+            pnlLeleBakar.Location = new Point(345, 178);
+            pnlLeleBakar.Name = "pnlLeleBakar";
+            pnlLeleBakar.Size = new Size(287, 334);
+            pnlLeleBakar.TabIndex = 9;
             // 
-            // pictureBox10
+            // btnTambahLeleBakar
             // 
-            pictureBox10.BackColor = Color.MidnightBlue;
-            pictureBox10.BackgroundImage = (Image)resources.GetObject("pictureBox10.BackgroundImage");
-            pictureBox10.Location = new Point(195, 259);
-            pictureBox10.Name = "pictureBox10";
-            pictureBox10.Size = new Size(42, 43);
-            pictureBox10.TabIndex = 11;
-            pictureBox10.TabStop = false;
+            btnTambahLeleBakar.BackColor = Color.MidnightBlue;
+            btnTambahLeleBakar.FlatStyle = FlatStyle.Popup;
+            btnTambahLeleBakar.Font = new Font("Dubai", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTambahLeleBakar.ForeColor = Color.White;
+            btnTambahLeleBakar.Location = new Point(165, 251);
+            btnTambahLeleBakar.Name = "btnTambahLeleBakar";
+            btnTambahLeleBakar.Size = new Size(98, 60);
+            btnTambahLeleBakar.TabIndex = 8;
+            btnTambahLeleBakar.TabStop = false;
+            btnTambahLeleBakar.Text = "+";
+            btnTambahLeleBakar.UseVisualStyleBackColor = false;
             // 
-            // button6
+            // lblStokLeleBakar
             // 
-            button6.BackColor = Color.MidnightBlue;
-            button6.FlatStyle = FlatStyle.Popup;
-            button6.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button6.Location = new Point(165, 251);
-            button6.Name = "button6";
-            button6.Size = new Size(98, 60);
-            button6.TabIndex = 8;
-            button6.TabStop = false;
-            button6.UseVisualStyleBackColor = false;
+            lblStokLeleBakar.AutoSize = true;
+            lblStokLeleBakar.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStokLeleBakar.ForeColor = Color.White;
+            lblStokLeleBakar.Location = new Point(9, 287);
+            lblStokLeleBakar.Name = "lblStokLeleBakar";
+            lblStokLeleBakar.Size = new Size(68, 34);
+            lblStokLeleBakar.TabIndex = 8;
+            lblStokLeleBakar.Text = "Stok: ";
             // 
-            // label7
+            // lblHargaLeleBakar
             // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.ForeColor = Color.White;
-            label7.Location = new Point(9, 287);
-            label7.Name = "label7";
-            label7.Size = new Size(68, 34);
-            label7.TabIndex = 8;
-            label7.Text = "Stok: ";
+            lblHargaLeleBakar.AutoSize = true;
+            lblHargaLeleBakar.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHargaLeleBakar.ForeColor = Color.MidnightBlue;
+            lblHargaLeleBakar.Location = new Point(8, 251);
+            lblHargaLeleBakar.Name = "lblHargaLeleBakar";
+            lblHargaLeleBakar.Size = new Size(117, 37);
+            lblHargaLeleBakar.TabIndex = 9;
+            lblHargaLeleBakar.Text = "Rp. 18.000";
             // 
-            // label8
+            // pbLeleBakar
             // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = Color.MidnightBlue;
-            label8.Location = new Point(8, 251);
-            label8.Name = "label8";
-            label8.Size = new Size(117, 37);
-            label8.TabIndex = 9;
-            label8.Text = "Rp. 12.000";
+            pbLeleBakar.BackColor = Color.Transparent;
+            pbLeleBakar.BackgroundImage = (Image)resources.GetObject("pbLeleBakar.BackgroundImage");
+            pbLeleBakar.BackgroundImageLayout = ImageLayout.Stretch;
+            pbLeleBakar.Location = new Point(0, 0);
+            pbLeleBakar.Name = "pbLeleBakar";
+            pbLeleBakar.Size = new Size(287, 205);
+            pbLeleBakar.TabIndex = 6;
+            pbLeleBakar.TabStop = false;
             // 
-            // pictureBox3
+            // lblLeleBakar
             // 
-            pictureBox3.BackColor = Color.Transparent;
-            pictureBox3.BackgroundImage = (Image)resources.GetObject("pictureBox3.BackgroundImage");
-            pictureBox3.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox3.Location = new Point(0, 0);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(287, 205);
-            pictureBox3.TabIndex = 6;
-            pictureBox3.TabStop = false;
+            lblLeleBakar.AutoSize = true;
+            lblLeleBakar.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblLeleBakar.ForeColor = Color.White;
+            lblLeleBakar.Location = new Point(8, 208);
+            lblLeleBakar.Name = "lblLeleBakar";
+            lblLeleBakar.Size = new Size(122, 37);
+            lblLeleBakar.TabIndex = 7;
+            lblLeleBakar.Text = "Lele Bakar";
             // 
-            // label9
+            // pnlMangutLele
             // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.ForeColor = Color.White;
-            label9.Location = new Point(8, 208);
-            label9.Name = "label9";
-            label9.Size = new Size(122, 37);
-            label9.TabIndex = 7;
-            label9.Text = "Lele Bakar";
+            pnlMangutLele.Controls.Add(btnTambahMangutLele);
+            pnlMangutLele.Controls.Add(lblStokMangutLele);
+            pnlMangutLele.Controls.Add(lblHargaMangutLele);
+            pnlMangutLele.Controls.Add(pbMangutLele);
+            pnlMangutLele.Controls.Add(lblMangutLele);
+            pnlMangutLele.Location = new Point(661, 178);
+            pnlMangutLele.Name = "pnlMangutLele";
+            pnlMangutLele.Size = new Size(287, 334);
+            pnlMangutLele.TabIndex = 10;
             // 
-            // panel5
+            // btnTambahMangutLele
             // 
-            panel5.Controls.Add(pictureBox11);
-            panel5.Controls.Add(button7);
-            panel5.Controls.Add(label10);
-            panel5.Controls.Add(label11);
-            panel5.Controls.Add(pictureBox5);
-            panel5.Controls.Add(label12);
-            panel5.Location = new Point(661, 178);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(287, 334);
-            panel5.TabIndex = 10;
+            btnTambahMangutLele.BackColor = Color.MidnightBlue;
+            btnTambahMangutLele.FlatStyle = FlatStyle.Popup;
+            btnTambahMangutLele.Font = new Font("Dubai", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTambahMangutLele.ForeColor = Color.White;
+            btnTambahMangutLele.Location = new Point(165, 251);
+            btnTambahMangutLele.Name = "btnTambahMangutLele";
+            btnTambahMangutLele.Size = new Size(98, 60);
+            btnTambahMangutLele.TabIndex = 8;
+            btnTambahMangutLele.TabStop = false;
+            btnTambahMangutLele.Text = "+";
+            btnTambahMangutLele.UseVisualStyleBackColor = false;
             // 
-            // pictureBox11
+            // lblStokMangutLele
             // 
-            pictureBox11.BackColor = Color.MidnightBlue;
-            pictureBox11.BackgroundImage = (Image)resources.GetObject("pictureBox11.BackgroundImage");
-            pictureBox11.Location = new Point(195, 259);
-            pictureBox11.Name = "pictureBox11";
-            pictureBox11.Size = new Size(42, 43);
-            pictureBox11.TabIndex = 12;
-            pictureBox11.TabStop = false;
+            lblStokMangutLele.AutoSize = true;
+            lblStokMangutLele.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStokMangutLele.ForeColor = Color.White;
+            lblStokMangutLele.Location = new Point(9, 287);
+            lblStokMangutLele.Name = "lblStokMangutLele";
+            lblStokMangutLele.Size = new Size(68, 34);
+            lblStokMangutLele.TabIndex = 8;
+            lblStokMangutLele.Text = "Stok: ";
             // 
-            // button7
+            // lblHargaMangutLele
             // 
-            button7.BackColor = Color.MidnightBlue;
-            button7.FlatStyle = FlatStyle.Popup;
-            button7.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button7.Location = new Point(165, 251);
-            button7.Name = "button7";
-            button7.Size = new Size(98, 60);
-            button7.TabIndex = 8;
-            button7.TabStop = false;
-            button7.UseVisualStyleBackColor = false;
+            lblHargaMangutLele.AutoSize = true;
+            lblHargaMangutLele.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHargaMangutLele.ForeColor = Color.MidnightBlue;
+            lblHargaMangutLele.Location = new Point(8, 251);
+            lblHargaMangutLele.Name = "lblHargaMangutLele";
+            lblHargaMangutLele.Size = new Size(117, 37);
+            lblHargaMangutLele.TabIndex = 9;
+            lblHargaMangutLele.Text = "Rp. 22.000";
             // 
-            // label10
+            // pbMangutLele
             // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.ForeColor = Color.White;
-            label10.Location = new Point(9, 287);
-            label10.Name = "label10";
-            label10.Size = new Size(68, 34);
-            label10.TabIndex = 8;
-            label10.Text = "Stok: ";
+            pbMangutLele.BackColor = Color.Transparent;
+            pbMangutLele.BackgroundImage = (Image)resources.GetObject("pbMangutLele.BackgroundImage");
+            pbMangutLele.BackgroundImageLayout = ImageLayout.Stretch;
+            pbMangutLele.Location = new Point(0, 0);
+            pbMangutLele.Name = "pbMangutLele";
+            pbMangutLele.Size = new Size(287, 205);
+            pbMangutLele.TabIndex = 6;
+            pbMangutLele.TabStop = false;
             // 
-            // label11
+            // lblMangutLele
             // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.ForeColor = Color.MidnightBlue;
-            label11.Location = new Point(8, 251);
-            label11.Name = "label11";
-            label11.Size = new Size(117, 37);
-            label11.TabIndex = 9;
-            label11.Text = "Rp. 12.000";
+            lblMangutLele.AutoSize = true;
+            lblMangutLele.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMangutLele.ForeColor = Color.White;
+            lblMangutLele.Location = new Point(8, 208);
+            lblMangutLele.Name = "lblMangutLele";
+            lblMangutLele.Size = new Size(141, 37);
+            lblMangutLele.TabIndex = 7;
+            lblMangutLele.Text = "Mangut Lele";
             // 
-            // pictureBox5
+            // pnlEsTeh
             // 
-            pictureBox5.BackColor = Color.Transparent;
-            pictureBox5.BackgroundImage = (Image)resources.GetObject("pictureBox5.BackgroundImage");
-            pictureBox5.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox5.Location = new Point(0, 0);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(287, 205);
-            pictureBox5.TabIndex = 6;
-            pictureBox5.TabStop = false;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.ForeColor = Color.White;
-            label12.Location = new Point(8, 208);
-            label12.Name = "label12";
-            label12.Size = new Size(141, 37);
-            label12.TabIndex = 7;
-            label12.Text = "Mangut Lele";
-            // 
-            // panel6
-            // 
-            panel6.Controls.Add(pictureBox14);
-            panel6.Controls.Add(button8);
-            panel6.Controls.Add(label13);
-            panel6.Controls.Add(label14);
-            panel6.Controls.Add(pictureBox6);
-            panel6.Controls.Add(label15);
-            panel6.Location = new Point(28, 550);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(287, 334);
-            panel6.TabIndex = 10;
-            // 
-            // pictureBox14
-            // 
-            pictureBox14.BackColor = Color.MidnightBlue;
-            pictureBox14.BackgroundImage = (Image)resources.GetObject("pictureBox14.BackgroundImage");
-            pictureBox14.Location = new Point(193, 260);
-            pictureBox14.Name = "pictureBox14";
-            pictureBox14.Size = new Size(42, 43);
-            pictureBox14.TabIndex = 13;
-            pictureBox14.TabStop = false;
+            pnlEsTeh.Controls.Add(button8);
+            pnlEsTeh.Controls.Add(lblStokEsTeh);
+            pnlEsTeh.Controls.Add(lblHargaEsTeh);
+            pnlEsTeh.Controls.Add(pbEsTeh);
+            pnlEsTeh.Controls.Add(lblEsTeh);
+            pnlEsTeh.Location = new Point(28, 550);
+            pnlEsTeh.Name = "pnlEsTeh";
+            pnlEsTeh.Size = new Size(287, 334);
+            pnlEsTeh.TabIndex = 10;
             // 
             // button8
             // 
             button8.BackColor = Color.MidnightBlue;
             button8.FlatStyle = FlatStyle.Popup;
-            button8.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button8.Font = new Font("Dubai", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button8.ForeColor = Color.White;
             button8.Location = new Point(165, 251);
             button8.Name = "button8";
             button8.Size = new Size(98, 60);
             button8.TabIndex = 8;
             button8.TabStop = false;
+            button8.Text = "+";
             button8.UseVisualStyleBackColor = false;
             // 
-            // label13
+            // lblStokEsTeh
             // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.ForeColor = Color.White;
-            label13.Location = new Point(9, 287);
-            label13.Name = "label13";
-            label13.Size = new Size(68, 34);
-            label13.TabIndex = 8;
-            label13.Text = "Stok: ";
+            lblStokEsTeh.AutoSize = true;
+            lblStokEsTeh.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStokEsTeh.ForeColor = Color.White;
+            lblStokEsTeh.Location = new Point(9, 287);
+            lblStokEsTeh.Name = "lblStokEsTeh";
+            lblStokEsTeh.Size = new Size(68, 34);
+            lblStokEsTeh.TabIndex = 8;
+            lblStokEsTeh.Text = "Stok: ";
             // 
-            // label14
+            // lblHargaEsTeh
             // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.ForeColor = Color.MidnightBlue;
-            label14.Location = new Point(8, 251);
-            label14.Name = "label14";
-            label14.Size = new Size(117, 37);
-            label14.TabIndex = 9;
-            label14.Text = "Rp. 12.000";
+            lblHargaEsTeh.AutoSize = true;
+            lblHargaEsTeh.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHargaEsTeh.ForeColor = Color.MidnightBlue;
+            lblHargaEsTeh.Location = new Point(8, 251);
+            lblHargaEsTeh.Name = "lblHargaEsTeh";
+            lblHargaEsTeh.Size = new Size(105, 37);
+            lblHargaEsTeh.TabIndex = 9;
+            lblHargaEsTeh.Text = "Rp. 3.000";
             // 
-            // pictureBox6
+            // pbEsTeh
             // 
-            pictureBox6.BackColor = Color.Transparent;
-            pictureBox6.BackgroundImage = (Image)resources.GetObject("pictureBox6.BackgroundImage");
-            pictureBox6.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox6.Location = new Point(0, 0);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(287, 205);
-            pictureBox6.TabIndex = 6;
-            pictureBox6.TabStop = false;
+            pbEsTeh.BackColor = Color.Transparent;
+            pbEsTeh.BackgroundImage = (Image)resources.GetObject("pbEsTeh.BackgroundImage");
+            pbEsTeh.BackgroundImageLayout = ImageLayout.Stretch;
+            pbEsTeh.Location = new Point(0, 0);
+            pbEsTeh.Name = "pbEsTeh";
+            pbEsTeh.Size = new Size(287, 205);
+            pbEsTeh.TabIndex = 6;
+            pbEsTeh.TabStop = false;
             // 
-            // label15
+            // lblEsTeh
             // 
-            label15.AutoSize = true;
-            label15.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label15.ForeColor = Color.White;
-            label15.Location = new Point(8, 208);
-            label15.Name = "label15";
-            label15.Size = new Size(84, 37);
-            label15.TabIndex = 7;
-            label15.Text = "Es Teh";
+            lblEsTeh.AutoSize = true;
+            lblEsTeh.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblEsTeh.ForeColor = Color.White;
+            lblEsTeh.Location = new Point(8, 208);
+            lblEsTeh.Name = "lblEsTeh";
+            lblEsTeh.Size = new Size(84, 37);
+            lblEsTeh.TabIndex = 7;
+            lblEsTeh.Text = "Es Teh";
             // 
-            // panel7
+            // pnlEsJeruk
             // 
-            panel7.Controls.Add(pictureBox13);
-            panel7.Controls.Add(button9);
-            panel7.Controls.Add(label16);
-            panel7.Controls.Add(label17);
-            panel7.Controls.Add(pictureBox7);
-            panel7.Controls.Add(label18);
-            panel7.Location = new Point(345, 550);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(287, 334);
-            panel7.TabIndex = 10;
+            pnlEsJeruk.Controls.Add(btnTambahEsJeruk);
+            pnlEsJeruk.Controls.Add(lblStokEsJeruk);
+            pnlEsJeruk.Controls.Add(lblHargaEsJeruk);
+            pnlEsJeruk.Controls.Add(pbEsJeruk);
+            pnlEsJeruk.Controls.Add(lblEsJeruk);
+            pnlEsJeruk.Location = new Point(345, 550);
+            pnlEsJeruk.Name = "pnlEsJeruk";
+            pnlEsJeruk.Size = new Size(287, 334);
+            pnlEsJeruk.TabIndex = 10;
             // 
-            // pictureBox13
+            // btnTambahEsJeruk
             // 
-            pictureBox13.BackColor = Color.MidnightBlue;
-            pictureBox13.BackgroundImage = (Image)resources.GetObject("pictureBox13.BackgroundImage");
-            pictureBox13.Location = new Point(195, 260);
-            pictureBox13.Name = "pictureBox13";
-            pictureBox13.Size = new Size(42, 43);
-            pictureBox13.TabIndex = 12;
-            pictureBox13.TabStop = false;
+            btnTambahEsJeruk.BackColor = Color.MidnightBlue;
+            btnTambahEsJeruk.FlatStyle = FlatStyle.Popup;
+            btnTambahEsJeruk.Font = new Font("Dubai", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTambahEsJeruk.ForeColor = Color.White;
+            btnTambahEsJeruk.Location = new Point(165, 251);
+            btnTambahEsJeruk.Name = "btnTambahEsJeruk";
+            btnTambahEsJeruk.Size = new Size(98, 60);
+            btnTambahEsJeruk.TabIndex = 8;
+            btnTambahEsJeruk.TabStop = false;
+            btnTambahEsJeruk.Text = "+";
+            btnTambahEsJeruk.UseVisualStyleBackColor = false;
             // 
-            // button9
+            // lblStokEsJeruk
             // 
-            button9.BackColor = Color.MidnightBlue;
-            button9.FlatStyle = FlatStyle.Popup;
-            button9.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button9.Location = new Point(165, 251);
-            button9.Name = "button9";
-            button9.Size = new Size(98, 60);
-            button9.TabIndex = 8;
-            button9.TabStop = false;
-            button9.UseVisualStyleBackColor = false;
+            lblStokEsJeruk.AutoSize = true;
+            lblStokEsJeruk.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStokEsJeruk.ForeColor = Color.White;
+            lblStokEsJeruk.Location = new Point(9, 287);
+            lblStokEsJeruk.Name = "lblStokEsJeruk";
+            lblStokEsJeruk.Size = new Size(68, 34);
+            lblStokEsJeruk.TabIndex = 8;
+            lblStokEsJeruk.Text = "Stok: ";
             // 
-            // label16
+            // lblHargaEsJeruk
             // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label16.ForeColor = Color.White;
-            label16.Location = new Point(9, 287);
-            label16.Name = "label16";
-            label16.Size = new Size(68, 34);
-            label16.TabIndex = 8;
-            label16.Text = "Stok: ";
+            lblHargaEsJeruk.AutoSize = true;
+            lblHargaEsJeruk.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHargaEsJeruk.ForeColor = Color.MidnightBlue;
+            lblHargaEsJeruk.Location = new Point(8, 251);
+            lblHargaEsJeruk.Name = "lblHargaEsJeruk";
+            lblHargaEsJeruk.Size = new Size(105, 37);
+            lblHargaEsJeruk.TabIndex = 9;
+            lblHargaEsJeruk.Text = "Rp. 4.000";
             // 
-            // label17
+            // pbEsJeruk
             // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.ForeColor = Color.MidnightBlue;
-            label17.Location = new Point(8, 251);
-            label17.Name = "label17";
-            label17.Size = new Size(117, 37);
-            label17.TabIndex = 9;
-            label17.Text = "Rp. 12.000";
+            pbEsJeruk.BackColor = Color.Transparent;
+            pbEsJeruk.BackgroundImage = (Image)resources.GetObject("pbEsJeruk.BackgroundImage");
+            pbEsJeruk.BackgroundImageLayout = ImageLayout.Stretch;
+            pbEsJeruk.Location = new Point(0, 0);
+            pbEsJeruk.Name = "pbEsJeruk";
+            pbEsJeruk.Size = new Size(287, 205);
+            pbEsJeruk.TabIndex = 6;
+            pbEsJeruk.TabStop = false;
             // 
-            // pictureBox7
+            // lblEsJeruk
             // 
-            pictureBox7.BackColor = Color.Transparent;
-            pictureBox7.BackgroundImage = (Image)resources.GetObject("pictureBox7.BackgroundImage");
-            pictureBox7.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox7.Location = new Point(0, 0);
-            pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(287, 205);
-            pictureBox7.TabIndex = 6;
-            pictureBox7.TabStop = false;
+            lblEsJeruk.AutoSize = true;
+            lblEsJeruk.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblEsJeruk.ForeColor = Color.White;
+            lblEsJeruk.Location = new Point(8, 208);
+            lblEsJeruk.Name = "lblEsJeruk";
+            lblEsJeruk.Size = new Size(102, 37);
+            lblEsJeruk.TabIndex = 7;
+            lblEsJeruk.Text = "Es Jeruk";
             // 
-            // label18
+            // pnlAirMineral
             // 
-            label18.AutoSize = true;
-            label18.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label18.ForeColor = Color.White;
-            label18.Location = new Point(8, 208);
-            label18.Name = "label18";
-            label18.Size = new Size(102, 37);
-            label18.TabIndex = 7;
-            label18.Text = "Es Jeruk";
+            pnlAirMineral.Controls.Add(btnTambahAirMineral);
+            pnlAirMineral.Controls.Add(lblStokAirMineral);
+            pnlAirMineral.Controls.Add(lblHargaAirMineral);
+            pnlAirMineral.Controls.Add(pbAirMineral);
+            pnlAirMineral.Controls.Add(lblAirMineral);
+            pnlAirMineral.Location = new Point(661, 550);
+            pnlAirMineral.Name = "pnlAirMineral";
+            pnlAirMineral.Size = new Size(287, 334);
+            pnlAirMineral.TabIndex = 10;
             // 
-            // panel8
+            // btnTambahAirMineral
             // 
-            panel8.Controls.Add(pictureBox12);
-            panel8.Controls.Add(button10);
-            panel8.Controls.Add(label19);
-            panel8.Controls.Add(label20);
-            panel8.Controls.Add(pictureBox8);
-            panel8.Controls.Add(label21);
-            panel8.Location = new Point(661, 550);
-            panel8.Name = "panel8";
-            panel8.Size = new Size(287, 334);
-            panel8.TabIndex = 10;
+            btnTambahAirMineral.BackColor = Color.MidnightBlue;
+            btnTambahAirMineral.FlatStyle = FlatStyle.Popup;
+            btnTambahAirMineral.Font = new Font("Dubai", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTambahAirMineral.ForeColor = Color.White;
+            btnTambahAirMineral.Location = new Point(165, 251);
+            btnTambahAirMineral.Name = "btnTambahAirMineral";
+            btnTambahAirMineral.Size = new Size(98, 60);
+            btnTambahAirMineral.TabIndex = 8;
+            btnTambahAirMineral.TabStop = false;
+            btnTambahAirMineral.Text = "+";
+            btnTambahAirMineral.UseVisualStyleBackColor = false;
             // 
-            // pictureBox12
+            // lblStokAirMineral
             // 
-            pictureBox12.BackColor = Color.MidnightBlue;
-            pictureBox12.BackgroundImage = (Image)resources.GetObject("pictureBox12.BackgroundImage");
-            pictureBox12.Location = new Point(195, 260);
-            pictureBox12.Name = "pictureBox12";
-            pictureBox12.Size = new Size(42, 43);
-            pictureBox12.TabIndex = 11;
-            pictureBox12.TabStop = false;
+            lblStokAirMineral.AutoSize = true;
+            lblStokAirMineral.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStokAirMineral.ForeColor = Color.White;
+            lblStokAirMineral.Location = new Point(9, 287);
+            lblStokAirMineral.Name = "lblStokAirMineral";
+            lblStokAirMineral.Size = new Size(68, 34);
+            lblStokAirMineral.TabIndex = 8;
+            lblStokAirMineral.Text = "Stok: ";
             // 
-            // button10
+            // lblHargaAirMineral
             // 
-            button10.BackColor = Color.MidnightBlue;
-            button10.FlatStyle = FlatStyle.Popup;
-            button10.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button10.Location = new Point(165, 251);
-            button10.Name = "button10";
-            button10.Size = new Size(98, 60);
-            button10.TabIndex = 8;
-            button10.TabStop = false;
-            button10.UseVisualStyleBackColor = false;
+            lblHargaAirMineral.AutoSize = true;
+            lblHargaAirMineral.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHargaAirMineral.ForeColor = Color.MidnightBlue;
+            lblHargaAirMineral.Location = new Point(8, 251);
+            lblHargaAirMineral.Name = "lblHargaAirMineral";
+            lblHargaAirMineral.Size = new Size(105, 37);
+            lblHargaAirMineral.TabIndex = 9;
+            lblHargaAirMineral.Text = "Rp. 3.500";
             // 
-            // label19
+            // pbAirMineral
             // 
-            label19.AutoSize = true;
-            label19.Font = new Font("Dubai Medium", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label19.ForeColor = Color.White;
-            label19.Location = new Point(9, 287);
-            label19.Name = "label19";
-            label19.Size = new Size(68, 34);
-            label19.TabIndex = 8;
-            label19.Text = "Stok: ";
+            pbAirMineral.BackColor = Color.Transparent;
+            pbAirMineral.BackgroundImage = (Image)resources.GetObject("pbAirMineral.BackgroundImage");
+            pbAirMineral.BackgroundImageLayout = ImageLayout.Stretch;
+            pbAirMineral.Location = new Point(0, 0);
+            pbAirMineral.Name = "pbAirMineral";
+            pbAirMineral.Size = new Size(287, 205);
+            pbAirMineral.TabIndex = 6;
+            pbAirMineral.TabStop = false;
             // 
-            // label20
+            // lblAirMineral
             // 
-            label20.AutoSize = true;
-            label20.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label20.ForeColor = Color.MidnightBlue;
-            label20.Location = new Point(8, 251);
-            label20.Name = "label20";
-            label20.Size = new Size(117, 37);
-            label20.TabIndex = 9;
-            label20.Text = "Rp. 12.000";
+            lblAirMineral.AutoSize = true;
+            lblAirMineral.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAirMineral.ForeColor = Color.White;
+            lblAirMineral.Location = new Point(8, 208);
+            lblAirMineral.Name = "lblAirMineral";
+            lblAirMineral.Size = new Size(129, 37);
+            lblAirMineral.TabIndex = 7;
+            lblAirMineral.Text = "Air Mineral";
             // 
-            // pictureBox8
-            // 
-            pictureBox8.BackColor = Color.Transparent;
-            pictureBox8.BackgroundImage = (Image)resources.GetObject("pictureBox8.BackgroundImage");
-            pictureBox8.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox8.Location = new Point(0, 0);
-            pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(287, 205);
-            pictureBox8.TabIndex = 6;
-            pictureBox8.TabStop = false;
-            // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.Font = new Font("Dubai Medium", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label21.ForeColor = Color.White;
-            label21.Location = new Point(8, 208);
-            label21.Name = "label21";
-            label21.Size = new Size(129, 37);
-            label21.TabIndex = 7;
-            label21.Text = "Air Mineral";
-            // 
-            // label22
-            // 
-            label22.AutoSize = true;
-            label22.BackColor = Color.Transparent;
-            label22.Font = new Font("Dubai Medium", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label22.ForeColor = Color.Silver;
-            label22.Location = new Point(1074, 135);
-            label22.Name = "label22";
-            label22.Size = new Size(142, 40);
-            label22.TabIndex = 11;
-            label22.Text = "Cetak Nota";
-            // 
-            // DashboardKasir
+            // FormDbKasir
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.SlateGray;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1924, 1002);
-            Controls.Add(label22);
-            Controls.Add(panel8);
-            Controls.Add(panel7);
-            Controls.Add(panel6);
-            Controls.Add(panel5);
-            Controls.Add(panel4);
-            Controls.Add(panel3);
-            Controls.Add(label3);
-            Controls.Add(panel1);
-            Name = "DashboardKasir";
+            Controls.Add(pnlAirMineral);
+            Controls.Add(pnlEsJeruk);
+            Controls.Add(pnlEsTeh);
+            Controls.Add(pnlMangutLele);
+            Controls.Add(pnlLeleBakar);
+            Controls.Add(pnlLeleGoreng);
+            Controls.Add(lblPilihProduk);
+            Controls.Add(pnlHeader);
+            Name = "FormDbKasir";
             Text = "DashboardKasir";
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            pnlHeader.ResumeLayout(false);
+            pnlHeader.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
-            panel4.ResumeLayout(false);
-            panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            panel5.ResumeLayout(false);
-            panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
-            panel6.ResumeLayout(false);
-            panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox14).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
-            panel7.ResumeLayout(false);
-            panel7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox13).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
-            panel8.ResumeLayout(false);
-            panel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox12).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
+            pnlFitur.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pbLeleGoreng).EndInit();
+            pnlLeleGoreng.ResumeLayout(false);
+            pnlLeleGoreng.PerformLayout();
+            pnlLeleBakar.ResumeLayout(false);
+            pnlLeleBakar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbLeleBakar).EndInit();
+            pnlMangutLele.ResumeLayout(false);
+            pnlMangutLele.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbMangutLele).EndInit();
+            pnlEsTeh.ResumeLayout(false);
+            pnlEsTeh.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbEsTeh).EndInit();
+            pnlEsJeruk.ResumeLayout(false);
+            pnlEsJeruk.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbEsJeruk).EndInit();
+            pnlAirMineral.ResumeLayout(false);
+            pnlAirMineral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbAirMineral).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Panel panel1;
-        private Label label1;
-        private Panel panel2;
-        private Button button1;
-        private Button button3;
-        private Button button2;
-        private Button button4;
+        private Panel pnlHeader;
+        private Label lblCfmart;
+        private Panel pnlFitur;
+        private Button btnKasir;
+        private Button btnBiodata;
+        private Button btnRingkasan;
+        private Button btnLogout;
         private PictureBox pictureBox1;
-        private PictureBox pictureBox2;
-        private Label label2;
-        private Label label3;
-        private PictureBox pictureBox4;
-        private Panel panel3;
-        private Label label5;
+        private PictureBox pbLogo;
+        private Label lblKasir;
+        private Label lblPilihProduk;
+        private PictureBox pbLeleGoreng;
+        private Panel pnlLeleGoreng;
+        private Label lblStokLeleGoreng;
         private Label label4;
-        private Label label6;
-        private Button button5;
-        private Panel panel4;
-        private Button button6;
-        private Label label7;
-        private Label label8;
-        private PictureBox pictureBox3;
-        private Label label9;
-        private Panel panel5;
-        private Button button7;
-        private Label label10;
-        private Label label11;
-        private PictureBox pictureBox5;
-        private Label label12;
-        private Panel panel6;
+        private Label lblHargaLeleGoreng;
+        private Button btnTambahLeleGoreng;
+        private Panel pnlLeleBakar;
+        private Button btnTambahLeleBakar;
+        private Label lblStokLeleBakar;
+        private Label lblHargaLeleBakar;
+        private PictureBox pbLeleBakar;
+        private Label lblLeleBakar;
+        private Panel pnlMangutLele;
+        private Button btnTambahMangutLele;
+        private Label lblStokMangutLele;
+        private Label lblHargaMangutLele;
+        private PictureBox pbMangutLele;
+        private Label lblMangutLele;
+        private Panel pnlEsTeh;
         private Button button8;
-        private Label label13;
-        private Label label14;
-        private PictureBox pictureBox6;
-        private Label label15;
-        private Panel panel7;
-        private Button button9;
-        private Label label16;
-        private Label label17;
-        private PictureBox pictureBox7;
-        private Label label18;
-        private Panel panel8;
-        private Button button10;
-        private Label label19;
-        private Label label20;
-        private PictureBox pictureBox8;
-        private Label label21;
-        private PictureBox pictureBox9;
-        private PictureBox pictureBox10;
-        private PictureBox pictureBox11;
-        private PictureBox pictureBox14;
-        private PictureBox pictureBox13;
-        private PictureBox pictureBox12;
-        private Label label22;
+        private Label lblStokEsTeh;
+        private Label lblHargaEsTeh;
+        private PictureBox pbEsTeh;
+        private Label lblEsTeh;
+        private Panel pnlEsJeruk;
+        private Button btnTambahEsJeruk;
+        private Label lblStokEsJeruk;
+        private Label lblHargaEsJeruk;
+        private PictureBox pbEsJeruk;
+        private Label lblEsJeruk;
+        private Panel pnlAirMineral;
+        private Button btnTambahAirMineral;
+        private Label lblStokAirMineral;
+        private Label lblHargaAirMineral;
+        private PictureBox pbAirMineral;
+        private Label lblAirMineral;
     }
 }

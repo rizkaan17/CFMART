@@ -12,8 +12,7 @@ namespace CFMART
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new Views.LoginKasir());
-            Application.Run(new Views.DashboardKasir());
-            Application.Run(new Views.Kasir.BiodataKasir());
+            Application.Run(new Views.FormDbKasir());
         }
     }
 }
