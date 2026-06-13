@@ -32,11 +32,11 @@ namespace CFMART.Controllers
             {
                 return new User
                 {
-                    id_user = reader.GetInt32(0),
-                    username = reader.GetString(1),
-                    password_user = reader.GetString(2),
-                    role_id_role = reader.GetInt32(3),
-                    status_karyawan = reader.GetBoolean(4)
+                    Id_User = reader.GetInt32(0),
+                    Username = reader.GetString(1),
+                    Password_User = reader.GetString(2),
+                    Role_Id_Role = reader.GetInt32(3),
+                    Status_Karyawan = reader.GetBoolean(4)
                 };
             }
             return null;

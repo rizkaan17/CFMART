@@ -24,21 +24,15 @@ namespace CFMART.Views.Admin
         {
             try
             {
-                // Mencoba membaca session user secara dinamis
+                // Membaca session user secara langsung dan aman
                 if (CFMART.Models.Context.ContextUser.user != null)
                 {
-                    var userObj = CFMART.Models.Context.ContextUser.user;
-                    var propertiId = userObj.GetType().GetProperty("id_user") ??
-                                     userObj.GetType().GetProperty("idUser") ??
-                                     userObj.GetType().GetProperty("IdUser");
+                    // Langsung panggil Id_User karena tipenya sudah jelas
+                    int idSesi = CFMART.Models.Context.ContextUser.user.Id_User;
 
-                    if (propertiId != null)
+                    if (idSesi > 0)
                     {
-                        int idSesi = Convert.ToInt32(propertiId.GetValue(userObj, null));
-                        if (idSesi > 0)
-                        {
-                            idAdminLogin = idSesi;
-                        }
+                        idAdminLogin = idSesi;
                     }
                 }
 

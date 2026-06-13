@@ -33,7 +33,7 @@ namespace CFMART.Views
             // 3. Cek apakah usernya sukses login
             if (userTerlogin != null)
             {
-                MessageBox.Show($"Selamat datang, {userTerlogin.username}!", "Login Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Selamat datang, {userTerlogin.Username}!", "Login Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Sembunyikan form login
                 this.Hide();
@@ -45,13 +45,13 @@ namespace CFMART.Views
                 // ======================================================================
 
                 // 4. Cek role ID nya
-                if (userTerlogin.role_id_role == 1)
+                if (userTerlogin.Role_Id_Role == 1)
                 {
                     // Kalau admin (1), buka form dashboard milik admin
                     FormDashboard adminForm = new FormDashboard();
                     adminForm.ShowDialog();
                 }
-                else if (userTerlogin.role_id_role == 2)
+                else if (userTerlogin.Role_Id_Role == 2)
                 {
                     // Kalau kasir (2), buka form dashboard kasir
                     CFMART.Views.Kasir.FormDashboardKasir kasirForm = new CFMART.Views.Kasir.FormDashboardKasir();
