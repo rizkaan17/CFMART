@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq; // Wajib dipasang di paling atas biar fungsi .Sum() gak error
 using System.Windows.Forms;
@@ -48,7 +48,7 @@ namespace CFMART.Views.Pelanggan
             // Mengupdate tulisan Ringkasan Akhir agar memuat info Dine In / Takeaway bawaan dari Keranjang
             if (label2 != null)
             {
-                label2.Text = "Ringkasan Akhir";
+                label2.Text = "Metode Pembayaran";
             }
         }
 
