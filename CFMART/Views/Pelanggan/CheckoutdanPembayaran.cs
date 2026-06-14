@@ -45,7 +45,6 @@ namespace CFMART.Views.Pelanggan
                 label4.Text = "Rp " + totalAkhir.ToString("N0");
             }
 
-            // Mengupdate tulisan Ringkasan Akhir agar memuat info Dine In / Takeaway bawaan dari Keranjang
             if (label2 != null)
             {
                 label2.Text = "Metode Pembayaran";
