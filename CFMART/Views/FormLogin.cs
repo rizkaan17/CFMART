@@ -1,5 +1,6 @@
 ﻿using CFMART.Controllers;
 using CFMART.Helpers;
+using CFMART.Models;
 using CFMART.Views.Kasir;
 using CFMART.Views.Admin;
 using System;
@@ -21,50 +22,41 @@ namespace CFMART.Views
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string username = tbUsername.Text;
-            string password = tbPassword.Text;
+            LoginController loginCtrl = new LoginController();
 
-            // 1. Panggil controllernya
-            CFMART.Controllers.c_LoginLogout auth = new CFMART.Controllers.c_LoginLogout();
+            // Ambil input teks dari TextBox UI kamu
+            User userAktif = loginCtrl.ProsesLogin(tbUsername.Text, tbPassword.Text);
 
-            // 2. Tampung hasil login ke dalam objek User
-            CFMART.Models.User userTerlogin = auth.Login(username, password);
-
-            // 3. Cek apakah usernya sukses login
-            if (userTerlogin != null)
+            if (userAktif != null)
             {
-                MessageBox.Show($"Selamat datang, {userTerlogin.Username}!", "Login Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Sembunyikan form login
-                this.Hide();
-
-                // ======================================================================
-                // BARIS PENYELAMAT: Simpan data user ke Session statis global
-                // Dengan baris ini, UCBiodata akan tahu kalau yang login adalah Harley!
-                CFMART.Models.Context.ContextUser.user = userTerlogin;
-                // ======================================================================
-
-                // 4. Cek role ID nya
-                if (userTerlogin.Role_Id_Role == 1)
+                // Login Sukses! Cek role untuk mengarahkan halaman
+                if (userAktif.role_id_role == 1)
                 {
-                    // Kalau admin (1), buka form dashboard milik admin
+                    // Jika Role ID 1 adalah Admin, buka Form Utama Admin
                     FormDashboard adminForm = new FormDashboard();
-                    adminForm.ShowDialog();
+                    adminForm.Show();
                 }
-                else if (userTerlogin.Role_Id_Role == 2)
+                else
                 {
-                    // Kalau kasir (2), buka form dashboard kasir
-                    CFMART.Views.Kasir.FormDashboardKasir kasirForm = new CFMART.Views.Kasir.FormDashboardKasir();
-                    kasirForm.ShowDialog();
+                    // Jika Role ID 2 adalah Kasir, buka Form Transaksi Kasir
+                    FormDashboardKasir kasirForm = new FormDashboardKasir();
+                    kasirForm.Show();
                 }
 
-                // Close total aplikasinya biar gak ngegantung di Task Manager
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Username atau Password salah / Akun tidak aktif!", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Hide(); // Sembunyikan form login
             }
         }
+
+        private void FormLogin_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Memastikan seluruh thread aplikasi mati total saat form login di-close
+            Application.Exit();
+        }
     }
+
+    // ======================================================================
+    // SELESAI
+    // ======================================================================
+    // Sisi 'else' (Pesan Gagal) sudah dihandle otomatis di dalam LoginController, 
+    // jadi kita tidak perlu menulis MessageBox.Show() gagal lagi di sini.
 }

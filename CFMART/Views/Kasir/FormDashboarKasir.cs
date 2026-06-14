@@ -15,23 +15,29 @@ namespace CFMART.Views.Kasir
         public FormDashboardKasir()
         {
             InitializeComponent();
+
+            // Mengikat Event Load secara manual agar fungsi FormDashboardKasir_Load PASTI dieksekusi saat form muncul
             this.Load += new System.EventHandler(this.FormDashboardKasir_Load);
         }
 
         private void FormDashboardKasir_Load(object sender, EventArgs e)
         {
-            pnlMain.Controls.Clear();
+            // Saat pertama kali kasir masuk dashboard, langsung tampilkan halaman transaksi produk agar tidak kosong
+            PindahHalaman(new UCPilihproduk());
         }
 
+        /// <summary>
+        /// Mekanisme untuk mengganti isi panel utama dengan User Control baru
+        /// </summary>
         private void PindahHalaman(UserControl halamanBaru)
         {
-            // 1. Bersihkan panel utama (panelMain) dari halaman lama
+            // 1. Bersihkan semua komponen/User Control lama di dalam panelMain
             pnlMain.Controls.Clear();
 
-            // 2. Atur ukuran halaman baru biar memenuhi seluruh panel
+            // 2. Paksa ukuran User Control baru mengikuti luas panelMain
             halamanBaru.Dock = DockStyle.Fill;
 
-            // 3. Masukkan dan tampilkan halaman baru tersebut
+            // 3. Masukkan dan munculkan User Control baru ke panelMain
             pnlMain.Controls.Add(halamanBaru);
             halamanBaru.Show();
         }
@@ -51,15 +57,26 @@ namespace CFMART.Views.Kasir
             PindahHalaman(new UCBiodataKasir());
         }
 
-        private void btnKeluarKasir_Click(object sender, EventArgs e)
+        private void btnLogoutKasir_Click(object sender, EventArgs e)
         {
-            // 1. Tampilkan konfirmasi biar gak sengaja kepencet keluar
-            DialogResult result = MessageBox.Show("Apakah Anda yakin ingin logout dari sistem?", "Konfirmasi Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            // 1. Tampilkan konfirmasi biar kasir gak sengaja keklik keluar
+            DialogResult result = MessageBox.Show("Apakah Anda yakin ingin keluar dari sistem CFMART?",
+                                                  "Konfirmasi Logout",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
-                // 2. Tutup Form Dashboard Kasir ini
-                this.Close();
+                // 2. Kosongkan session static user yang login demi keamanan
+                CFMART.Models.Context.ContextUser.user = null;
+
+                // 3. Buat objek Form Login baru dan munculkan ke layar
+                FormLogin loginForm = new FormLogin();
+                loginForm.Show();
+
+                // 4. Sembunyikan atau tutup form dashboard saat ini tanpa mematikan aplikasi
+                this.Hide();
+                // Catatan: Jika ingin benar-benar dispose memori form dashboard, gunakan: this.Dispose();
             }
         }
     }

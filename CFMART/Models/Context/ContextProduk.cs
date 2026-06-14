@@ -1,169 +1,82 @@
-﻿using CFMART.Helpers;
-using Npgsql;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 
 namespace CFMART.Models.Context
 {
-    public class ContextProduk
+    // INHERITANCE: Mewarisi BaseContext
+    public class ContextProduk : BaseContext
     {
+        // TAMPILKAN SEMUA PRODUK
         public List<Produk> GetAllProduk()
         {
             List<Produk> produkList = new List<Produk>();
+            string query = @"SELECT id_produk, jenis_produk, harga, stok, foto_produk FROM produk ORDER BY id_produk";
 
-            string query = @"
-                SELECT
-                    id_produk,
-                    jenis_produk,
-                    harga,
-                    stok,
-                    foto_produk
-                FROM Produk
-                ORDER BY id_produk";
-
-            using (NpgsqlConnection conn = connectDB.GetConn())
+            using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
+            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+            using (NpgsqlDataReader reader = cmd.ExecuteReader())
             {
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                while (reader.Read())
                 {
-                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    produkList.Add(new Produk
                     {
-                        while (reader.Read())
-                        {
-                            Produk produk = new Produk
-                            {
-                                Id_Produk = reader.GetInt32(0),
-                                Jenis_Produk = reader.GetString(1),
-                                Harga = reader.GetDouble(2),
-                                Stok = reader.GetInt32(3),
-                                Foto_Produk = reader.IsDBNull(4)
-                                    ? null
-                                    : (byte[])reader["foto_produk"]
-                            };
-
-                            produkList.Add(produk);
-                        }
-                    }
+                        id_produk = Convert.ToInt32(reader["id_produk"]),
+                        jenis_produk = reader["jenis_produk"].ToString() ?? "",
+                        harga = Convert.ToDouble(reader["harga"]),
+                        stok = Convert.ToInt32(reader["stok"]),
+                        foto_Produk = reader["foto_produk"] == DBNull.Value ? null : (byte[])reader["foto_produk"]
+                    });
                 }
             }
-
             return produkList;
         }
 
-        public Produk GetProdukById(int id)
+        // UPDATE STOK / HARGA PRODUK
+        public bool UpdateProduk(Produk produk)
         {
-            Produk produk = null;
+            string query = @"UPDATE produk SET jenis_produk = @jenis, harga = @harga, stok = @stok, foto_produk = @foto WHERE id_produk = @id";
 
-            string query = @"
-                SELECT
-                    id_produk,
-                    jenis_produk,
-                    harga,
-                    stok,
-                    foto_produk
-                FROM Produk
-                WHERE id_produk = @id";
-
-            using (NpgsqlConnection conn = connectDB.GetConn())
+            using (NpgsqlConnection conn = AmbilKoneksi())
+            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@id", id);
+                cmd.Parameters.AddWithValue("@id", produk.id_produk);
+                cmd.Parameters.AddWithValue("@jenis", produk.jenis_produk);
+                cmd.Parameters.AddWithValue("@harga", produk.harga);
+                cmd.Parameters.AddWithValue("@stok", produk.stok);
+                cmd.Parameters.AddWithValue("@foto", (object?)produk.foto_Produk ?? DBNull.Value);
 
-                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            produk = new Produk
-                            {
-                                Id_Produk = reader.GetInt32(0),
-                                Jenis_Produk = reader.GetString(1),
-                                Harga = reader.GetDouble(2),
-                                Stok = reader.GetInt32(3),
-                                Foto_Produk = reader.IsDBNull(4)
-                                    ? null
-                                    : (byte[])reader["foto_produk"]
-                            };
-                        }
-                    }
-                }
+                return cmd.ExecuteNonQuery() > 0;
             }
-
-            return produk;
         }
+
+        // Taruh di dalam kelas ContextProduk : BaseContext
 
         public bool AddProduk(Produk produk)
         {
-            string query = @"
-                INSERT INTO Produk
-                (
-                    jenis_produk,
-                    harga,
-                    stok,
-                    foto_produk
-                )
-                VALUES
-                (
-                    @jenis,
-                    @harga,
-                    @stok,
-                    @foto
-                )";
+            string query = @"INSERT INTO produk (jenis_produk, harga, stok, foto_produk) VALUES (@jenis, @harga, @stok, @foto)";
 
-            using (NpgsqlConnection conn = connectDB.GetConn())
+            using (NpgsqlConnection conn = AmbilKoneksi())
+            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@jenis", produk.Jenis_Produk);
-                    cmd.Parameters.AddWithValue("@harga", produk.Harga);
-                    cmd.Parameters.AddWithValue("@stok", produk.Stok);
-                    cmd.Parameters.AddWithValue("@foto",
-                        (object?)produk.Foto_Produk ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@jenis", produk.jenis_produk);
+                cmd.Parameters.AddWithValue("@harga", produk.harga);
+                cmd.Parameters.AddWithValue("@stok", produk.stok);
+                cmd.Parameters.AddWithValue("@foto", (object?)produk.foto_Produk ?? DBNull.Value);
 
-                    return cmd.ExecuteNonQuery() > 0;
-                }
-            }
-        }
-
-        public bool UpdateProduk(Produk produk)
-        {
-            string query = @"
-                UPDATE Produk
-                SET
-                    jenis_produk = @jenis,
-                    harga = @harga,
-                    stok = @stok,
-                    foto_produk = @foto
-                WHERE id_produk = @id";
-
-            using (NpgsqlConnection conn = connectDB.GetConn())
-            {
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@id", produk.Id_Produk);
-                    cmd.Parameters.AddWithValue("@jenis", produk.Jenis_Produk);
-                    cmd.Parameters.AddWithValue("@harga", produk.Harga);
-                    cmd.Parameters.AddWithValue("@stok", produk.Stok);
-                    cmd.Parameters.AddWithValue("@foto",
-                        (object?)produk.Foto_Produk ?? DBNull.Value);
-
-                    return cmd.ExecuteNonQuery() > 0;
-                }
+                return cmd.ExecuteNonQuery() > 0;
             }
         }
 
         public bool DeleteProduk(int id)
         {
-            string query = @"
-                DELETE FROM Produk
-                WHERE id_produk = @id";
+            string query = @"DELETE FROM produk WHERE id_produk = @id";
 
-            using (NpgsqlConnection conn = connectDB.GetConn())
+            using (NpgsqlConnection conn = AmbilKoneksi())
+            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@id", id);
-
-                    return cmd.ExecuteNonQuery() > 0;
-                }
+                cmd.Parameters.AddWithValue("@id", id);
+                return cmd.ExecuteNonQuery() > 0;
             }
         }
     }

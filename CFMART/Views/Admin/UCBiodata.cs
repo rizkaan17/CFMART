@@ -1,47 +1,45 @@
 ﻿using CFMART.Controllers;
-using CFMART.Models.Context;
+using CFMART.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace CFMART.Views.Admin
 {
     public partial class UCBiodata : UserControl
     {
-        private BiodataController c_biodata = new BiodataController();
-        private int idAdminLogin = 1;
+        private readonly BiodataController c_biodata = new BiodataController();
+        private int idAdminLogin = 1; // Default fallback ID
 
         public UCBiodata()
         {
             InitializeComponent();
+
+            // 🌟 TRICK JALAN PINTAS PASTI JALAN: 
+            // Kita paksa ikat Event Load di sini lewat kodingan konstruktor,
+            // jadi meskipun di desainer visual kosong, fungsi LOAD AKAN TETAP DIPANGGIL!
+            this.Load += new System.EventHandler(this.UCBiodata_Load);
         }
 
         private void UCBiodata_Load(object sender, EventArgs e)
         {
             try
             {
-                // Membaca session user secara langsung dan aman
-                if (CFMART.Models.Context.ContextUser.user != null)
+                // 1. Ambil data session user yang sedang aktif login melalui Controller
+                User currentUser = c_biodata.GetUserSession();
+                if (currentUser != null)
                 {
-                    // Langsung panggil Id_User karena tipenya sudah jelas
-                    int idSesi = CFMART.Models.Context.ContextUser.user.Id_User;
-
-                    if (idSesi > 0)
-                    {
-                        idAdminLogin = idSesi;
-                    }
+                    idAdminLogin = currentUser.id_user;
                 }
 
+                // 2. Mengaktifkan karakter bulat/bintang pada TextBox password baru
                 tbPasswdBaru.UseSystemPasswordChar = true;
+
+                // 3. Panggil fungsi untuk menampilkan profil admin ke layar
                 TampilkanDataProfilAdmin();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal inisialisasi sesi admin: " + ex.Message);
+                MessageBox.Show("Gagal inisialisasi sesi admin: " + ex.Message, "Error Sesi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -49,17 +47,26 @@ namespace CFMART.Views.Admin
         {
             try
             {
-                var profil = c_biodata.GetBiodataById(idAdminLogin);
+                // Menggunakan GetBiodata(id) sesuai wujud baru Polymorphism di BiodataController
+                var profil = c_biodata.GetBiodata(idAdminLogin);
+
                 if (profil != null)
                 {
                     // Masukkan data dari database ke dalam TextBox
-                    tbNamaAdmin.Text = profil["nama_lengkap"]?.ToString() ?? "";
-                    tbNoHPAdmin.Text = profil["nomer_telepon_karyawan"]?.ToString() ?? "";
-                    tbEmailAdmin.Text = profil["username"]?.ToString() ?? "";
+                    tbNamaAdmin.Text = profil.nama_lengkap ?? "";
+                    tbNoHPAdmin.Text = profil.nomer_telepon_karyawan ?? "";
+                    tbEmailAdmin.Text = profil.email ?? "";
 
                     // Menampilkan nama di samping foto profil
-                    lblAdminUtama.Text = profil["username"]?.ToString() ?? "Admin";
-                    tbPasswdBaru.Clear();
+                    lblAdminUtama.Text = profil.nama_lengkap ?? "Admin";
+                    lblNamaEmail.Text = profil.email ?? "";
+
+                    // Isi TextBox Password dengan tanda samar bintang sebagai penanda awal
+                    tbPasswdBaru.Text = "********";
+                }
+                else
+                {
+                    MessageBox.Show("Profil kosong! Tidak ada data ditemukan untuk ID: " + idAdminLogin, "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
@@ -67,11 +74,11 @@ namespace CFMART.Views.Admin
                 MessageBox.Show("Gagal memuat profil admin ke form: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        // Mengambil ID global dari user yang sedang login saat ini
+
         private void btnAdminChange_Click(object sender, EventArgs e)
         {
             // 1. Validasi Input Dasar
-            if (string.IsNullOrEmpty(tbNamaAdmin.Text.Trim()) || string.IsNullOrEmpty(tbEmailAdmin.Text.Trim()))
+            if (string.IsNullOrWhiteSpace(tbNamaAdmin.Text) || string.IsNullOrWhiteSpace(tbEmailAdmin.Text))
             {
                 MessageBox.Show("Nama Lengkap dan Email Admin wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -89,8 +96,7 @@ namespace CFMART.Views.Admin
             // 3. Respon Hasil Akhir
             if (suksesUpdate)
             {
-                MessageBox.Show("Profil Admin berhasil diperbarui ke database!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                TampilkanDataProfilAdmin(); // Refresh tampilan biar langsung singkron
+                TampilkanDataProfilAdmin(); // Refresh tampilan agar tersamar kembali otomatis
             }
             else
             {

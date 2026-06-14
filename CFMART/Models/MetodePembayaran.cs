@@ -6,7 +6,7 @@ namespace CFMART.Models
 {
     public class MetodePembayaran
     {
-        public int Id_Metode_Pembayaran { get; set; }
-        public string? Nama_Metode { get; set; }
+        public int id_metode_pembayaran { get; set; }
+        public string nama_metode { get; set; }
     }
 }

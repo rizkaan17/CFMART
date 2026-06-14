@@ -56,15 +56,26 @@ namespace CFMART.Views.Admin
             PindahHalaman(new UCBiodata());
         }
 
-        private void btnKeluar_Click(object sender, EventArgs e)
+        private void btnLogout_Click(object sender, EventArgs e)
         {
-            // 1. Tampilkan konfirmasi biar gak sengaja kepencet keluar
-            DialogResult result = MessageBox.Show("Apakah Anda yakin ingin logout dari sistem?", "Konfirmasi Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            // 1. Tampilkan konfirmasi biar kasir gak sengaja keklik keluar
+            DialogResult result = MessageBox.Show("Apakah Anda yakin ingin keluar dari sistem CFMART?",
+                                                  "Konfirmasi Logout",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
-                // 2. Tutup Form Dashboard Kasir ini
-                this.Close();
+                // 2. Kosongkan session static user yang login demi keamanan
+                CFMART.Models.Context.ContextUser.user = null;
+
+                // 3. Buat objek Form Login baru dan munculkan ke layar
+                FormLogin loginForm = new FormLogin();
+                loginForm.Show();
+
+                // 4. Sembunyikan atau tutup form dashboard saat ini tanpa mematikan aplikasi
+                this.Hide();
+                // Catatan: Jika ingin benar-benar dispose memori form dashboard, gunakan: this.Dispose();
             }
         }
     }

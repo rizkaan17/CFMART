@@ -7,15 +7,22 @@ namespace CFMART.Models
 {
     public class Order
     {
-        public int Id_Order { get; set; }
-        public DateTime Tgl_Order { get; set; }
-        public int User_Id_User { get; set; }
-        public int Status_Order_Id_Status_Order { get; set; }
-        public int Meja_Id_Meja { get; set; }
-        public int Tipe_Pesanan_Id_Tipe_Pesanan { get; set; }
-        public Boolean Status_Pembayaran { get; set; }
-        public string? Nama_Pelanggan { get; set; }
-        public int? Metode_Pembayaran_Id_Metode_Pembayaran { get; set; }
-        public string? Nomor_Pelanggan { get; set; }
+        public int id_order { get; set; }
+        public DateTime tgl_order { get; set; }
+        public int user_id_user { get; set; }
+        public int meja_id_meja { get; set; }
+        public int tipe_pesanan_id_tipe_pesanan { get; set; }
+        public bool status_pembayaran { get; set; }
+        public int metode_pembayaran_id_metode_pembayaran { get; set; }
+        public string nomor_pelanggan { get; set; }
+
+        // Backing field untuk Enkapsulasi nama
+        private string? _namaPelanggan;
+
+        public string? nama_pelanggan
+        {
+            get => _namaPelanggan;
+            set => _namaPelanggan = string.IsNullOrWhiteSpace(value) ? "Pelanggan CFMART" : value.Trim();
+        }
     }
 }

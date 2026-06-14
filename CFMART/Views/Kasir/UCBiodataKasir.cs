@@ -1,54 +1,47 @@
 ﻿using CFMART.Controllers;
+using CFMART.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace CFMART.Views.Kasir
 {
     public partial class UCBiodataKasir : UserControl
     {
-        private BiodataController c_biodata = new BiodataController();
+        // View memanggil Controller untuk urusan data
+        private readonly BiodataController c_biodata = new BiodataController();
 
-        // KUNCI UTAMA: Default langsung ke ID 2 (Sari Kasir) agar saat simpan nilainya tidak berangka 0
-        private int idKasirLogin = 2;
+        // Variabel untuk menampung ID Kasir yang sedang login
+        private int idKasirLogin = 0;
 
         public UCBiodataKasir()
         {
             InitializeComponent();
+
+            // 🌟 TRICK PASTI JALAN: Kita paksa ikat Event Load lewat kode konstruktor.
+            // Ini menjamin data PostgreSQL langsung ditarik saat halaman biodata dibuka.
+            this.Load += new System.EventHandler(this.UCBiodataKasir_Load);
         }
 
         private void UCBiodataKasir_Load(object sender, EventArgs e)
         {
             try
             {
-                // Mencoba membaca session user secara dinamis
-                if (CFMART.Models.Context.ContextUser.user != null)
+                // 1. Ambil ID dari session user yang berhasil login (Sari / kasir lainnya)
+                User currentUser = c_biodata.GetUserSession();
+                if (currentUser != null)
                 {
-                    var userObj = CFMART.Models.Context.ContextUser.user;
-                    var propertiId = userObj.GetType().GetProperty("id_user") ??
-                                     userObj.GetType().GetProperty("idUser") ??
-                                     userObj.GetType().GetProperty("IdUser");
-
-                    if (propertiId != null)
-                    {
-                        int idSesi = Convert.ToInt32(propertiId.GetValue(userObj, null));
-                        if (idSesi > 0)
-                        {
-                            idKasirLogin = idSesi;
-                        }
-                    }
+                    idKasirLogin = currentUser.id_user;
                 }
 
+                // 2. Aktifkan fitur masking password (karakter bulat/bintang)
                 tbPasswdBaruKasir.UseSystemPasswordChar = true;
+
+                // 3. Panggil fungsi untuk menampilkan profil kasir ke layar
                 TampilkanDataProfilKasir();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal inisialisasi sesi kasir: " + ex.Message);
+                MessageBox.Show("Gagal inisialisasi sesi kasir: " + ex.Message, "Error Sesi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -56,35 +49,45 @@ namespace CFMART.Views.Kasir
         {
             try
             {
-                var profil = c_biodata.GetBiodataById(idKasirLogin);
+                // 🌟 Menerapkan Polymorphism: Memanggil GetBiodata(int id)
+                User profil = c_biodata.GetBiodata(idKasirLogin);
+
                 if (profil != null)
                 {
-                    // Masukkan data dari database ke dalam TextBox
-                    tbNamaKasir.Text = profil["nama_lengkap"]?.ToString() ?? "";
-                    tbNoHPKasir.Text = profil["nomer_telepon_karyawan"]?.ToString() ?? "";
-                    tbEmailKasir.Text = profil["email"]?.ToString() ?? "";
+                    // Masukkan data dari database ke dalam TextBox UI
+                    tbNamaKasir.Text = profil.nama_lengkap ?? "";
+                    tbNoHPKasir.Text = profil.nomer_telepon_karyawan ?? "";
+                    tbEmailKasir.Text = profil.email ?? "";
 
-                    // Menampilkan nama di samping foto profil
-                    lblRoleUsername.Text = profil["username"]?.ToString() ?? "Kasir";
-                    tbPasswdBaruKasir.Clear();
+                    // Update label Header (di samping foto profil)
+                    lblNamaLengkap.Text = profil.nama_lengkap ?? "Nama Kasir";
+                    lblRoleUsername.Text = $"Kasir . {profil.username}";
+
+                    // Tampilkan tanda bintang sebagai penanda keamanan password
+                    tbPasswdBaruKasir.Text = "********";
+                }
+                else
+                {
+                    MessageBox.Show("Data profil tidak ditemukan di database!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal memuat profil kasir ke form: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Gagal memuat profil ke form: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnSimpanPerubahanKasir_Click(object sender, EventArgs e)
         {
             // 1. Validasi Input Dasar
-            if (string.IsNullOrEmpty(tbNamaKasir.Text.Trim()) || string.IsNullOrEmpty(tbEmailKasir.Text.Trim()))
+            if (string.IsNullOrWhiteSpace(tbNamaKasir.Text) || string.IsNullOrWhiteSpace(tbEmailKasir.Text))
             {
-                MessageBox.Show("Nama Lengkap dan Email Kasir wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nama Lengkap dan Email wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Kirim data ke Controller menggunakan ID Kasir yang valid
+            // 2. Kirim data ke Controller untuk di-update ke PostgreSQL
+            // Password dikirim apa adanya, Controller akan cek jika "********" maka password tidak diubah.
             bool suksesUpdate = c_biodata.UpdateProfilLengkap(
                 idKasirLogin,
                 tbNamaKasir.Text.Trim(),
@@ -93,15 +96,15 @@ namespace CFMART.Views.Kasir
                 tbPasswdBaruKasir.Text
             );
 
-            // 3. Respon Hasil Akhir
+            // 3. Feedback ke user
             if (suksesUpdate)
             {
-                MessageBox.Show("Profil Kasir berhasil diperbarui ke database!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                TampilkanDataProfilKasir(); // Refresh tampilan biar langsung singkron
+                // Refresh data agar label Nama & Email di atas ikut berubah real-time
+                TampilkanDataProfilKasir();
             }
             else
             {
-                MessageBox.Show("Gagal memperbarui profil kasir. ID Terbaca: " + idKasirLogin, "Gagal Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Gagal memperbarui profil. Cek koneksi database Anda.", "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

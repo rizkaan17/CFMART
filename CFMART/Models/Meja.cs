@@ -6,8 +6,8 @@ namespace CFMART.Models
 {
     public class Meja
     {
-        public int Id_Meja { get; set; }
-        public int Nomer_Meja { get; set; }
+        public int id_meja { get; set; }
+        public int nomer_meja { get; set; }
     }
 
 }

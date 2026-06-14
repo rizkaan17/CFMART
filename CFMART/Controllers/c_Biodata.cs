@@ -1,110 +1,115 @@
-﻿using CFMART.Helpers;
-using Npgsql;
+﻿using CFMART.Models;
+using CFMART.Models.Context;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace CFMART.Controllers
 {
     public class BiodataController
     {
-        // 1. AMBIL DATA BIODATA (Bisa dipanggil oleh Admin maupun Kasir)
-        public Dictionary<string, object>? GetBiodataById(int idUser)
+        private readonly ContextUser _contextUser = new ContextUser();
+
+        /// <summary>
+        /// Mengambil sesi user static yang sedang login (Menggunakan properti session global)
+        /// </summary>
+        public User GetUserSession()
+        {
+            return ContextUser.user;
+        }
+
+        // =======================================================
+        // 🌟 PILAR POLYMORPHISM: METHOD OVERLOADING (Nama Sama, Parameter Beda)
+        // =======================================================
+
+        /// <summary>
+        /// Bentuk 1: Mengambil data user berdasarkan ID (Integer) - KODE SUDAH DI-FIX
+        /// </summary>
+        public User GetBiodata(int id)
         {
             try
             {
-                using var conn = connectDB.GetConn();
-                conn.Open();
-
-                // Catatan: Indeks kolom dimulai dari 0
-                // 0:id_user, 1:username, 2:password_user, 3:role_id_role, 4:status_karyawan, 5:nama_lengkap, 6:nomer_telepon_karyawan, 7:email
-                var cmd = new NpgsqlCommand(
-                    @"SELECT id_user, username, password_user, role_id_role, status_karyawan, nama_lengkap, nomer_telepon_karyawan, email
-                      FROM ""User"" 
-                      WHERE id_user = @id", conn);
-
-                cmd.Parameters.AddWithValue("id", idUser);
-
-                using var reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    // 🌟 PERBAIKAN: Memastikan string penampung di UI mengambil kolom email/username yang tepat
-                    return new Dictionary<string, object>
-                    {
-                        ["id_user"] = reader.GetInt32(0),
-                        ["username"] = reader.IsDBNull(7) ? (reader.IsDBNull(1) ? "" : reader.GetString(1)) : reader.GetString(7), // Prioritas ambil dari kolom email (indeks 7) atau username (indeks 1)
-                        ["nama_lengkap"] = reader.IsDBNull(5) ? "Tanpa Nama" : reader.GetString(5),
-                        ["nomer_telepon_karyawan"] = reader.IsDBNull(6) ? "Belum Update" : reader.GetString(6)
-                    };
-                }
-                return null;
+                // Mengambil semua user dari Context, lalu difilter menggunakan LINQ FirstOrDefault
+                List<User> listUser = _contextUser.GetAllUser();
+                return listUser.FirstOrDefault(u => u.id_user == id);
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Eror Query Profil: " + ex.Message);
+                MessageBox.Show("Gagal mengambil biodata user berdasarkan ID: " + ex.Message, "Error Sistem", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
 
-        // 2. UPDATE DATA BIODATA (Otomatis mengupdate nama, no HP, dan EMAIL ke database)
-        public bool UpdateProfilLengkap(int idUser, string nama, string noHP, string email, string passwordBaru)
+        /// <summary>
+        /// Bentuk 2: Mengambil data user berdasarkan Username (String)
+        /// </summary>
+        public User GetBiodata(string username)
         {
             try
             {
-                using var conn = connectDB.GetConn();
-                conn.Open();
+                List<User> listUser = _contextUser.GetAllUser();
+                return listUser.FirstOrDefault(u => u.username.Equals(username.Trim(), StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
-                int rows = 0;
+        // =======================================================
 
-                // Skenario 1: Jika password baru DIISI (Update Nama, No HP, Email, dan Password)
-                if (!string.IsNullOrEmpty(passwordBaru?.Trim()))
+        /// <summary>
+        /// Melakukan update data profil menggunakan fungsi UpdateUser dari ContextUser
+        /// </summary>
+        public bool UpdateProfilLengkap(int id, string nama, string nohp, string email, string passwordBaru)
+        {
+            // 1. Ambil data user lama dari database agar data yang tidak diubah (role/status) tidak hilang
+            User userLama = GetBiodata(id);
+            if (userLama == null)
+            {
+                MessageBox.Show("Data pengguna tidak ditemukan!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // 2. Petakan data baru ke dalam objek model User (Otomatis melewati filter Encapsulation properti)
+            User userUpdate = new User
+            {
+                id_user = id,
+                nama_lengkap = nama,
+                nomer_telepon_karyawan = nohp,
+                email = email,
+                username = userLama.username,        // Tetap mempertahankan username lama
+                role_id_role = userLama.role_id_role, // Tetap mempertahankan role lama
+                status_karyawan = userLama.status_karyawan // Tetap mempertahankan status lama
+            };
+
+            // Jika input password baru diisi, gunakan yang baru. Jika kosong, pertahankan password lama.
+            userUpdate.password_user = !string.IsNullOrEmpty(passwordBaru?.Trim())
+                ? passwordBaru.Trim()
+                : userLama.password_user;
+
+            try
+            {
+                // 3. Kirim objek ke ContextUser untuk dieksekusi query UPDATE-nya
+                bool sukses = _contextUser.UpdateUser(userUpdate);
+
+                // 4. Jika sukses memperbarui database, sinkronkan juga session static global-nya di aplikasi
+                if (sukses && ContextUser.user != null && ContextUser.user.id_user == id)
                 {
-                    // 🌟 PERBAIKAN: Menambahkan 'email = @email' dan 'username = @email' ke dalam perintah SQL UPDATE
-                    string query = @"UPDATE ""User"" 
-                                    SET nama_lengkap = @nama, 
-                                        nomer_telepon_karyawan = @no_hp, 
-                                        email = @email, 
-                                        username = @email, 
-                                        password_user = @password 
-                                    WHERE id_user = @id";
+                    ContextUser.user.nama_lengkap = userUpdate.nama_lengkap;
+                    ContextUser.user.nomer_telepon_karyawan = userUpdate.nomer_telepon_karyawan;
+                    ContextUser.user.email = userUpdate.email;
+                    ContextUser.user.password_user = userUpdate.password_user;
 
-                    using var cmd = new NpgsqlCommand(query, conn);
-
-                    cmd.Parameters.AddWithValue("id", idUser);
-                    cmd.Parameters.AddWithValue("nama", nama ?? "");
-                    cmd.Parameters.AddWithValue("no_hp", noHP ?? "");
-                    cmd.Parameters.AddWithValue("email", email ?? "");
-                    cmd.Parameters.AddWithValue("password", passwordBaru.Trim());
-
-                    rows = cmd.ExecuteNonQuery();
-                }
-                // Skenario 2: Jika password baru DIKOSONGKAN (Hanya Update Nama, No HP, dan Email)
-                else
-                {
-                    // 🌟 PERBAIKAN: Menambahkan 'email = @email' dan 'username = @email' ke dalam perintah SQL UPDATE tanpa password
-                    string query = @"UPDATE ""User"" 
-                                    SET nama_lengkap = @nama, 
-                                        nomer_telepon_karyawan = @no_hp, 
-                                        email = @email, 
-                                        username = @email 
-                                    WHERE id_user = @id";
-
-                    using var cmd = new NpgsqlCommand(query, conn);
-
-                    cmd.Parameters.AddWithValue("id", idUser);
-                    cmd.Parameters.AddWithValue("nama", nama ?? "");
-                    cmd.Parameters.AddWithValue("no_hp", noHP ?? "");
-                    cmd.Parameters.AddWithValue("email", email ?? "");
-
-                    rows = cmd.ExecuteNonQuery();
+                    MessageBox.Show("Profil Anda berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
-                // Jika rows > 0 berarti sukses terupdate
-                return rows > 0;
+                return sukses;
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Pesan Eror Database Asli: " + ex.Message, "Pelacakan Bug", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
+                MessageBox.Show("Gagal memperbarui profil: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }

@@ -1,15 +1,15 @@
 ﻿using CFMART.Controllers;
+using CFMART.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CFMART.Views.Admin
 {
     public partial class UCManajemenKaryawan : UserControl
     {
-        private KaryawanController c_Karyawan = new KaryawanController();
+        private readonly KaryawanController c_Karyawan = new KaryawanController();
         private int? selectedIdUser = null;
 
         public UCManajemenKaryawan()
@@ -29,50 +29,23 @@ namespace CFMART.Views.Admin
             cbStatusKaryawan.Items.Add("Aktif");
             cbStatusKaryawan.Items.Add("Tidak Aktif");
 
-            // 3. Sembunyikan panel inputan di awal & bersihkan form
+            // 3. Bersihkan form awal
             BersihkanForm();
 
             // 4. Jalankan fungsi memuat data dari database
             TampilkanSemuaKaryawan();
         }
 
-        //private void RefreshGridKaryawan()
-        //{
-        //    try
-        //    {
-        //        List<Dictionary<string, object>> dataKaryawan = c_Karyawan.GetAllKaryawan();
-
-        //        // Konversi List Dictionary ke DataTable agar bisa dibaca DataGridView
-        //        DataTable dt = new DataTable();
-        //        dt.Columns.Add("ID", typeof(int));
-        //        dt.Columns.Add("Username", typeof(string));
-        //        dt.Columns.Add("Role", typeof(string));
-        //        dt.Columns.Add("Status Aktif", typeof(bool));
-
-        //        foreach (var row in dataKaryawan)
-        //        {
-        //            dt.Rows.Add(
-        //                row["id_user"],
-        //                row["username"],
-        //                row["nama_role"],
-        //                row["status_karyawan"]
-        //            );
-        //        }
-
-        //        dgvManajemenKaryawan.DataSource = dt;
-        //        dgvManajemenKaryawan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Gagal memuat data karyawan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
-
+        /// <summary>
+        /// 🌟 PERBAIKAN: Membaca data berbasis List Objek Model User (OOP Murni)
+        /// </summary>
         private void TampilkanSemuaKaryawan()
         {
             try
             {
-                List<Dictionary<string, object>> dataKaryawan = c_Karyawan.GetAllKaryawan();
+                // Menggil fungsi controller baru yang mengembalikan List<User>
+                List<User> dataKaryawan = c_Karyawan.AmbilSemuaKaryawan();
+
                 DataTable dt = new DataTable();
                 dt.Columns.Add("ID", typeof(int));
                 dt.Columns.Add("Username", typeof(string));
@@ -81,22 +54,30 @@ namespace CFMART.Views.Admin
                 dt.Columns.Add("Status", typeof(string));
                 dt.Columns.Add("No HP", typeof(string));
 
-                foreach (var karyawan in dataKaryawan)
+                foreach (User karyawan in dataKaryawan)
                 {
-                    bool statusBool = Convert.ToBoolean(karyawan["status_karyawan"]);
+                    // Konversi Role ID (1 = Admin, selain itu Kasir)
+                    string roleNama = (karyawan.role_id_role == 1) ? "Admin" : "Kasir";
+
                     dt.Rows.Add(
-                        karyawan["id_user"],
-                        karyawan["username"],       
-                        karyawan["nama_lengkap"],
-                        karyawan["nama_role"],
-                        statusBool ? "Aktif" : "Tidak Aktif",
-                        karyawan["nomer_telepon_karyawan"]
+                        karyawan.id_user,
+                        karyawan.username,
+                        karyawan.nama_lengkap,
+                        roleNama,
+                        karyawan.status_karyawan ? "Aktif" : "Tidak Aktif",
+                        karyawan.nomer_telepon_karyawan
                     );
                 }
+
                 dgvManajemenKaryawan.DataSource = dt;
-                dgvManajemenKaryawan.Columns["No HP"].Visible = false; // Kolom tersembunyi di tabel, tapi datanya tetap bisa dibaca saat baris diklik!
+
+                // Menyembunyikan kolom No HP di grid visual, tapi datanya tetap aman di memori cell click
+                if (dgvManajemenKaryawan.Columns["No HP"] != null)
+                    dgvManajemenKaryawan.Columns["No HP"].Visible = false;
+
                 dgvManajemenKaryawan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgvManajemenKaryawan.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvManajemenKaryawan.ReadOnly = true;
             }
             catch (Exception ex)
             {
@@ -106,28 +87,25 @@ namespace CFMART.Views.Admin
 
         private void btnTambahKaryawan_Click(object sender, EventArgs e)
         {
-            // 1. VALIDASI INPUT UTAMA SEBELUM DISIMPAN
-            if (string.IsNullOrEmpty(tbUsernameEdit.Text) || string.IsNullOrEmpty(tbNamaEdit.Text))
+            // 1. VALIDASI INPUT UTAMA
+            if (string.IsNullOrWhiteSpace(tbUsernameEdit.Text) || string.IsNullOrWhiteSpace(tbNamaEdit.Text) || string.IsNullOrWhiteSpace(tbPassword.Text))
             {
-                MessageBox.Show("Untuk menambah karyawan baru, isi dulu Nama Lengkap dan Username di form, baru klik tombol ini!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Untuk menambah karyawan baru, Username, Password, dan Nama Lengkap wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Ambil nilai dari inputan (Gunakan pengecekan null yang aman untuk ComboBox)
+            // 2. Ambil nilai inputan
             int roleId = (cbRole.SelectedItem != null && cbRole.SelectedItem.ToString() == "Admin") ? 1 : 2;
-
-            // FIX EROR CS0019: Cek langsung string-nya, jika "Aktif" maka true, selain itu false
             bool statusAktif = (cbStatusKaryawan.SelectedItem != null && cbStatusKaryawan.SelectedItem.ToString() == "Aktif");
 
-            // 3. --- MODE: KHUSUS TAMBAH KARYAWAN BARU ---
-            // Pastikan tbPassword sesuai dengan nama komponen textbox password kamu di desainer
+            // 3. Eksekusi Tambah Karyawan
             var result = c_Karyawan.TambahKaryawan(tbUsernameEdit.Text, tbPassword.Text, roleId, statusAktif, tbNamaEdit.Text, tbNoHP.Text);
 
             if (result.sukses)
             {
                 MessageBox.Show(result.pesan, "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                TampilkanSemuaKaryawan(); // Refresh tabel biar karyawan baru langsung nongol
-                BersihkanForm();          // Bersihkan form kembali kosong
+                TampilkanSemuaKaryawan();
+                BersihkanForm();
             }
             else
             {
@@ -136,28 +114,25 @@ namespace CFMART.Views.Admin
         }
 
         private void btnUpdateManajemen_Click(object sender, EventArgs e)
-        {// 1. VALIDASI: Pastikan user sudah benar-benar klik salah satu karyawan di tabel
+        {
+            // 1. VALIDASI SELEKSI BARIS
             if (selectedIdUser == null)
             {
-                MessageBox.Show("Pilih karyawan terlebih dahulu di tabel (klik sampai barisnya berwarna biru) untuk diedit!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Pilih karyawan terlebih dahulu di tabel untuk diedit!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Ambil nilai Role ID berdasarkan pilihan ComboBox figma (Kasir = 2, Admin = 1)
             int roleId = (cbRole.SelectedItem != null && cbRole.SelectedItem.ToString() == "Admin") ? 1 : 2;
-
-            // 3. Ambil nilai Status berdasarkan ComboBox status
             bool statusAktif = (cbStatusKaryawan.SelectedItem != null && cbStatusKaryawan.SelectedItem.ToString() == "Aktif");
 
-            // 4. --- JALANKAN MODE EDIT KARYAWAN ---
-            // Gunakan c_Karyawan untuk menembak ke Controller
+            // 2. Jalankan Mode Edit (Password dikirim "********" sebagai flag tidak diubah)
             var result = c_Karyawan.EditKaryawan(selectedIdUser.Value, tbUsernameEdit.Text, "********", roleId, statusAktif, tbNamaEdit.Text, tbNoHP.Text);
 
             if (result.sukses)
             {
                 MessageBox.Show(result.pesan, "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                TampilkanSemuaKaryawan(); // Refresh tabel agar perubahan status/role langsung kelihatan!
-                BersihkanForm();          // Reset form dan kosongkan selectedIdUser kembali ke null
+                TampilkanSemuaKaryawan();
+                BersihkanForm();
             }
             else
             {
@@ -167,35 +142,27 @@ namespace CFMART.Views.Admin
 
         private void dgvManajemenKaryawan_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Pastikan yang di-klik adalah baris data yang valid, bukan header tabel
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dgvManajemenKaryawan.Rows[e.RowIndex];
 
-                // FIX: Ambil data berdasarkan nama kolom DataTable agar posisinya akurat
                 selectedIdUser = Convert.ToInt32(row.Cells["ID"].Value);
 
                 tbUsernameEdit.Text = row.Cells["Username"].Value?.ToString() ?? "";
-                tbNamaEdit.Text = row.Cells["Nama"].Value?.ToString() ?? ""; // Menyesuaikan dengan kolom dt.Columns.Add("Name") Anda yang di atas
-
-                // FIX: Masukkan data No HP ke TextBox figma agar muncul saat baris diklik!
+                tbNamaEdit.Text = row.Cells["Nama"].Value?.ToString() ?? "";
                 tbNoHP.Text = row.Cells["No HP"].Value?.ToString() ?? "";
 
-                string roleNama = row.Cells["Role"].Value?.ToString() ?? "Kasir";
-                cbRole.SelectedItem = roleNama;
+                cbRole.SelectedItem = row.Cells["Role"].Value?.ToString() ?? "Kasir";
+                cbStatusKaryawan.SelectedItem = row.Cells["Status"].Value?.ToString() ?? "Aktif";
 
-                string statusNama = row.Cells["Status"].Value?.ToString() ?? "Aktif";
-                cbStatusKaryawan.SelectedItem = statusNama;
+                tbPassword.Text = "********";
 
-                tbPassword.Text = "********"; // Penanda visual bahwa password tidak kosong
+                // Kunci input yang tidak boleh diganti saat edit status/role oleh admin
+                tbUsernameEdit.Enabled = false;
+                tbNamaEdit.Enabled = false;
+                tbNoHP.Enabled = false;
+                tbPassword.Enabled = false;
 
-                // Kunci input yang tidak boleh diganti saat edit (sesuai figma kamu)
-                tbUsernameEdit.Enabled = false; // Kunci total Username (jadi abu-abu)
-                tbNamaEdit.Enabled = false;     // Kunci total Nama Lengkap (jadi abu-abu)
-                tbNoHP.Enabled = false;         // Kunci total No HP (jadi abu-abu)
-                tbPassword.Enabled = false;// Biarkan kosong atau digembok kalau cuma edit status/role
-
-                // Ubah judul figma di atas untuk penanda mode Edit
                 lblTambahKaryawan.Text = "Edit Status Karyawan (ID: " + selectedIdUser + ")";
             }
         }
@@ -211,16 +178,14 @@ namespace CFMART.Views.Admin
             tbUsernameEdit.Clear();
             tbPassword.Clear();
             tbNoHP.Clear();
-            // tbNoHP.Clear(); // hapus baris ini kalau tbNoHP tidak ada di Designer
 
-            // Reset combo box ke default, BUKAN dikosongkan (tetap ada item)
             if (cbRole.Items.Count > 0)
-                cbRole.SelectedIndex = 1; // default: Kasir
+                cbRole.SelectedIndex = 1; // Default: Kasir
 
             if (cbStatusKaryawan.Items.Count > 0)
-                cbStatusKaryawan.SelectedIndex = 0; // default: Aktif
+                cbStatusKaryawan.SelectedIndex = 0; // Default: Aktif
 
-            // Buka kembali gembok semua inputan agar bisa dipakai input karyawan baru
+            // Buka gembok kembali agar form siap dipakai tambah karyawan baru
             tbUsernameEdit.Enabled = true;
             tbNamaEdit.Enabled = true;
             tbNoHP.Enabled = true;

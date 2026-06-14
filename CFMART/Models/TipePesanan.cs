@@ -6,7 +6,7 @@ namespace CFMART.Models
 {
     public class TipePesanan
     {
-        public int Id_Tipe_Pesanan { get; set; }
-        public string? Tipe_Pesanan { get; set; }
+        public int id_tipe_pesanan { get; set; }
+        public string tipe_pesanan { get; set; }
     }
 }

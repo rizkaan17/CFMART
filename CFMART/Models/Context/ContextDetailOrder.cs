@@ -1,27 +1,18 @@
-﻿using CFMART.Helpers;
-using Npgsql;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 
-namespace CFMART.Models
+namespace CFMART.Models.Context
 {
-    public class ContextDetailOrder
+    // INHERITANCE: Mewarisi BaseContext
+    public class ContextDetailOrder : BaseContext
     {
         public List<DetailOrder> GetAllDetailOrder()
         {
             List<DetailOrder> detailOrders = new List<DetailOrder>();
+            string query = @"SELECT id_detail_order, quantity, catatan, order_id_order, produk_id_produk, sub_total FROM ""Detail_Order"" ORDER BY id_detail_order";
 
-            string query = @"
-                SELECT
-                    id_detail_order,
-                    quantity,
-                    catatan,
-                    order_id_order,
-                    produk_id_produk,
-                    harga_per_item
-                FROM Detail_Order
-                ORDER BY id_detail_order";
-
-            using (NpgsqlConnection conn = connectDB.GetConn())
+            using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             using (NpgsqlDataReader reader = cmd.ExecuteReader())
             {
@@ -29,91 +20,57 @@ namespace CFMART.Models
                 {
                     detailOrders.Add(new DetailOrder
                     {
-                        Id_Detail_Order = reader.GetInt32(0),
-                        Quantity = reader.GetInt32(1),
-                        Catatan = reader.IsDBNull(2) ? null : reader.GetString(2),
-                        Order_Id_Order = reader.GetInt32(3),
-                        Produk_Id_Produk = reader.GetInt32(4),
-                        Harga_Per_Item = reader.GetDouble(5)
+                        id_detail_order = Convert.ToInt32(reader["id_detail_order"]),
+                        quantity = Convert.ToInt32(reader["quantity"]),
+                        catatan = reader["catatan"] == DBNull.Value ? null : reader["catatan"].ToString(),
+                        order_id_order = Convert.ToInt32(reader["order_id_order"]),
+                        produk_id_produk = Convert.ToInt32(reader["produk_id_produk"]),
+                        sub_total = Convert.ToDouble(reader["sub_total"])
                     });
                 }
             }
-
             return detailOrders;
         }
 
         public bool AddDetailOrder(DetailOrder detail)
         {
-            string query = @"
-                INSERT INTO Detail_Order
-                (
-                    quantity,
-                    catatan,
-                    order_id_order,
-                    produk_id_produk,
-                    harga_per_item
-                )
-                VALUES
-                (
-                    @quantity,
-                    @catatan,
-                    @order,
-                    @produk,
-                    @harga
-                )";
+            string query = @"INSERT INTO ""Detail_Order"" (quantity, catatan, order_id_order, produk_id_produk) VALUES (@quantity, @catatan, @order, @produk)";
 
-            using (NpgsqlConnection conn = connectDB.GetConn())
+            using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
-                cmd.Parameters.AddWithValue("@quantity", detail.Quantity);
-                cmd.Parameters.AddWithValue("@catatan",
-                    (object?)detail.Catatan ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@order", detail.Order_Id_Order);
-                cmd.Parameters.AddWithValue("@produk", detail.Produk_Id_Produk);
-                cmd.Parameters.AddWithValue("@harga", detail.Harga_Per_Item);
-
+                cmd.Parameters.AddWithValue("@quantity", detail.quantity);
+                cmd.Parameters.AddWithValue("@catatan", (object?)detail.catatan ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@order", detail.order_id_order);
+                cmd.Parameters.AddWithValue("@produk", detail.produk_id_produk);
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
 
         public bool UpdateDetailOrder(DetailOrder detail)
         {
-            string query = @"
-                UPDATE Detail_Order
-                SET
-                    quantity = @quantity,
-                    catatan = @catatan,
-                    order_id_order = @order,
-                    produk_id_produk = @produk,
-                    harga_per_item = @harga
-                WHERE id_detail_order = @id";
+            string query = @"UPDATE ""Detail_Order"" SET quantity = @quantity, catatan = @catatan, order_id_order = @order, produk_id_produk = @produk WHERE id_detail_order = @id";
 
-            using (NpgsqlConnection conn = connectDB.GetConn())
+            using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
-                cmd.Parameters.AddWithValue("@id", detail.Id_Detail_Order);
-                cmd.Parameters.AddWithValue("@quantity", detail.Quantity);
-                cmd.Parameters.AddWithValue("@catatan",
-                    (object?)detail.Catatan ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@order", detail.Order_Id_Order);
-                cmd.Parameters.AddWithValue("@produk", detail.Produk_Id_Produk);
-                cmd.Parameters.AddWithValue("@harga", detail.Harga_Per_Item);
-
+                cmd.Parameters.AddWithValue("@id", detail.id_detail_order);
+                cmd.Parameters.AddWithValue("@quantity", detail.quantity);
+                cmd.Parameters.AddWithValue("@catatan", (object?)detail.catatan ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@order", detail.order_id_order);
+                cmd.Parameters.AddWithValue("@produk", detail.produk_id_produk);
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
 
         public bool DeleteDetailOrder(int id)
         {
-            string query = @"
-                DELETE FROM Detail_Order
-                WHERE id_detail_order = @id";
+            string query = @"DELETE FROM ""Detail_Order"" WHERE id_detail_order = @id";
 
-            using (NpgsqlConnection conn = connectDB.GetConn())
+            using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@id", id);
-
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
