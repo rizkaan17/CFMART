@@ -2,15 +2,26 @@
 using System.Collections.Generic;
 using Npgsql;
 using CFMART.Helpers;
-using CFMART.Models.Context; // Pastikan ini sesuai dengan namespace model keranjangmu
+using CFMART.Models; // 🌟 WAJIB: Memanggil namespace model ItemKeranjang yang baru
 
 namespace CFMART.Controllers
 {
     public class OrderController
     {
-        public bool KirimPesanan(string namaPelanggan, List<ContextItemKeranjang> items)
+        // 🌟 SINKRONISASI PARAMETER: Sekarang menerima List<ItemKeranjang> sesuai standar RAM global baru
+        public bool KirimPesanan(string namaPelanggan, List<ItemKeranjang> items)
         {
+            // Validasi awal untuk mencegah eksekusi SQL kosong
+            if (items == null || items.Count == 0) return false;
+
             using var conn = connectDB.GetConn();
+
+            // Pastikan koneksi terbuka sebelum memulai transaction database
+            if (conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
             using var trans = conn.BeginTransaction();
             try
             {
@@ -26,23 +37,36 @@ namespace CFMART.Controllers
                     idBaru = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
-                // Insert ke Detail_Order
+                // Insert ke Detail_Order secara looping dinamis
                 foreach (var item in items)
                 {
-                    string sqlDet = "INSERT INTO Detail_Order (order_id_order, produk_id_produk, quantity, harga_per_item) VALUES (@oid, @pid, @qty, @harga)";
+                    string sqlDet = @"INSERT INTO ""Detail_Order"" (order_id_order, produk_id_produk, quantity, harga_per_item) 
+                                      VALUES (@oid, @pid, @qty, @harga);";
+
                     using (var cmdD = new NpgsqlCommand(sqlDet, conn, trans))
                     {
                         cmdD.Parameters.AddWithValue("oid", idBaru);
-                        cmdD.Parameters.AddWithValue("pid", 1); // Sesuaikan ID produk
-                        cmdD.Parameters.AddWithValue("qty", item.Jumlah);
-                        cmdD.Parameters.AddWithValue("harga", item.HargaSatuan);
+
+                        // 🌟 DIBIKIN DINAMIS: Mengambil properti asli dari model ItemKeranjang (Bukan hardcode angka 1 lagi!)
+                        cmdD.Parameters.AddWithValue("pid", item.id_produk);
+                        cmdD.Parameters.AddWithValue("qty", item.quantity);
+                        cmdD.Parameters.AddWithValue("harga", item.harga);
+
                         cmdD.ExecuteNonQuery();
                     }
                 }
+
+                // Jika semua baris sukses masuk tanpa interupsi, kunci data permanen ke PostgreSQL
                 trans.Commit();
                 return true;
             }
-            catch { trans.Rollback(); return false; }
+            catch (Exception ex)
+            {
+                // Jika ada error (misal koneksi putus tengah jalan), batalkan semua agar tidak merusak relasi tabel
+                trans.Rollback();
+                System.Windows.Forms.MessageBox.Show("Gagal mengirim pesanan ke database: " + ex.Message, "Error OrderController");
+                return false;
+            }
         }
     }
 }

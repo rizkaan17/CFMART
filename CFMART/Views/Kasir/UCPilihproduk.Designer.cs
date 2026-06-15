@@ -29,75 +29,88 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UCPilihproduk));
-            pnlBack = new Panel();
+            pnlSearch = new Panel();
             tbSearchProduk = new TextBox();
             lblPilihProduk = new Label();
             pnlMenu1 = new Panel();
-            pnlMenu2 = new Panel();
-            pnlMenu3 = new Panel();
-            lblDaftarProduk = new Label();
-            pnlMenu4 = new Panel();
-            pnlMenu5 = new Panel();
-            pnlMenu6 = new Panel();
-            dgvDaftarPesanan = new DataGridView();
-            lblMenu1 = new Label();
-            lblHargaMenu1 = new Label();
-            button1 = new Button();
-            lblStokMenu1 = new Label();
             lblAngkaStok = new Label();
+            lblStok1 = new Label();
+            btnMenu1 = new Button();
+            lblHargaMenu1 = new Label();
+            lblMenu1 = new Label();
+            pnlMenu2 = new Panel();
+            lblAngkaStok2 = new Label();
+            lblMenu2 = new Label();
+            lblStok2 = new Label();
+            lblHargaMenu2 = new Label();
+            btnMenu2 = new Button();
+            pnlMenu3 = new Panel();
+            lblAngkaStok3 = new Label();
+            lblMenu3 = new Label();
+            lblStok3 = new Label();
+            lblHargaMenu3 = new Label();
+            btnMenu3 = new Button();
+            pnlMenu4 = new Panel();
+            lblAngkaStok4 = new Label();
+            lblHargaMenu4 = new Label();
+            lblMenu4 = new Label();
+            btnMenu4 = new Button();
+            lblStok4 = new Label();
+            pnlMenu5 = new Panel();
+            lblAngkaStok5 = new Label();
+            lblMenu5 = new Label();
+            btnMenu5 = new Button();
+            lblStok5 = new Label();
+            lblHargaMenu5 = new Label();
+            pnlMenu6 = new Panel();
+            lblAngkaStok6 = new Label();
+            lblHargaMenu6 = new Label();
+            lblMenu6 = new Label();
+            btnMenu6 = new Button();
+            lblStok6 = new Label();
+            flpPilihProduk = new FlowLayoutPanel();
+            flpDaftarPesanan = new FlowLayoutPanel();
+            lblDaftarPesanan = new Label();
+            pnlTotal = new Panel();
+            lblSubtotal = new Label();
+            lblTotal = new Label();
+            lblMetodePembayaran = new Label();
+            btnTunai = new Button();
+            btnQris = new Button();
             label1 = new Label();
-            label2 = new Label();
-            button2 = new Button();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            label6 = new Label();
-            button3 = new Button();
-            label7 = new Label();
-            label8 = new Label();
-            label9 = new Label();
-            label10 = new Label();
-            label11 = new Label();
-            label12 = new Label();
-            button4 = new Button();
-            label13 = new Label();
-            label14 = new Label();
-            label15 = new Label();
-            label16 = new Label();
-            button5 = new Button();
-            label17 = new Label();
-            label18 = new Label();
-            label19 = new Label();
-            label20 = new Label();
-            button6 = new Button();
-            pnlBack.SuspendLayout();
+            btnBlmLunas = new Button();
+            btnLunas = new Button();
+            btnCetakNota = new Button();
+            pnlSearch.SuspendLayout();
             pnlMenu1.SuspendLayout();
             pnlMenu2.SuspendLayout();
             pnlMenu3.SuspendLayout();
             pnlMenu4.SuspendLayout();
             pnlMenu5.SuspendLayout();
             pnlMenu6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvDaftarPesanan).BeginInit();
+            flpPilihProduk.SuspendLayout();
+            flpDaftarPesanan.SuspendLayout();
+            pnlTotal.SuspendLayout();
             SuspendLayout();
             // 
-            // pnlBack
+            // pnlSearch
             // 
-            pnlBack.BackColor = Color.LightSlateGray;
-            pnlBack.Controls.Add(tbSearchProduk);
-            pnlBack.Location = new Point(40, 50);
-            pnlBack.Margin = new Padding(2, 2, 2, 2);
-            pnlBack.Name = "pnlBack";
-            pnlBack.Size = new Size(1082, 81);
-            pnlBack.TabIndex = 0;
+            pnlSearch.BackColor = Color.LightSlateGray;
+            pnlSearch.Controls.Add(tbSearchProduk);
+            pnlSearch.Location = new Point(40, 86);
+            pnlSearch.Margin = new Padding(2);
+            pnlSearch.Name = "pnlSearch";
+            pnlSearch.Size = new Size(784, 81);
+            pnlSearch.TabIndex = 0;
             // 
             // tbSearchProduk
             // 
             tbSearchProduk.BackColor = Color.DarkGray;
             tbSearchProduk.ForeColor = Color.WhiteSmoke;
-            tbSearchProduk.Location = new Point(78, 26);
-            tbSearchProduk.Margin = new Padding(2, 2, 2, 2);
+            tbSearchProduk.Location = new Point(13, 26);
+            tbSearchProduk.Margin = new Padding(2);
             tbSearchProduk.Name = "tbSearchProduk";
-            tbSearchProduk.Size = new Size(967, 31);
+            tbSearchProduk.Size = new Size(751, 31);
             tbSearchProduk.TabIndex = 0;
             tbSearchProduk.Text = "Cari Produk...";
             // 
@@ -107,7 +120,7 @@
             lblPilihProduk.BackColor = Color.Transparent;
             lblPilihProduk.Font = new Font("Dubai", 16.125F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblPilihProduk.ForeColor = Color.White;
-            lblPilihProduk.Location = new Point(40, -9);
+            lblPilihProduk.Location = new Point(2, 0);
             lblPilihProduk.Margin = new Padding(2, 0, 2, 0);
             lblPilihProduk.Name = "lblPilihProduk";
             lblPilihProduk.Size = new Size(195, 55);
@@ -118,469 +131,596 @@
             // 
             pnlMenu1.BackColor = Color.LightSlateGray;
             pnlMenu1.Controls.Add(lblAngkaStok);
-            pnlMenu1.Controls.Add(lblStokMenu1);
-            pnlMenu1.Controls.Add(button1);
+            pnlMenu1.Controls.Add(lblStok1);
+            pnlMenu1.Controls.Add(btnMenu1);
             pnlMenu1.Controls.Add(lblHargaMenu1);
             pnlMenu1.Controls.Add(lblMenu1);
-            pnlMenu1.Location = new Point(40, 158);
-            pnlMenu1.Margin = new Padding(2, 2, 2, 2);
+            pnlMenu1.Location = new Point(40, 194);
+            pnlMenu1.Margin = new Padding(2);
             pnlMenu1.Name = "pnlMenu1";
-            pnlMenu1.Size = new Size(339, 273);
+            pnlMenu1.Size = new Size(222, 257);
             pnlMenu1.TabIndex = 1;
-            // 
-            // pnlMenu2
-            // 
-            pnlMenu2.BackColor = Color.LightSlateGray;
-            pnlMenu2.Controls.Add(label1);
-            pnlMenu2.Controls.Add(label4);
-            pnlMenu2.Controls.Add(label2);
-            pnlMenu2.Controls.Add(label3);
-            pnlMenu2.Controls.Add(button2);
-            pnlMenu2.Location = new Point(409, 158);
-            pnlMenu2.Margin = new Padding(2, 2, 2, 2);
-            pnlMenu2.Name = "pnlMenu2";
-            pnlMenu2.Size = new Size(339, 273);
-            pnlMenu2.TabIndex = 2;
-            // 
-            // pnlMenu3
-            // 
-            pnlMenu3.BackColor = Color.LightSlateGray;
-            pnlMenu3.Controls.Add(label5);
-            pnlMenu3.Controls.Add(label8);
-            pnlMenu3.Controls.Add(label6);
-            pnlMenu3.Controls.Add(label7);
-            pnlMenu3.Controls.Add(button3);
-            pnlMenu3.Location = new Point(782, 158);
-            pnlMenu3.Margin = new Padding(2, 2, 2, 2);
-            pnlMenu3.Name = "pnlMenu3";
-            pnlMenu3.Size = new Size(339, 273);
-            pnlMenu3.TabIndex = 2;
-            // 
-            // lblDaftarProduk
-            // 
-            lblDaftarProduk.AutoSize = true;
-            lblDaftarProduk.BackColor = Color.Transparent;
-            lblDaftarProduk.Font = new Font("Dubai", 16.125F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDaftarProduk.ForeColor = Color.White;
-            lblDaftarProduk.Location = new Point(1199, 49);
-            lblDaftarProduk.Margin = new Padding(2, 0, 2, 0);
-            lblDaftarProduk.Name = "lblDaftarProduk";
-            lblDaftarProduk.Size = new Size(390, 55);
-            lblDaftarProduk.TabIndex = 3;
-            lblDaftarProduk.Text = "Daftar Pesanan Pelanggan";
-            // 
-            // pnlMenu4
-            // 
-            pnlMenu4.BackColor = Color.LightSlateGray;
-            pnlMenu4.Controls.Add(label17);
-            pnlMenu4.Controls.Add(label20);
-            pnlMenu4.Controls.Add(label18);
-            pnlMenu4.Controls.Add(button6);
-            pnlMenu4.Controls.Add(label19);
-            pnlMenu4.Location = new Point(40, 461);
-            pnlMenu4.Margin = new Padding(2, 2, 2, 2);
-            pnlMenu4.Name = "pnlMenu4";
-            pnlMenu4.Size = new Size(339, 273);
-            pnlMenu4.TabIndex = 2;
-            // 
-            // pnlMenu5
-            // 
-            pnlMenu5.BackColor = Color.LightSlateGray;
-            pnlMenu5.Controls.Add(label13);
-            pnlMenu5.Controls.Add(label14);
-            pnlMenu5.Controls.Add(button5);
-            pnlMenu5.Controls.Add(label15);
-            pnlMenu5.Controls.Add(label16);
-            pnlMenu5.Location = new Point(409, 461);
-            pnlMenu5.Margin = new Padding(2, 2, 2, 2);
-            pnlMenu5.Name = "pnlMenu5";
-            pnlMenu5.Size = new Size(339, 273);
-            pnlMenu5.TabIndex = 2;
-            // 
-            // pnlMenu6
-            // 
-            pnlMenu6.BackColor = Color.LightSlateGray;
-            pnlMenu6.Controls.Add(label9);
-            pnlMenu6.Controls.Add(label12);
-            pnlMenu6.Controls.Add(label10);
-            pnlMenu6.Controls.Add(button4);
-            pnlMenu6.Controls.Add(label11);
-            pnlMenu6.Location = new Point(782, 461);
-            pnlMenu6.Margin = new Padding(2, 2, 2, 2);
-            pnlMenu6.Name = "pnlMenu6";
-            pnlMenu6.Size = new Size(339, 273);
-            pnlMenu6.TabIndex = 2;
-            // 
-            // dgvDaftarPesanan
-            // 
-            dgvDaftarPesanan.AllowUserToAddRows = false;
-            dgvDaftarPesanan.AllowUserToDeleteRows = false;
-            dgvDaftarPesanan.BackgroundColor = Color.LightSlateGray;
-            dgvDaftarPesanan.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDaftarPesanan.Location = new Point(1167, 146);
-            dgvDaftarPesanan.Margin = new Padding(2, 2, 2, 2);
-            dgvDaftarPesanan.Name = "dgvDaftarPesanan";
-            dgvDaftarPesanan.ReadOnly = true;
-            dgvDaftarPesanan.RowHeadersWidth = 82;
-            dgvDaftarPesanan.Size = new Size(477, 627);
-            dgvDaftarPesanan.TabIndex = 0;
-            // 
-            // lblMenu1
-            // 
-            lblMenu1.AutoSize = true;
-            lblMenu1.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblMenu1.ForeColor = SystemColors.ButtonHighlight;
-            lblMenu1.Location = new Point(97, 114);
-            lblMenu1.Name = "lblMenu1";
-            lblMenu1.Size = new Size(141, 40);
-            lblMenu1.TabIndex = 1;
-            lblMenu1.Text = "Lele Goreng";
-            // 
-            // lblHargaMenu1
-            // 
-            lblHargaMenu1.AutoSize = true;
-            lblHargaMenu1.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblHargaMenu1.ForeColor = SystemColors.ButtonHighlight;
-            lblHargaMenu1.Location = new Point(112, 154);
-            lblHargaMenu1.Name = "lblHargaMenu1";
-            lblHargaMenu1.Size = new Size(101, 34);
-            lblHargaMenu1.TabIndex = 2;
-            lblHargaMenu1.Text = "Rp 12.000";
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.LightSlateGray;
-            button1.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(264, 204);
-            button1.Name = "button1";
-            button1.Size = new Size(59, 53);
-            button1.TabIndex = 3;
-            button1.Text = "+";
-            button1.UseVisualStyleBackColor = false;
-            // 
-            // lblStokMenu1
-            // 
-            lblStokMenu1.AutoSize = true;
-            lblStokMenu1.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblStokMenu1.ForeColor = SystemColors.ButtonHighlight;
-            lblStokMenu1.Location = new Point(117, 188);
-            lblStokMenu1.Name = "lblStokMenu1";
-            lblStokMenu1.Size = new Size(52, 34);
-            lblStokMenu1.TabIndex = 4;
-            lblStokMenu1.Text = "Stok";
             // 
             // lblAngkaStok
             // 
             lblAngkaStok.AutoSize = true;
             lblAngkaStok.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAngkaStok.ForeColor = SystemColors.ButtonHighlight;
-            lblAngkaStok.Location = new Point(170, 188);
+            lblAngkaStok.Location = new Point(116, 120);
             lblAngkaStok.Name = "lblAngkaStok";
             lblAngkaStok.Size = new Size(37, 34);
             lblAngkaStok.TabIndex = 5;
             lblAngkaStok.Text = "20";
             // 
+            // lblStok1
+            // 
+            lblStok1.AutoSize = true;
+            lblStok1.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStok1.ForeColor = SystemColors.ButtonHighlight;
+            lblStok1.Location = new Point(65, 120);
+            lblStok1.Name = "lblStok1";
+            lblStok1.Size = new Size(52, 34);
+            lblStok1.TabIndex = 4;
+            lblStok1.Text = "Stok";
+            // 
+            // btnMenu1
+            // 
+            btnMenu1.BackColor = Color.LightSlateGray;
+            btnMenu1.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMenu1.ForeColor = SystemColors.ButtonHighlight;
+            btnMenu1.Location = new Point(42, 169);
+            btnMenu1.Name = "btnMenu1";
+            btnMenu1.Size = new Size(141, 53);
+            btnMenu1.TabIndex = 3;
+            btnMenu1.Text = "+";
+            btnMenu1.UseVisualStyleBackColor = false;
+            // 
+            // lblHargaMenu1
+            // 
+            lblHargaMenu1.AutoSize = true;
+            lblHargaMenu1.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHargaMenu1.ForeColor = SystemColors.ButtonHighlight;
+            lblHargaMenu1.Location = new Point(62, 79);
+            lblHargaMenu1.Name = "lblHargaMenu1";
+            lblHargaMenu1.Size = new Size(101, 34);
+            lblHargaMenu1.TabIndex = 2;
+            lblHargaMenu1.Text = "Rp 12.000";
+            // 
+            // lblMenu1
+            // 
+            lblMenu1.AutoSize = true;
+            lblMenu1.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMenu1.ForeColor = SystemColors.ButtonHighlight;
+            lblMenu1.Location = new Point(42, 39);
+            lblMenu1.Name = "lblMenu1";
+            lblMenu1.Size = new Size(141, 40);
+            lblMenu1.TabIndex = 1;
+            lblMenu1.Text = "Lele Goreng";
+            // 
+            // pnlMenu2
+            // 
+            pnlMenu2.BackColor = Color.LightSlateGray;
+            pnlMenu2.Controls.Add(lblAngkaStok2);
+            pnlMenu2.Controls.Add(lblMenu2);
+            pnlMenu2.Controls.Add(lblStok2);
+            pnlMenu2.Controls.Add(lblHargaMenu2);
+            pnlMenu2.Controls.Add(btnMenu2);
+            pnlMenu2.Location = new Point(310, 194);
+            pnlMenu2.Margin = new Padding(2);
+            pnlMenu2.Name = "pnlMenu2";
+            pnlMenu2.Size = new Size(231, 257);
+            pnlMenu2.TabIndex = 2;
+            // 
+            // lblAngkaStok2
+            // 
+            lblAngkaStok2.AutoSize = true;
+            lblAngkaStok2.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAngkaStok2.ForeColor = SystemColors.ButtonHighlight;
+            lblAngkaStok2.Location = new Point(125, 120);
+            lblAngkaStok2.Name = "lblAngkaStok2";
+            lblAngkaStok2.Size = new Size(37, 34);
+            lblAngkaStok2.TabIndex = 10;
+            lblAngkaStok2.Text = "20";
+            // 
+            // lblMenu2
+            // 
+            lblMenu2.AutoSize = true;
+            lblMenu2.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMenu2.ForeColor = SystemColors.ButtonHighlight;
+            lblMenu2.Location = new Point(56, 39);
+            lblMenu2.Name = "lblMenu2";
+            lblMenu2.Size = new Size(125, 40);
+            lblMenu2.TabIndex = 6;
+            lblMenu2.Text = "Lele Bakar";
+            // 
+            // lblStok2
+            // 
+            lblStok2.AutoSize = true;
+            lblStok2.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStok2.ForeColor = SystemColors.ButtonHighlight;
+            lblStok2.Location = new Point(75, 120);
+            lblStok2.Name = "lblStok2";
+            lblStok2.Size = new Size(52, 34);
+            lblStok2.TabIndex = 9;
+            lblStok2.Text = "Stok";
+            // 
+            // lblHargaMenu2
+            // 
+            lblHargaMenu2.AutoSize = true;
+            lblHargaMenu2.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHargaMenu2.ForeColor = SystemColors.ButtonHighlight;
+            lblHargaMenu2.Location = new Point(69, 79);
+            lblHargaMenu2.Name = "lblHargaMenu2";
+            lblHargaMenu2.Size = new Size(101, 34);
+            lblHargaMenu2.TabIndex = 7;
+            lblHargaMenu2.Text = "Rp 18.000";
+            // 
+            // btnMenu2
+            // 
+            btnMenu2.BackColor = Color.LightSlateGray;
+            btnMenu2.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMenu2.ForeColor = SystemColors.ButtonHighlight;
+            btnMenu2.Location = new Point(42, 169);
+            btnMenu2.Name = "btnMenu2";
+            btnMenu2.Size = new Size(149, 53);
+            btnMenu2.TabIndex = 8;
+            btnMenu2.Text = "+";
+            btnMenu2.UseVisualStyleBackColor = false;
+            // 
+            // pnlMenu3
+            // 
+            pnlMenu3.BackColor = Color.LightSlateGray;
+            pnlMenu3.Controls.Add(lblAngkaStok3);
+            pnlMenu3.Controls.Add(lblMenu3);
+            pnlMenu3.Controls.Add(lblStok3);
+            pnlMenu3.Controls.Add(lblHargaMenu3);
+            pnlMenu3.Controls.Add(btnMenu3);
+            pnlMenu3.Location = new Point(580, 194);
+            pnlMenu3.Margin = new Padding(2);
+            pnlMenu3.Name = "pnlMenu3";
+            pnlMenu3.Size = new Size(244, 257);
+            pnlMenu3.TabIndex = 2;
+            // 
+            // lblAngkaStok3
+            // 
+            lblAngkaStok3.AutoSize = true;
+            lblAngkaStok3.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAngkaStok3.ForeColor = SystemColors.ButtonHighlight;
+            lblAngkaStok3.Location = new Point(122, 120);
+            lblAngkaStok3.Name = "lblAngkaStok3";
+            lblAngkaStok3.Size = new Size(37, 34);
+            lblAngkaStok3.TabIndex = 15;
+            lblAngkaStok3.Text = "20";
+            // 
+            // lblMenu3
+            // 
+            lblMenu3.AutoSize = true;
+            lblMenu3.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMenu3.ForeColor = SystemColors.ButtonHighlight;
+            lblMenu3.Location = new Point(49, 39);
+            lblMenu3.Name = "lblMenu3";
+            lblMenu3.Size = new Size(145, 40);
+            lblMenu3.TabIndex = 11;
+            lblMenu3.Text = "Mangut Lele";
+            // 
+            // lblStok3
+            // 
+            lblStok3.AutoSize = true;
+            lblStok3.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStok3.ForeColor = SystemColors.ButtonHighlight;
+            lblStok3.Location = new Point(76, 120);
+            lblStok3.Name = "lblStok3";
+            lblStok3.Size = new Size(52, 34);
+            lblStok3.TabIndex = 14;
+            lblStok3.Text = "Stok";
+            // 
+            // lblHargaMenu3
+            // 
+            lblHargaMenu3.AutoSize = true;
+            lblHargaMenu3.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHargaMenu3.ForeColor = SystemColors.ButtonHighlight;
+            lblHargaMenu3.Location = new Point(66, 79);
+            lblHargaMenu3.Name = "lblHargaMenu3";
+            lblHargaMenu3.Size = new Size(101, 34);
+            lblHargaMenu3.TabIndex = 12;
+            lblHargaMenu3.Text = "Rp 22.000";
+            // 
+            // btnMenu3
+            // 
+            btnMenu3.BackColor = Color.LightSlateGray;
+            btnMenu3.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMenu3.ForeColor = SystemColors.ButtonHighlight;
+            btnMenu3.Location = new Point(38, 169);
+            btnMenu3.Name = "btnMenu3";
+            btnMenu3.Size = new Size(171, 53);
+            btnMenu3.TabIndex = 13;
+            btnMenu3.Text = "+";
+            btnMenu3.UseVisualStyleBackColor = false;
+            // 
+            // pnlMenu4
+            // 
+            pnlMenu4.BackColor = Color.LightSlateGray;
+            pnlMenu4.Controls.Add(lblAngkaStok4);
+            pnlMenu4.Controls.Add(lblHargaMenu4);
+            pnlMenu4.Controls.Add(lblMenu4);
+            pnlMenu4.Controls.Add(btnMenu4);
+            pnlMenu4.Controls.Add(lblStok4);
+            pnlMenu4.Location = new Point(40, 497);
+            pnlMenu4.Margin = new Padding(2);
+            pnlMenu4.Name = "pnlMenu4";
+            pnlMenu4.Size = new Size(222, 273);
+            pnlMenu4.TabIndex = 2;
+            // 
+            // lblAngkaStok4
+            // 
+            lblAngkaStok4.AutoSize = true;
+            lblAngkaStok4.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAngkaStok4.ForeColor = SystemColors.ButtonHighlight;
+            lblAngkaStok4.Location = new Point(112, 134);
+            lblAngkaStok4.Name = "lblAngkaStok4";
+            lblAngkaStok4.Size = new Size(37, 34);
+            lblAngkaStok4.TabIndex = 30;
+            lblAngkaStok4.Text = "20";
+            // 
+            // lblHargaMenu4
+            // 
+            lblHargaMenu4.AutoSize = true;
+            lblHargaMenu4.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHargaMenu4.ForeColor = SystemColors.ButtonHighlight;
+            lblHargaMenu4.Location = new Point(65, 89);
+            lblHargaMenu4.Name = "lblHargaMenu4";
+            lblHargaMenu4.Size = new Size(90, 34);
+            lblHargaMenu4.TabIndex = 27;
+            lblHargaMenu4.Text = "Rp 3.000";
+            // 
+            // lblMenu4
+            // 
+            lblMenu4.AutoSize = true;
+            lblMenu4.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMenu4.ForeColor = SystemColors.ButtonHighlight;
+            lblMenu4.Location = new Point(69, 49);
+            lblMenu4.Name = "lblMenu4";
+            lblMenu4.Size = new Size(84, 40);
+            lblMenu4.TabIndex = 26;
+            lblMenu4.Text = "Es Teh";
+            // 
+            // btnMenu4
+            // 
+            btnMenu4.BackColor = Color.LightSlateGray;
+            btnMenu4.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMenu4.ForeColor = SystemColors.ButtonHighlight;
+            btnMenu4.Location = new Point(42, 185);
+            btnMenu4.Name = "btnMenu4";
+            btnMenu4.Size = new Size(141, 53);
+            btnMenu4.TabIndex = 28;
+            btnMenu4.Text = "+";
+            btnMenu4.UseVisualStyleBackColor = false;
+            // 
+            // lblStok4
+            // 
+            lblStok4.AutoSize = true;
+            lblStok4.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStok4.ForeColor = SystemColors.ButtonHighlight;
+            lblStok4.Location = new Point(66, 134);
+            lblStok4.Name = "lblStok4";
+            lblStok4.Size = new Size(52, 34);
+            lblStok4.TabIndex = 29;
+            lblStok4.Text = "Stok";
+            // 
+            // pnlMenu5
+            // 
+            pnlMenu5.BackColor = Color.LightSlateGray;
+            pnlMenu5.Controls.Add(lblAngkaStok5);
+            pnlMenu5.Controls.Add(lblMenu5);
+            pnlMenu5.Controls.Add(btnMenu5);
+            pnlMenu5.Controls.Add(lblStok5);
+            pnlMenu5.Controls.Add(lblHargaMenu5);
+            pnlMenu5.Location = new Point(310, 497);
+            pnlMenu5.Margin = new Padding(2);
+            pnlMenu5.Name = "pnlMenu5";
+            pnlMenu5.Size = new Size(231, 273);
+            pnlMenu5.TabIndex = 2;
+            // 
+            // lblAngkaStok5
+            // 
+            lblAngkaStok5.AutoSize = true;
+            lblAngkaStok5.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAngkaStok5.ForeColor = SystemColors.ButtonHighlight;
+            lblAngkaStok5.Location = new Point(113, 134);
+            lblAngkaStok5.Name = "lblAngkaStok5";
+            lblAngkaStok5.Size = new Size(37, 34);
+            lblAngkaStok5.TabIndex = 25;
+            lblAngkaStok5.Text = "20";
+            // 
+            // lblMenu5
+            // 
+            lblMenu5.AutoSize = true;
+            lblMenu5.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMenu5.ForeColor = SystemColors.ButtonHighlight;
+            lblMenu5.Location = new Point(60, 49);
+            lblMenu5.Name = "lblMenu5";
+            lblMenu5.Size = new Size(102, 40);
+            lblMenu5.TabIndex = 21;
+            lblMenu5.Text = "Es Jeruk";
+            // 
+            // btnMenu5
+            // 
+            btnMenu5.BackColor = Color.LightSlateGray;
+            btnMenu5.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMenu5.ForeColor = SystemColors.ButtonHighlight;
+            btnMenu5.Location = new Point(42, 185);
+            btnMenu5.Name = "btnMenu5";
+            btnMenu5.Size = new Size(149, 53);
+            btnMenu5.TabIndex = 23;
+            btnMenu5.Text = "+";
+            btnMenu5.UseVisualStyleBackColor = false;
+            // 
+            // lblStok5
+            // 
+            lblStok5.AutoSize = true;
+            lblStok5.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStok5.ForeColor = SystemColors.ButtonHighlight;
+            lblStok5.Location = new Point(69, 134);
+            lblStok5.Name = "lblStok5";
+            lblStok5.Size = new Size(52, 34);
+            lblStok5.TabIndex = 24;
+            lblStok5.Text = "Stok";
+            // 
+            // lblHargaMenu5
+            // 
+            lblHargaMenu5.AutoSize = true;
+            lblHargaMenu5.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHargaMenu5.ForeColor = SystemColors.ButtonHighlight;
+            lblHargaMenu5.Location = new Point(69, 89);
+            lblHargaMenu5.Name = "lblHargaMenu5";
+            lblHargaMenu5.Size = new Size(90, 34);
+            lblHargaMenu5.TabIndex = 22;
+            lblHargaMenu5.Text = "Rp 4.000";
+            // 
+            // pnlMenu6
+            // 
+            pnlMenu6.BackColor = Color.LightSlateGray;
+            pnlMenu6.Controls.Add(lblAngkaStok6);
+            pnlMenu6.Controls.Add(lblHargaMenu6);
+            pnlMenu6.Controls.Add(lblMenu6);
+            pnlMenu6.Controls.Add(btnMenu6);
+            pnlMenu6.Controls.Add(lblStok6);
+            pnlMenu6.Location = new Point(580, 497);
+            pnlMenu6.Margin = new Padding(2);
+            pnlMenu6.Name = "pnlMenu6";
+            pnlMenu6.Size = new Size(244, 273);
+            pnlMenu6.TabIndex = 2;
+            // 
+            // lblAngkaStok6
+            // 
+            lblAngkaStok6.AutoSize = true;
+            lblAngkaStok6.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAngkaStok6.ForeColor = SystemColors.ButtonHighlight;
+            lblAngkaStok6.Location = new Point(122, 134);
+            lblAngkaStok6.Name = "lblAngkaStok6";
+            lblAngkaStok6.Size = new Size(37, 34);
+            lblAngkaStok6.TabIndex = 20;
+            lblAngkaStok6.Text = "20";
+            // 
+            // lblHargaMenu6
+            // 
+            lblHargaMenu6.AutoSize = true;
+            lblHargaMenu6.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHargaMenu6.ForeColor = SystemColors.ButtonHighlight;
+            lblHargaMenu6.Location = new Point(73, 89);
+            lblHargaMenu6.Name = "lblHargaMenu6";
+            lblHargaMenu6.Size = new Size(90, 34);
+            lblHargaMenu6.TabIndex = 17;
+            lblHargaMenu6.Text = "Rp 3.500";
+            // 
+            // lblMenu6
+            // 
+            lblMenu6.AutoSize = true;
+            lblMenu6.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMenu6.ForeColor = SystemColors.ButtonHighlight;
+            lblMenu6.Location = new Point(54, 49);
+            lblMenu6.Name = "lblMenu6";
+            lblMenu6.Size = new Size(131, 40);
+            lblMenu6.TabIndex = 16;
+            lblMenu6.Text = "Air Mineral";
+            // 
+            // btnMenu6
+            // 
+            btnMenu6.BackColor = Color.LightSlateGray;
+            btnMenu6.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMenu6.ForeColor = SystemColors.ButtonHighlight;
+            btnMenu6.Location = new Point(38, 185);
+            btnMenu6.Name = "btnMenu6";
+            btnMenu6.Size = new Size(171, 53);
+            btnMenu6.TabIndex = 18;
+            btnMenu6.Text = "+";
+            btnMenu6.UseVisualStyleBackColor = false;
+            // 
+            // lblStok6
+            // 
+            lblStok6.AutoSize = true;
+            lblStok6.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStok6.ForeColor = SystemColors.ButtonHighlight;
+            lblStok6.Location = new Point(76, 134);
+            lblStok6.Name = "lblStok6";
+            lblStok6.Size = new Size(52, 34);
+            lblStok6.TabIndex = 19;
+            lblStok6.Text = "Stok";
+            // 
+            // flpPilihProduk
+            // 
+            flpPilihProduk.AutoScroll = true;
+            flpPilihProduk.BackColor = Color.Transparent;
+            flpPilihProduk.Controls.Add(lblPilihProduk);
+            flpPilihProduk.Location = new Point(16, 13);
+            flpPilihProduk.Name = "flpPilihProduk";
+            flpPilihProduk.Size = new Size(857, 811);
+            flpPilihProduk.TabIndex = 5;
+            // 
+            // flpDaftarPesanan
+            // 
+            flpDaftarPesanan.AutoScroll = true;
+            flpDaftarPesanan.BackColor = Color.Transparent;
+            flpDaftarPesanan.Controls.Add(lblDaftarPesanan);
+            flpDaftarPesanan.Location = new Point(888, 13);
+            flpDaftarPesanan.Name = "flpDaftarPesanan";
+            flpDaftarPesanan.Size = new Size(753, 438);
+            flpDaftarPesanan.TabIndex = 6;
+            // 
+            // lblDaftarPesanan
+            // 
+            lblDaftarPesanan.AutoSize = true;
+            lblDaftarPesanan.BackColor = Color.Transparent;
+            lblDaftarPesanan.Font = new Font("Dubai", 16.125F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblDaftarPesanan.ForeColor = Color.White;
+            lblDaftarPesanan.Location = new Point(2, 0);
+            lblDaftarPesanan.Margin = new Padding(2, 0, 2, 0);
+            lblDaftarPesanan.Name = "lblDaftarPesanan";
+            lblDaftarPesanan.Size = new Size(390, 55);
+            lblDaftarPesanan.TabIndex = 1;
+            lblDaftarPesanan.Text = "Daftar Pesanan Pelanggan";
+            // 
+            // pnlTotal
+            // 
+            pnlTotal.BackColor = Color.Transparent;
+            pnlTotal.Controls.Add(btnCetakNota);
+            pnlTotal.Controls.Add(btnLunas);
+            pnlTotal.Controls.Add(btnBlmLunas);
+            pnlTotal.Controls.Add(label1);
+            pnlTotal.Controls.Add(btnQris);
+            pnlTotal.Controls.Add(btnTunai);
+            pnlTotal.Controls.Add(lblMetodePembayaran);
+            pnlTotal.Controls.Add(lblTotal);
+            pnlTotal.Controls.Add(lblSubtotal);
+            pnlTotal.Location = new Point(888, 457);
+            pnlTotal.Name = "pnlTotal";
+            pnlTotal.Size = new Size(753, 337);
+            pnlTotal.TabIndex = 7;
+            // 
+            // lblSubtotal
+            // 
+            lblSubtotal.AutoSize = true;
+            lblSubtotal.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSubtotal.ForeColor = Color.White;
+            lblSubtotal.Location = new Point(10, 12);
+            lblSubtotal.Name = "lblSubtotal";
+            lblSubtotal.Size = new Size(85, 30);
+            lblSubtotal.TabIndex = 0;
+            lblSubtotal.Text = "Subtotal";
+            // 
+            // lblTotal
+            // 
+            lblTotal.AutoSize = true;
+            lblTotal.Font = new Font("Dubai", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTotal.ForeColor = Color.White;
+            lblTotal.Location = new Point(678, 12);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(46, 30);
+            lblTotal.TabIndex = 1;
+            lblTotal.Text = "Rp. -";
+            // 
+            // lblMetodePembayaran
+            // 
+            lblMetodePembayaran.AutoSize = true;
+            lblMetodePembayaran.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMetodePembayaran.ForeColor = Color.White;
+            lblMetodePembayaran.Location = new Point(10, 58);
+            lblMetodePembayaran.Name = "lblMetodePembayaran";
+            lblMetodePembayaran.Size = new Size(185, 30);
+            lblMetodePembayaran.TabIndex = 2;
+            lblMetodePembayaran.Text = "Metode Pembayaran";
+            // 
+            // btnTunai
+            // 
+            btnTunai.BackColor = Color.SlateGray;
+            btnTunai.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTunai.ForeColor = Color.White;
+            btnTunai.Location = new Point(29, 95);
+            btnTunai.Name = "btnTunai";
+            btnTunai.Size = new Size(112, 34);
+            btnTunai.TabIndex = 3;
+            btnTunai.Text = "Tunai";
+            btnTunai.UseVisualStyleBackColor = false;
+            // 
+            // btnQris
+            // 
+            btnQris.BackColor = Color.SlateGray;
+            btnQris.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnQris.ForeColor = Color.White;
+            btnQris.Location = new Point(167, 95);
+            btnQris.Name = "btnQris";
+            btnQris.Size = new Size(112, 34);
+            btnQris.TabIndex = 4;
+            btnQris.Text = "Qris";
+            btnQris.UseVisualStyleBackColor = false;
+            // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = SystemColors.ButtonHighlight;
-            label1.Location = new Point(171, 188);
+            label1.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(10, 154);
             label1.Name = "label1";
-            label1.Size = new Size(37, 34);
-            label1.TabIndex = 10;
-            label1.Text = "20";
+            label1.Size = new Size(69, 30);
+            label1.TabIndex = 5;
+            label1.Text = "Status";
             // 
-            // label2
+            // btnBlmLunas
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = SystemColors.ButtonHighlight;
-            label2.Location = new Point(118, 188);
-            label2.Name = "label2";
-            label2.Size = new Size(52, 34);
-            label2.TabIndex = 9;
-            label2.Text = "Stok";
+            btnBlmLunas.BackColor = Color.SlateGray;
+            btnBlmLunas.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBlmLunas.ForeColor = Color.White;
+            btnBlmLunas.Location = new Point(29, 194);
+            btnBlmLunas.Name = "btnBlmLunas";
+            btnBlmLunas.Size = new Size(166, 34);
+            btnBlmLunas.TabIndex = 6;
+            btnBlmLunas.Text = "Belum Lunas";
+            btnBlmLunas.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnLunas
             // 
-            button2.BackColor = Color.LightSlateGray;
-            button2.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = SystemColors.ButtonHighlight;
-            button2.Location = new Point(265, 204);
-            button2.Name = "button2";
-            button2.Size = new Size(59, 53);
-            button2.TabIndex = 8;
-            button2.Text = "+";
-            button2.UseVisualStyleBackColor = false;
+            btnLunas.BackColor = Color.SlateGray;
+            btnLunas.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLunas.ForeColor = Color.White;
+            btnLunas.Location = new Point(218, 194);
+            btnLunas.Name = "btnLunas";
+            btnLunas.Size = new Size(112, 34);
+            btnLunas.TabIndex = 7;
+            btnLunas.Text = "Lunas";
+            btnLunas.UseVisualStyleBackColor = false;
             // 
-            // label3
+            // btnCetakNota
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = SystemColors.ButtonHighlight;
-            label3.Location = new Point(113, 154);
-            label3.Name = "label3";
-            label3.Size = new Size(101, 34);
-            label3.TabIndex = 7;
-            label3.Text = "Rp 18.000";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = SystemColors.ButtonHighlight;
-            label4.Location = new Point(98, 114);
-            label4.Name = "label4";
-            label4.Size = new Size(125, 40);
-            label4.TabIndex = 6;
-            label4.Text = "Lele Bakar";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.ForeColor = SystemColors.ButtonHighlight;
-            label5.Location = new Point(173, 188);
-            label5.Name = "label5";
-            label5.Size = new Size(37, 34);
-            label5.TabIndex = 15;
-            label5.Text = "20";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.ForeColor = SystemColors.ButtonHighlight;
-            label6.Location = new Point(120, 188);
-            label6.Name = "label6";
-            label6.Size = new Size(52, 34);
-            label6.TabIndex = 14;
-            label6.Text = "Stok";
-            // 
-            // button3
-            // 
-            button3.BackColor = Color.LightSlateGray;
-            button3.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.ForeColor = SystemColors.ButtonHighlight;
-            button3.Location = new Point(267, 204);
-            button3.Name = "button3";
-            button3.Size = new Size(59, 53);
-            button3.TabIndex = 13;
-            button3.Text = "+";
-            button3.UseVisualStyleBackColor = false;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label7.ForeColor = SystemColors.ButtonHighlight;
-            label7.Location = new Point(115, 154);
-            label7.Name = "label7";
-            label7.Size = new Size(101, 34);
-            label7.TabIndex = 12;
-            label7.Text = "Rp 22.000";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = SystemColors.ButtonHighlight;
-            label8.Location = new Point(100, 114);
-            label8.Name = "label8";
-            label8.Size = new Size(145, 40);
-            label8.TabIndex = 11;
-            label8.Text = "Mangut Lele";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.ForeColor = SystemColors.ButtonHighlight;
-            label9.Location = new Point(173, 185);
-            label9.Name = "label9";
-            label9.Size = new Size(37, 34);
-            label9.TabIndex = 20;
-            label9.Text = "20";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.ForeColor = SystemColors.ButtonHighlight;
-            label10.Location = new Point(106, 111);
-            label10.Name = "label10";
-            label10.Size = new Size(131, 40);
-            label10.TabIndex = 16;
-            label10.Text = "Air Mineral";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.ForeColor = SystemColors.ButtonHighlight;
-            label11.Location = new Point(120, 185);
-            label11.Name = "label11";
-            label11.Size = new Size(52, 34);
-            label11.TabIndex = 19;
-            label11.Text = "Stok";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.ForeColor = SystemColors.ButtonHighlight;
-            label12.Location = new Point(115, 151);
-            label12.Name = "label12";
-            label12.Size = new Size(90, 34);
-            label12.TabIndex = 17;
-            label12.Text = "Rp 3.500";
-            // 
-            // button4
-            // 
-            button4.BackColor = Color.LightSlateGray;
-            button4.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.ForeColor = SystemColors.ButtonHighlight;
-            button4.Location = new Point(267, 201);
-            button4.Name = "button4";
-            button4.Size = new Size(59, 53);
-            button4.TabIndex = 18;
-            button4.Text = "+";
-            button4.UseVisualStyleBackColor = false;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label13.ForeColor = SystemColors.ButtonHighlight;
-            label13.Location = new Point(171, 185);
-            label13.Name = "label13";
-            label13.Size = new Size(37, 34);
-            label13.TabIndex = 25;
-            label13.Text = "20";
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.ForeColor = SystemColors.ButtonHighlight;
-            label14.Location = new Point(115, 111);
-            label14.Name = "label14";
-            label14.Size = new Size(102, 40);
-            label14.TabIndex = 21;
-            label14.Text = "Es Jeruk";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label15.ForeColor = SystemColors.ButtonHighlight;
-            label15.Location = new Point(118, 185);
-            label15.Name = "label15";
-            label15.Size = new Size(52, 34);
-            label15.TabIndex = 24;
-            label15.Text = "Stok";
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.ForeColor = SystemColors.ButtonHighlight;
-            label16.Location = new Point(113, 151);
-            label16.Name = "label16";
-            label16.Size = new Size(90, 34);
-            label16.TabIndex = 22;
-            label16.Text = "Rp 4.000";
-            // 
-            // button5
-            // 
-            button5.BackColor = Color.LightSlateGray;
-            button5.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.ForeColor = SystemColors.ButtonHighlight;
-            button5.Location = new Point(265, 201);
-            button5.Name = "button5";
-            button5.Size = new Size(59, 53);
-            button5.TabIndex = 23;
-            button5.Text = "+";
-            button5.UseVisualStyleBackColor = false;
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label17.ForeColor = SystemColors.ButtonHighlight;
-            label17.Location = new Point(164, 185);
-            label17.Name = "label17";
-            label17.Size = new Size(37, 34);
-            label17.TabIndex = 30;
-            label17.Text = "20";
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Font = new Font("Dubai", 11.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label18.ForeColor = SystemColors.ButtonHighlight;
-            label18.Location = new Point(112, 111);
-            label18.Name = "label18";
-            label18.Size = new Size(84, 40);
-            label18.TabIndex = 26;
-            label18.Text = "Es Teh";
-            // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label19.ForeColor = SystemColors.ButtonHighlight;
-            label19.Location = new Point(111, 185);
-            label19.Name = "label19";
-            label19.Size = new Size(52, 34);
-            label19.TabIndex = 29;
-            label19.Text = "Stok";
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label20.ForeColor = SystemColors.ButtonHighlight;
-            label20.Location = new Point(106, 151);
-            label20.Name = "label20";
-            label20.Size = new Size(90, 34);
-            label20.TabIndex = 27;
-            label20.Text = "Rp 3.000";
-            // 
-            // button6
-            // 
-            button6.BackColor = Color.LightSlateGray;
-            button6.Font = new Font("Dubai", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button6.ForeColor = SystemColors.ButtonHighlight;
-            button6.Location = new Point(258, 201);
-            button6.Name = "button6";
-            button6.Size = new Size(59, 53);
-            button6.TabIndex = 28;
-            button6.Text = "+";
-            button6.UseVisualStyleBackColor = false;
+            btnCetakNota.BackgroundImage = (Image)resources.GetObject("btnCetakNota.BackgroundImage");
+            btnCetakNota.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCetakNota.ForeColor = Color.White;
+            btnCetakNota.Location = new Point(47, 279);
+            btnCetakNota.Name = "btnCetakNota";
+            btnCetakNota.Size = new Size(657, 34);
+            btnCetakNota.TabIndex = 9;
+            btnCetakNota.Text = "Cetak Nota";
+            btnCetakNota.UseVisualStyleBackColor = true;
             // 
             // UCPilihproduk
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            Controls.Add(dgvDaftarPesanan);
+            Controls.Add(pnlTotal);
+            Controls.Add(flpDaftarPesanan);
             Controls.Add(pnlMenu6);
             Controls.Add(pnlMenu5);
             Controls.Add(pnlMenu4);
-            Controls.Add(lblDaftarProduk);
             Controls.Add(pnlMenu3);
             Controls.Add(pnlMenu2);
             Controls.Add(pnlMenu1);
-            Controls.Add(lblPilihProduk);
-            Controls.Add(pnlBack);
-            Margin = new Padding(2, 2, 2, 2);
+            Controls.Add(pnlSearch);
+            Controls.Add(flpPilihProduk);
+            Margin = new Padding(2);
             Name = "UCPilihproduk";
             Size = new Size(1665, 827);
-            pnlBack.ResumeLayout(false);
-            pnlBack.PerformLayout();
+            pnlSearch.ResumeLayout(false);
+            pnlSearch.PerformLayout();
             pnlMenu1.ResumeLayout(false);
             pnlMenu1.PerformLayout();
             pnlMenu2.ResumeLayout(false);
@@ -593,53 +733,68 @@
             pnlMenu5.PerformLayout();
             pnlMenu6.ResumeLayout(false);
             pnlMenu6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvDaftarPesanan).EndInit();
+            flpPilihProduk.ResumeLayout(false);
+            flpPilihProduk.PerformLayout();
+            flpDaftarPesanan.ResumeLayout(false);
+            flpDaftarPesanan.PerformLayout();
+            pnlTotal.ResumeLayout(false);
+            pnlTotal.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Panel pnlBack;
+        private Panel pnlSearch;
         private Label lblPilihProduk;
         private TextBox tbSearchProduk;
         private Panel pnlMenu1;
         private Panel pnlMenu2;
         private Panel pnlMenu3;
-        private Label lblDaftarProduk;
         private Panel pnlMenu4;
         private Panel pnlMenu5;
         private Panel pnlMenu6;
-        private DataGridView dgvDaftarPesanan;
-        private Button button1;
+        private Button btnMenu1;
         private Label lblHargaMenu1;
         private Label lblMenu1;
         private Label lblAngkaStok;
-        private Label lblStokMenu1;
+        private Label lblStok1;
+        private Label lblAngkaStok2;
+        private Label lblMenu2;
+        private Label lblStok2;
+        private Label lblHargaMenu2;
+        private Button btnMenu2;
+        private Label lblAngkaStok3;
+        private Label lblMenu3;
+        private Label lblStok3;
+        private Label lblHargaMenu3;
+        private Button btnMenu3;
+        private Label lblAngkaStok4;
+        private Label lblHargaMenu4;
+        private Label lblMenu4;
+        private Button btnMenu4;
+        private Label lblStok4;
+        private Label lblAngkaStok5;
+        private Label lblMenu5;
+        private Button btnMenu5;
+        private Label lblStok5;
+        private Label lblHargaMenu5;
+        private Label lblAngkaStok6;
+        private Label lblHargaMenu6;
+        private Label lblMenu6;
+        private Button btnMenu6;
+        private Label lblStok6;
+        private FlowLayoutPanel flpPilihProduk;
+        private FlowLayoutPanel flpDaftarPesanan;
+        private Label lblDaftarPesanan;
+        private Panel pnlTotal;
+        private Label lblSubtotal;
+        private Label lblMetodePembayaran;
+        private Label lblTotal;
+        private Button btnLunas;
+        private Button btnBlmLunas;
         private Label label1;
-        private Label label4;
-        private Label label2;
-        private Label label3;
-        private Button button2;
-        private Label label5;
-        private Label label8;
-        private Label label6;
-        private Label label7;
-        private Button button3;
-        private Label label17;
-        private Label label20;
-        private Label label18;
-        private Button button6;
-        private Label label19;
-        private Label label13;
-        private Label label14;
-        private Button button5;
-        private Label label15;
-        private Label label16;
-        private Label label9;
-        private Label label12;
-        private Label label10;
-        private Button button4;
-        private Label label11;
+        private Button btnQris;
+        private Button btnTunai;
+        private Button btnCetakNota;
     }
 }

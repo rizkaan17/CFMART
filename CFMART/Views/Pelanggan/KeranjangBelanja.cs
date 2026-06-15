@@ -2,8 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Npgsql;
-using CFMART.Helpers;
+using CFMART.Models; // 🌟 Memanggil model ItemKeranjang yang baru
 
 namespace CFMART.Views.Pelanggan
 {
@@ -12,12 +11,16 @@ namespace CFMART.Views.Pelanggan
         public KeranjangBelanja()
         {
             InitializeComponent();
-            SegarkanKeranjang(); 
+
+            // Memaksa posisi form muncul tepat di tengah layar monitor pelanggan
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            SegarkanKeranjang();
         }
 
-        // ==========================================
+        // =========================================================================
         // FITUR 1: MENAMPILKAN PESANAN & TOTAL HARGA (READ)
-        // ==========================================
+        // =========================================================================
         private void SegarkanKeranjang()
         {
             try
@@ -28,17 +31,18 @@ namespace CFMART.Views.Pelanggan
                     dataGridView1.DataSource = null;
                     dataGridView1.DataSource = Program.DaftarBelanjaan;
 
-                    // Merapikan nama kolom tabel di layar
-                    if (dataGridView1.Columns["NamaProduk"] != null) dataGridView1.Columns["NamaProduk"].HeaderText = "Nama Menu";
-                    if (dataGridView1.Columns["HargaSatuan"] != null) dataGridView1.Columns["HargaSatuan"].HeaderText = "Harga Satuan";
-                    if (dataGridView1.Columns["Jumlah"] != null) dataGridView1.Columns["Jumlah"].HeaderText = "Qty";
-                    if (dataGridView1.Columns["TotalHarga"] != null) dataGridView1.Columns["TotalHarga"].HeaderText = "Sub Total";
+                    // 🌟 SINKRONISASI KOLOM: Merapikan header berdasarkan properti baru Model ItemKeranjang
+                    if (dataGridView1.Columns["id_produk"] != null) dataGridView1.Columns["id_produk"].Visible = false; // Sembunyikan ID agar rapi
+                    if (dataGridView1.Columns["nama_produk"] != null) dataGridView1.Columns["nama_produk"].HeaderText = "Nama Menu";
+                    if (dataGridView1.Columns["harga"] != null) dataGridView1.Columns["harga"].HeaderText = "Harga Satuan";
+                    if (dataGridView1.Columns["quantity"] != null) dataGridView1.Columns["quantity"].HeaderText = "Qty";
+                    if (dataGridView1.Columns["sub_total"] != null) dataGridView1.Columns["sub_total"].HeaderText = "Sub Total";
                 }
 
-                // Menghitung total belanjaan dari list global
-                int total = Program.DaftarBelanjaan.Sum(x => x.TotalHarga);
+                // 🌟 SINKRONISASI LINQ: Menghitung total belanjaan dari properti sub_total milik ItemKeranjang
+                double total = Program.DaftarBelanjaan.Sum(x => x.sub_total);
 
-                // SEKARANG SINKRON KE label2 (Label Total Pesanan kamu)
+                // Sinkron ke label2 desainer kamu
                 if (label2 != null)
                 {
                     label2.Text = $"Total Pesanan: Rp {total:N0}";
@@ -50,33 +54,33 @@ namespace CFMART.Views.Pelanggan
             }
         }
 
-        // ==========================================
-        // FITUR 2: TOMBOL UBAH PESANAN / QTY (UPDATE)
-        // ==========================================
+        // =========================================================================
+        // FITUR 2: TOMBOL UBAH PESANAN / QTY (UPDATE) -> button5
+        // =========================================================================
         private void button5_Click(object sender, EventArgs e)
         {
             if (dataGridView1 == null || dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Pilih item makanan di tabel terlebih dahulu!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Pilih item makanan di tabel terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Mengambil item yang sedang di-klik di tabel
-            dynamic itemDipilih = dataGridView1.CurrentRow.DataBoundItem;
+            // Mengambil item bertipe ItemKeranjang yang sedang di-klik di tabel
+            ItemKeranjang itemDipilih = dataGridView1.CurrentRow.DataBoundItem as ItemKeranjang;
 
             if (itemDipilih != null)
             {
                 // Memunculkan kotak popup input angka baru
                 string input = Microsoft.VisualBasic.Interaction.InputBox(
-                    $"Masukkan jumlah porsi baru untuk {itemDipilih.NamaProduk}:",
+                    $"Masukkan jumlah porsi baru untuk {itemDipilih.nama_produk}:",
                     "Ubah Jumlah Pesanan",
-                    itemDipilih.Jumlah.ToString()
+                    itemDipilih.quantity.ToString()
                 );
 
                 // Validasi jika input adalah angka bulat positif
                 if (int.TryParse(input, out int jumlahBaru) && jumlahBaru > 0)
                 {
-                    itemDipilih.Jumlah = jumlahBaru;
+                    itemDipilih.quantity = jumlahBaru; // 🌟 Update menggunakan properti quantity
                     SegarkanKeranjang(); // Otomatis mengupdate tabel dan label2
                 }
                 else if (!string.IsNullOrEmpty(input))
@@ -86,47 +90,47 @@ namespace CFMART.Views.Pelanggan
             }
         }
 
-        // ==========================================
-        // FITUR 3: TOMBOL HAPUS PESANAN (DELETE)
-        // ==========================================
+        // =========================================================================
+        // FITUR 3: TOMBOL HAPUS PESANAN (DELETE) -> button4_Click_1
+        // =========================================================================
         private void button4_Click_1(object sender, EventArgs e)
         {
             if (dataGridView1 == null || dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Pilih menu makanan yang ingin dihapus dari tabel!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Pilih menu makanan yang ingin dihapus dari tabel!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            dynamic itemDipilih = dataGridView1.CurrentRow.DataBoundItem;
+            ItemKeranjang itemDipilih = dataGridView1.CurrentRow.DataBoundItem as ItemKeranjang;
 
             if (itemDipilih != null)
             {
-                DialogResult konfirmasi = MessageBox.Show($"Hapus {itemDipilih.NamaProduk} dari keranjang?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult konfirmasi = MessageBox.Show($"Hapus {itemDipilih.nama_produk} dari keranjang?", "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (konfirmasi == DialogResult.Yes)
                 {
-                    // Menghapus menu terpilih dari list keranjang global
-                    Program.DaftarBelanjaan.RemoveAll(x => x.NamaProduk == itemDipilih.NamaProduk);
+                    // 🌟 Menghapus menu terpilih dari list keranjang global memakai id_produk
+                    Program.DaftarBelanjaan.RemoveAll(x => x.id_produk == itemDipilih.id_produk);
                     SegarkanKeranjang(); // Otomatis mengupdate tabel dan label2
                 }
             }
         }
 
-        // ==========================================
-        // FITUR 4: TOMBOL LANJUT CHECKOUT (PINDAH FORM)
-        // ==========================================
+        // =========================================================================
+        // FITUR 4: TOMBOL LANJUT CHECKOUT (PINDAH FORM) -> button6
+        // =========================================================================
         private void button6_Click(object sender, EventArgs e)
         {
             if (Program.DaftarBelanjaan.Count == 0)
             {
-                MessageBox.Show("Keranjang belanja kamu masih kosong!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Keranjang belanja kamu masih kosong! Silakan pilih lele atau es teh dulu di katalog.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             // Tampilkan pilihan tipe pesanan pakai MessageBox Yes/No/Cancel secara instan
             DialogResult opsiPesanan = MessageBox.Show(
                 "Apakah pesanan ini ingin Makan di Sini?\n\n(Pilih YES untuk Makan di Sini / NO untuk Bawa Pulang)",
-                "Pilih Tipe Pesanan",
+                "Pilih Tipe Pesanan CFMART",
                 MessageBoxButtons.YesNoCancel,
                 MessageBoxIcon.Question
             );
@@ -144,24 +148,23 @@ namespace CFMART.Views.Pelanggan
                 return; // Jika pilih cancel, batalkan proses pindah halaman
             }
 
-            // Buka form Checkout yang sudah kamu gambar desainer-nya
-            CFMART.Views.Pelanggan.CheckoutdanPembayaran frmCheckout = new CFMART.Views.Pelanggan.CheckoutdanPembayaran();
+            // Buka form Checkout yang sudah kamu sinkronkan kemarin
+            CheckoutdanPembayaran frmCheckout = new CheckoutdanPembayaran();
             frmCheckout.Show();
             this.Hide();
         }
 
-        // ==========================================
+        // =========================================================================
         // EVENT CLICK UNTUK LABEL TOTAL PESANAN
-        // ==========================================
+        // =========================================================================
         private void label2_Click(object sender, EventArgs e)
         {
-            // Jika label2 di-klik, dia akan melakukan refresh data & total harga manual
             SegarkanKeranjang();
         }
 
-        // ==========================================
-        // NAVIGASI BAR ATAS (MENU KATALOG)
-        // ==========================================
+        // =========================================================================
+        // NAVIGASI BAR ATAS (MENU KATALOG) -> button3
+        // =========================================================================
         private void button3_Click(object sender, EventArgs e)
         {
             DashboardPelanggan frmKatalog = new DashboardPelanggan();

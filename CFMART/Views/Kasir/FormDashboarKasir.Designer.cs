@@ -38,12 +38,14 @@
             lblLogo = new Label();
             pnlLogoKasir = new Panel();
             pnlMain = new Panel();
+            btnKonfirmasi = new Button();
             pnlHeaderKasir.SuspendLayout();
             SuspendLayout();
             // 
             // pnlHeaderKasir
             // 
             pnlHeaderKasir.BackColor = Color.LightSlateGray;
+            pnlHeaderKasir.Controls.Add(btnKonfirmasi);
             pnlHeaderKasir.Controls.Add(btnBiodata);
             pnlHeaderKasir.Controls.Add(btnRingkasan);
             pnlHeaderKasir.Controls.Add(btnKasir);
@@ -53,7 +55,7 @@
             pnlHeaderKasir.Controls.Add(pnlLogoKasir);
             pnlHeaderKasir.Dock = DockStyle.Top;
             pnlHeaderKasir.Location = new Point(0, 0);
-            pnlHeaderKasir.Margin = new Padding(2, 2, 2, 2);
+            pnlHeaderKasir.Margin = new Padding(2);
             pnlHeaderKasir.Name = "pnlHeaderKasir";
             pnlHeaderKasir.Size = new Size(1480, 116);
             pnlHeaderKasir.TabIndex = 0;
@@ -65,10 +67,10 @@
             btnBiodata.FlatStyle = FlatStyle.Flat;
             btnBiodata.Font = new Font("Dubai Medium", 10.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBiodata.ForeColor = Color.White;
-            btnBiodata.Location = new Point(923, 29);
-            btnBiodata.Margin = new Padding(2, 2, 2, 2);
+            btnBiodata.Location = new Point(1098, 29);
+            btnBiodata.Margin = new Padding(2);
             btnBiodata.Name = "btnBiodata";
-            btnBiodata.Size = new Size(195, 62);
+            btnBiodata.Size = new Size(141, 62);
             btnBiodata.TabIndex = 15;
             btnBiodata.Text = "Biodata";
             btnBiodata.UseVisualStyleBackColor = false;
@@ -81,10 +83,10 @@
             btnRingkasan.FlatStyle = FlatStyle.Flat;
             btnRingkasan.Font = new Font("Dubai Medium", 10.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRingkasan.ForeColor = Color.White;
-            btnRingkasan.Location = new Point(723, 29);
-            btnRingkasan.Margin = new Padding(2, 2, 2, 2);
+            btnRingkasan.Location = new Point(945, 29);
+            btnRingkasan.Margin = new Padding(2);
             btnRingkasan.Name = "btnRingkasan";
-            btnRingkasan.Size = new Size(195, 62);
+            btnRingkasan.Size = new Size(149, 62);
             btnRingkasan.TabIndex = 14;
             btnRingkasan.Text = "Ringkasan";
             btnRingkasan.UseVisualStyleBackColor = false;
@@ -97,10 +99,10 @@
             btnKasir.FlatStyle = FlatStyle.Flat;
             btnKasir.Font = new Font("Dubai Medium", 10.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnKasir.ForeColor = Color.White;
-            btnKasir.Location = new Point(523, 29);
-            btnKasir.Margin = new Padding(2, 2, 2, 2);
+            btnKasir.Location = new Point(489, 29);
+            btnKasir.Margin = new Padding(2);
             btnKasir.Name = "btnKasir";
-            btnKasir.Size = new Size(195, 62);
+            btnKasir.Size = new Size(151, 62);
             btnKasir.TabIndex = 13;
             btnKasir.Text = "Kasir";
             btnKasir.UseVisualStyleBackColor = false;
@@ -113,7 +115,7 @@
             btnLogoutKasir.Font = new Font("Dubai Medium", 10.875F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnLogoutKasir.ForeColor = Color.White;
             btnLogoutKasir.Location = new Point(1253, 27);
-            btnLogoutKasir.Margin = new Padding(2, 2, 2, 2);
+            btnLogoutKasir.Margin = new Padding(2);
             btnLogoutKasir.Name = "btnLogoutKasir";
             btnLogoutKasir.Size = new Size(195, 62);
             btnLogoutKasir.TabIndex = 4;
@@ -153,7 +155,7 @@
             pnlLogoKasir.BackgroundImageLayout = ImageLayout.Stretch;
             pnlLogoKasir.Dock = DockStyle.Left;
             pnlLogoKasir.Location = new Point(0, 0);
-            pnlLogoKasir.Margin = new Padding(2, 2, 2, 2);
+            pnlLogoKasir.Margin = new Padding(2);
             pnlLogoKasir.Name = "pnlLogoKasir";
             pnlLogoKasir.Size = new Size(122, 116);
             pnlLogoKasir.TabIndex = 11;
@@ -163,10 +165,25 @@
             pnlMain.BackgroundImage = (Image)resources.GetObject("pnlMain.BackgroundImage");
             pnlMain.Dock = DockStyle.Fill;
             pnlMain.Location = new Point(0, 116);
-            pnlMain.Margin = new Padding(2, 2, 2, 2);
+            pnlMain.Margin = new Padding(2);
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(1480, 655);
             pnlMain.TabIndex = 13;
+            // 
+            // btnKonfirmasi
+            // 
+            btnKonfirmasi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnKonfirmasi.BackColor = Color.SlateGray;
+            btnKonfirmasi.FlatStyle = FlatStyle.Flat;
+            btnKonfirmasi.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKonfirmasi.ForeColor = Color.White;
+            btnKonfirmasi.Location = new Point(645, 29);
+            btnKonfirmasi.Margin = new Padding(2);
+            btnKonfirmasi.Name = "btnKonfirmasi";
+            btnKonfirmasi.Size = new Size(296, 62);
+            btnKonfirmasi.TabIndex = 16;
+            btnKonfirmasi.Text = "Konfirmasi Pembayaran";
+            btnKonfirmasi.UseVisualStyleBackColor = false;
             // 
             // FormDashboardKasir
             // 
@@ -176,7 +193,7 @@
             ClientSize = new Size(1480, 771);
             Controls.Add(pnlMain);
             Controls.Add(pnlHeaderKasir);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "FormDashboardKasir";
             Text = "FormDashboardKasir";
             pnlHeaderKasir.ResumeLayout(false);
@@ -195,5 +212,6 @@
         private Button btnBiodata;
         private Button btnRingkasan;
         private Button btnKasir;
+        private Button btnKonfirmasi;
     }
 }
