@@ -12,6 +12,7 @@ namespace CFMART.Models
         public int order_id_order { get; set; }
         public int produk_id_produk { get; set; }
         public double sub_total { get; set; } // Nilai finansial akhir dijaga Trigger DB
+        public string CatatanPesanan { get; set; }
 
         // Backing field untuk Enkapsulasi quantity belanja
         private int _quantity;

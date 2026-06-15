@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using CFMART.Models.Context;
-using CFMART.Views; // Namespace untuk FormLogin jika diperlukan
+using CFMART.Views;
 
 namespace CFMART
 {
@@ -27,6 +27,10 @@ namespace CFMART
         // Variabel status transaksi global
         public static string TipePesanan = "";
         public static string MetodePembayaran = "";
+
+        // TAMBAHAN: Variabel global untuk catatan pesanan
+        public static string CatatanPesanan = "";
+
         public static bool IsSudahBayar = false;
 
         // =======================================================
@@ -36,10 +40,6 @@ namespace CFMART
         [STAThread]
         static void Main()
         {
-            // Opsi 1: Jika menggunakan .NET terbaru (rekomendasi)
-            // ApplicationConfiguration.Initialize();
-
-            // Opsi 2: Metode klasik yang lebih kompatibel dengan berbagai versi
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

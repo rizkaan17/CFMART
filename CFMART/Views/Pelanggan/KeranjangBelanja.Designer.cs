@@ -38,20 +38,20 @@
             label1 = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panel2 = new Panel();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            btncekout = new Button();
+            btnkrjng = new Button();
+            btnktlg = new Button();
             label3 = new Label();
             pictureBox1 = new PictureBox();
-            dataGridView1 = new DataGridView();
-            label2 = new Label();
-            button4 = new Button();
-            button5 = new Button();
-            button6 = new Button();
+            dgvkeranjang = new DataGridView();
+            lbltotalpesanan = new Label();
+            btnhapus = new Button();
+            btnubahpesanan = new Button();
+            btnlanjutcheckout = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvkeranjang).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -114,9 +114,9 @@
             // panel2
             // 
             panel2.BackColor = Color.SlateGray;
-            panel2.Controls.Add(button1);
-            panel2.Controls.Add(button2);
-            panel2.Controls.Add(button3);
+            panel2.Controls.Add(btncekout);
+            panel2.Controls.Add(btnkrjng);
+            panel2.Controls.Add(btnktlg);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(pictureBox1);
             panel2.Location = new Point(-3, -2);
@@ -125,45 +125,45 @@
             panel2.TabIndex = 3;
             panel2.Paint += panel2_Paint;
             // 
-            // button1
+            // btncekout
             // 
-            button1.BackColor = Color.LightSlateGray;
-            button1.Font = new Font("Dubai Medium", 12F, FontStyle.Bold);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(771, 16);
-            button1.Margin = new Padding(4, 5, 4, 5);
-            button1.Name = "button1";
-            button1.Size = new Size(175, 45);
-            button1.TabIndex = 11;
-            button1.Text = "Checkout";
-            button1.UseVisualStyleBackColor = false;
+            btncekout.BackColor = Color.LightSlateGray;
+            btncekout.Font = new Font("Dubai Medium", 12F, FontStyle.Bold);
+            btncekout.ForeColor = Color.White;
+            btncekout.Location = new Point(771, 16);
+            btncekout.Margin = new Padding(4, 5, 4, 5);
+            btncekout.Name = "btncekout";
+            btncekout.Size = new Size(175, 45);
+            btncekout.TabIndex = 11;
+            btncekout.Text = "Checkout";
+            btncekout.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnkrjng
             // 
-            button2.BackColor = Color.LightSlateGray;
-            button2.Font = new Font("Dubai Medium", 12F, FontStyle.Bold);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(598, 16);
-            button2.Margin = new Padding(4, 5, 4, 5);
-            button2.Name = "button2";
-            button2.Size = new Size(175, 45);
-            button2.TabIndex = 10;
-            button2.Text = "Keranjang";
-            button2.UseVisualStyleBackColor = false;
+            btnkrjng.BackColor = Color.LightSlateGray;
+            btnkrjng.Font = new Font("Dubai Medium", 12F, FontStyle.Bold);
+            btnkrjng.ForeColor = Color.White;
+            btnkrjng.Location = new Point(598, 16);
+            btnkrjng.Margin = new Padding(4, 5, 4, 5);
+            btnkrjng.Name = "btnkrjng";
+            btnkrjng.Size = new Size(175, 45);
+            btnkrjng.TabIndex = 10;
+            btnkrjng.Text = "Keranjang";
+            btnkrjng.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnktlg
             // 
-            button3.BackColor = Color.LightSlateGray;
-            button3.Font = new Font("Dubai Medium", 12F, FontStyle.Bold);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(431, 16);
-            button3.Margin = new Padding(4, 5, 4, 5);
-            button3.Name = "button3";
-            button3.Size = new Size(168, 45);
-            button3.TabIndex = 9;
-            button3.Text = "Katalog";
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click_1;
+            btnktlg.BackColor = Color.LightSlateGray;
+            btnktlg.Font = new Font("Dubai Medium", 12F, FontStyle.Bold);
+            btnktlg.ForeColor = Color.White;
+            btnktlg.Location = new Point(431, 16);
+            btnktlg.Margin = new Padding(4, 5, 4, 5);
+            btnktlg.Name = "btnktlg";
+            btnktlg.Size = new Size(168, 45);
+            btnktlg.TabIndex = 9;
+            btnktlg.Text = "Katalog";
+            btnktlg.UseVisualStyleBackColor = false;
+            btnktlg.Click += button3_Click_1;
             // 
             // label3
             // 
@@ -188,62 +188,62 @@
             pictureBox1.TabIndex = 6;
             pictureBox1.TabStop = false;
             // 
-            // dataGridView1
+            // dgvkeranjang
             // 
-            dataGridView1.BackgroundColor = Color.SlateGray;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(237, 211);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(943, 335);
-            dataGridView1.TabIndex = 4;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dgvkeranjang.BackgroundColor = Color.SlateGray;
+            dgvkeranjang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvkeranjang.Location = new Point(313, 172);
+            dgvkeranjang.Name = "dgvkeranjang";
+            dgvkeranjang.Size = new Size(543, 363);
+            dgvkeranjang.TabIndex = 4;
+            dgvkeranjang.CellContentClick += dataGridView1_CellContentClick;
             // 
-            // label2
+            // lbltotalpesanan
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Dubai", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(237, 137);
-            label2.Name = "label2";
-            label2.Size = new Size(169, 32);
-            label2.TabIndex = 5;
-            label2.Text = "Total Pesanan: Rp 0";
-            label2.Click += label2_Click;
+            lbltotalpesanan.AutoSize = true;
+            lbltotalpesanan.Font = new Font("Dubai", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbltotalpesanan.ForeColor = Color.White;
+            lbltotalpesanan.Location = new Point(237, 137);
+            lbltotalpesanan.Name = "lbltotalpesanan";
+            lbltotalpesanan.Size = new Size(169, 32);
+            lbltotalpesanan.TabIndex = 5;
+            lbltotalpesanan.Text = "Total Pesanan: Rp 0";
+            lbltotalpesanan.Click += label2_Click;
             // 
-            // button4
+            // btnhapus
             // 
-            button4.BackColor = Color.Red;
-            button4.Font = new Font("Dubai Medium", 11.25F, FontStyle.Bold);
-            button4.Location = new Point(839, 504);
-            button4.Name = "button4";
-            button4.Size = new Size(91, 31);
-            button4.TabIndex = 6;
-            button4.Text = "Hapus";
-            button4.UseVisualStyleBackColor = false;
-            button4.Click += button4_Click_1;
+            btnhapus.BackColor = Color.Red;
+            btnhapus.Font = new Font("Dubai Medium", 11.25F, FontStyle.Bold);
+            btnhapus.Location = new Point(525, 493);
+            btnhapus.Name = "btnhapus";
+            btnhapus.Size = new Size(91, 31);
+            btnhapus.TabIndex = 6;
+            btnhapus.Text = "Hapus";
+            btnhapus.UseVisualStyleBackColor = false;
+            btnhapus.Click += button4_Click_1;
             // 
-            // button5
+            // btnubahpesanan
             // 
-            button5.Font = new Font("Dubai Medium", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.Location = new Point(936, 504);
-            button5.Name = "button5";
-            button5.Size = new Size(224, 31);
-            button5.TabIndex = 7;
-            button5.Text = "Ubah Pesanan";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            btnubahpesanan.Font = new Font("Dubai Medium", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnubahpesanan.Location = new Point(622, 493);
+            btnubahpesanan.Name = "btnubahpesanan";
+            btnubahpesanan.Size = new Size(224, 31);
+            btnubahpesanan.TabIndex = 7;
+            btnubahpesanan.Text = "Ubah Pesanan";
+            btnubahpesanan.UseVisualStyleBackColor = true;
+            btnubahpesanan.Click += button5_Click;
             // 
-            // button6
+            // btnlanjutcheckout
             // 
-            button6.BackColor = Color.SlateGray;
-            button6.Font = new Font("Dubai Medium", 11.25F, FontStyle.Bold);
-            button6.Location = new Point(364, 567);
-            button6.Name = "button6";
-            button6.Size = new Size(682, 37);
-            button6.TabIndex = 8;
-            button6.Text = "Lanjut Checkout";
-            button6.UseVisualStyleBackColor = false;
-            button6.Click += button6_Click;
+            btnlanjutcheckout.BackColor = Color.SlateGray;
+            btnlanjutcheckout.Font = new Font("Dubai Medium", 11.25F, FontStyle.Bold);
+            btnlanjutcheckout.Location = new Point(313, 554);
+            btnlanjutcheckout.Name = "btnlanjutcheckout";
+            btnlanjutcheckout.Size = new Size(543, 37);
+            btnlanjutcheckout.TabIndex = 8;
+            btnlanjutcheckout.Text = "Lanjut Checkout";
+            btnlanjutcheckout.UseVisualStyleBackColor = false;
+            btnlanjutcheckout.Click += button6_Click;
             // 
             // KeranjangBelanja
             // 
@@ -251,11 +251,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 25, 35);
             ClientSize = new Size(1370, 749);
-            Controls.Add(button6);
-            Controls.Add(button5);
-            Controls.Add(button4);
-            Controls.Add(label2);
-            Controls.Add(dataGridView1);
+            Controls.Add(btnlanjutcheckout);
+            Controls.Add(btnubahpesanan);
+            Controls.Add(btnhapus);
+            Controls.Add(lbltotalpesanan);
+            Controls.Add(dgvkeranjang);
             Controls.Add(panel2);
             Margin = new Padding(4, 3, 4, 3);
             Name = "KeranjangBelanja";
@@ -265,7 +265,7 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvkeranjang).EndInit();
             ResumeLayout(false);
             PerformLayout();
 
@@ -284,13 +284,13 @@
         private Panel panel2;
         private PictureBox pictureBox1;
         private Label label3;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private DataGridView dataGridView1;
-        private Label label2;
-        private Button button4;
-        private Button button5;
-        private Button button6;
+        private Button btncekout;
+        private Button btnkrjng;
+        private Button btnktlg;
+        private DataGridView dgvkeranjang;
+        private Label lbltotalpesanan;
+        private Button btnhapus;
+        private Button btnubahpesanan;
+        private Button btnlanjutcheckout;
     }
 }

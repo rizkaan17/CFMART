@@ -30,7 +30,6 @@ namespace CFMART.Models.Context
                         tipe_pesanan_id_tipe_pesanan = Convert.ToInt32(reader["tipe_pesanan_id_tipe_pesanan"]),
                         status_pembayaran = Convert.ToBoolean(reader["status_pembayaran"]),
                         metode_pembayaran_id_metode_pembayaran = reader["metode_pembayaran_id_metode_pembayaran"] == DBNull.Value ? 0 : Convert.ToInt32(reader["metode_pembayaran_id_metode_pembayaran"]),
-                        nomor_pelanggan = reader["nomor_pelanggan"] == DBNull.Value ? string.Empty : reader["nomor_pelanggan"].ToString() ?? string.Empty,
                         nama_pelanggan = reader["nama_pelanggan"] == DBNull.Value ? null : reader["nama_pelanggan"].ToString()
                     });
                 }
@@ -53,7 +52,6 @@ namespace CFMART.Models.Context
                 cmd.Parameters.AddWithValue("@tipe", order.tipe_pesanan_id_tipe_pesanan);
                 cmd.Parameters.AddWithValue("@status_bayar", order.status_pembayaran);
                 cmd.Parameters.AddWithValue("@metode_bayar", order.metode_pembayaran_id_metode_pembayaran == 0 ? DBNull.Value : order.metode_pembayaran_id_metode_pembayaran);
-                cmd.Parameters.AddWithValue("@nomor", (object?)order.nomor_pelanggan ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@nama", (object?)order.nama_pelanggan ?? DBNull.Value);
 
                 return cmd.ExecuteNonQuery() > 0;

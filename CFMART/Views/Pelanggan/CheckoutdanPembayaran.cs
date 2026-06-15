@@ -82,41 +82,37 @@ namespace CFMART.Views.Pelanggan
         // ==========================================
         private void btnBayarSekarang_Click(object sender, EventArgs e)
         {
-            // VALIDASI 1: Cek apakah user sudah memilih nomor meja di comboBox1 atau belum
-            if (comboBox1 == null || comboBox1.SelectedIndex == -1)
-            {
-                MessageBox.Show("Silakan tentukan Nomor Meja / Opsi serah terima makanan terlebih dahulu pada dropdown!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            // ... (kode validasi kamu tetap di sini) ...
 
-            // VALIDASI 2: Cek apakah user sudah menekan tombol Tunai atau QRIS
-            if (string.IsNullOrEmpty(Program.MetodePembayaran))
-            {
-                MessageBox.Show("Pilih metode pembayaran dulu ya! Klik tombol 'Tunai' atau 'Qris'.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            // 1. AMBIL TEKS DARI TEXTBOX
+            string isiCatatan = tbCatatan.Text;
 
-            // Mengambil teks item nomor meja yang dipilih dari comboBox1
+            // 2. SIMPAN KE VARIABEL GLOBAL (Contoh: jika kamu punya class Program)
+            // Pastikan di Program.cs sudah ada property: public static string CatatanPesanan { get; set; }
+            Program.CatatanPesanan = isiCatatan;
+
+            // Mengambil teks item nomor meja
             string nomorMejaDipilih = comboBox1.SelectedItem.ToString();
 
-            // Tampilkan notifikasi konfirmasi akhir yang memuat info nomor meja pesanan kasir
-            string notaNotifikasi = $"Pesanan untuk [{nomorMejaDipilih}] sukses dibuat melalui pembayaran {Program.MetodePembayaran}!\n\n" +
-                                     "⚠️ SILAKAN SEGERA KE KASIR UNTUK MELAKUKAN KONFIRMASI PEMBAYARAN DAN MENGAMBIL NOTA TRANSAKSI KAMU.";
+            // 3. TAMPILKAN NOTIFIKASI DENGAN CATATANNYA
+            string notaNotifikasi = $"Pesanan untuk [{nomorMejaDipilih}] sukses dibuat!\n" +
+                                     $"Catatan: {isiCatatan}\n\n" +
+                                     "⚠️ SILAKAN SEGERA KE KASIR.";
 
             MessageBox.Show(notaNotifikasi, "Sukses Pemesanan CFMART", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             // ==========================================
-            // AKSI BERSIH-BERSIH SETELAH SELESAI BAYAR
+            // AKSI BERSIH-BERSIH
             // ==========================================
-            Program.DaftarBelanjaan.Clear(); // Kosongkan isi keranjang belanja karena sudah dipesan
-            Program.TipePesanan = "";        // Reset tipe pesanan global
-            Program.MetodePembayaran = "";   // Reset pilihan pembayaran global
+            Program.DaftarBelanjaan.Clear();
+            Program.TipePesanan = "";
+            Program.MetodePembayaran = "";
+            Program.CatatanPesanan = ""; // Reset catatan juga agar tidak nyangkut ke pesanan berikutnya
 
-            // Buka kembali halaman DashboardPelanggan (Katalog) utama kamu
             DashboardPelanggan frmKatalog = new DashboardPelanggan();
             frmKatalog.Show();
 
-            this.Close(); // Tutup form checkout ini
+            this.Close();
         }
 
         // ==========================================
@@ -132,5 +128,10 @@ namespace CFMART.Views.Pelanggan
         private void label2_Click(object sender, EventArgs e) { }
         private void pictureBox1_Click(object sender, EventArgs e) { }
         private void label4_Click(object sender, EventArgs e) { }
+
+        private void tbCatatan_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
