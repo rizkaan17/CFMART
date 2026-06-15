@@ -1,176 +1,172 @@
-using CFMART.Helpers;
 using CFMART.Models;
-using Npgsql;
+using CFMART.Models.Context;
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CFMART.Controllers
 {
-    // =========================================================================
-    // ENCAPSULATION: Membungkus logika akses data di dalam satu Class agar
-    // Form tidak perlu tahu detail query SQL.
-    // =========================================================================
     public class ProdukController
     {
-        // 1. CRUD PRODUK
-        
-        // ABSTRAKSI: Menampilkan fungsi 'GetAllProduk()' sehingga user 
-        // tidak perlu tahu proses NpgsqlCommand dan Connection-nya.
-        public List<Produk> GetAllProduk()
+        private readonly ContextProduk _contextProduk = new ContextProduk();
+
+        /// <summary>
+        /// Mengambil semua list produk dari database
+        /// </summary>
+        public List<Produk> AmbilSemuaProduk()
         {
-            var list = new List<Produk>();
             try
             {
-                using var conn = connectDB.GetConn();
-                conn.Open();
-                var cmd = new NpgsqlCommand("SELECT id_produk, jenis_produk, harga, stok, foto_produk FROM produk", conn);
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    list.Add(new Produk
-                    {
-                        Id_Produk = reader.GetInt32(0),
-                        Jenis_Produk = reader.GetString(1),
-                        Harga = (double)reader.GetDecimal(2),
-                        Stok = reader.GetInt32(3),
-                        Foto_Produk = reader.IsDBNull(4) ? null : (byte[])reader["foto_produk"]
-                    });
-                }
+                return _contextProduk.GetAllProduk();
             }
-            catch (Exception ex) { MessageBox.Show("Error Load Produk: " + ex.Message); }
-            return list;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal mengambil data produk: " + ex.Message, "Error Sistem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new List<Produk>();
+            }
         }
 
-        // POLYMORPHISM (Method Overloading): 
-        // Contoh: CariProduk(int id) dan CariProduk(string keyword)
-        // Nama sama, tapi parameter beda, sehingga fungsi bisa berjalan secara fleksibel.
-        public Produk GetProdukById(int id)
+        // =======================================================
+        // 🌟 PILAR POLYMORPHISM: METHOD OVERLOADING (Pencarian Produk)
+        // =======================================================
+
+        /// <summary>
+        /// Bentuk 1: Mengambil satu data produk berdasarkan ID (Integer)
+        /// </summary>
+        public Produk CariProduk(int id)
         {
-            using var conn = connectDB.GetConn();
-            conn.Open();
-            var cmd = new NpgsqlCommand("SELECT id_produk, jenis_produk, harga, stok, foto_produk FROM produk WHERE id_produk = @id", conn);
-            cmd.Parameters.AddWithValue("id", id);
-            var reader = cmd.ExecuteReader();
-            if (reader.Read())
+            try
             {
-                return new Produk
+                // Memanfaatkan list data dari GetAllProduk() lalu difilter menggunakan LINQ FirstOrDefault
+                List<Produk> semuaProduk = _contextProduk.GetAllProduk();
+                return semuaProduk.FirstOrDefault(p => p.id_produk == id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal mencari produk: " + ex.Message, "Error Sistem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Bentuk 2: Mencari produk berdasarkan Ketikan Nama (String)
+        /// </summary>
+        public List<Produk> CariProduk(string nama)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(nama)) return AmbilSemuaProduk();
+
+                List<Produk> semuaProduk = _contextProduk.GetAllProduk();
+                return semuaProduk.Where(p => p.jenis_produk.ToLower().Contains(nama.ToLower().Trim())).ToList();
+            }
+            catch
+            {
+                return new List<Produk>();
+            }
+        }
+
+        // =======================================================
+        // 🌟 PILAR POLYMORPHISM: METHOD OVERLOADING (Update/Ubah Data)
+        // =======================================================
+
+        /// <summary>
+        /// Bentuk 1: Update produk LENGKAP dengan memperbarui Foto Produk (byte[])
+        /// </summary>
+        public bool UpdateProduk(int id, string jenis, double harga, int stok, byte[] foto)
+        {
+            if (id <= 0) return false;
+
+            if (string.IsNullOrEmpty(jenis?.Trim()))
+            {
+                MessageBox.Show("Nama/Jenis produk wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            try
+            {
+                Produk produkEdit = new Produk
                 {
-                    Id_Produk = reader.GetInt32(0),
-                    Jenis_Produk = reader.GetString(1),
-                    Harga = (double)reader.GetDecimal(2),
-                    Stok = reader.GetInt32(3),
-                    Foto_Produk = reader.IsDBNull(4) ? null : (byte[])reader["foto_produk"]
+                    id_produk = id,
+                    jenis_produk = jenis.Trim(),
+                    harga = harga,
+                    stok = stok,
+                    foto_Produk = foto // Disesuaikan dengan properti model: foto_Produk
                 };
-            }
-            return null;
-        }
 
-        public List<Produk> SearchProduk(string keyword)
-        {
-            var list = new List<Produk>();
-            using var conn = connectDB.GetConn();
-            conn.Open();
-            var cmd = new NpgsqlCommand("SELECT id_produk, jenis_produk, harga, stok FROM produk WHERE LOWER(jenis_produk) LIKE LOWER(@keyword)", conn);
-            cmd.Parameters.AddWithValue("keyword", $"%{keyword}%");
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
+                return _contextProduk.UpdateProduk(produkEdit);
+            }
+            catch (Exception ex)
             {
-                list.Add(new Produk { Id_Produk = reader.GetInt32(0), Jenis_Produk = reader.GetString(1), Harga = (double)reader.GetDecimal(2), Stok = reader.GetInt32(3) });
+                MessageBox.Show("Gagal mengubah data produk: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
-            return list;
         }
 
-        public bool TambahProduk(string nama, double harga, int stok, byte[] foto)
+        /// <summary>
+        /// Bentuk 2: Update data produk CEPAT tanpa mengubah file gambar/foto lamanya
+        /// </summary>
+        public bool UpdateProduk(int id, string nama, double harga, int stok)
         {
-            using var conn = connectDB.GetConn();
-            conn.Open();
-            string query = "INSERT INTO produk (jenis_produk, harga, stok, foto_produk) VALUES (@nama, @harga, @stok, @foto)";
-            using var cmd = new NpgsqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("nama", nama);
-            cmd.Parameters.AddWithValue("harga", harga);
-            cmd.Parameters.AddWithValue("stok", stok);
-            cmd.Parameters.AddWithValue("foto", (object)foto ?? DBNull.Value);
-            return cmd.ExecuteNonQuery() > 0;
+            // Mengambil data lama terlebih dahulu agar file foto lama tidak hilang tertimpa null
+            Produk produkLama = CariProduk(id);
+            byte[]? fotoLama = produkLama?.foto_Produk;
+
+            // Melemparkan data ke Bentuk 1 menggunakan teknik chaining reuse code
+            return UpdateProduk(id, nama, harga, stok, fotoLama);
         }
 
-        public bool EditProduk(int id, string nama, double harga, int stok, byte[] foto)
+        // =======================================================
+
+        /// <summary>
+        /// Validasi dan simpan produk baru (Gunakan Insert murni di Context jika Stored Procedure tidak ada)
+        /// </summary>
+        public bool TambahProduk(string jenis, double harga, int stok, byte[] foto)
         {
-            using var conn = connectDB.GetConn();
-            conn.Open();
-            string query = "UPDATE produk SET jenis_produk=@nama, harga=@harga, stok=@stok, foto_produk=@foto WHERE id_produk=@id";
-            using var cmd = new NpgsqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("nama", nama);
-            cmd.Parameters.AddWithValue("harga", harga);
-            cmd.Parameters.AddWithValue("stok", stok);
-            cmd.Parameters.AddWithValue("foto", (object)foto ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("id", id);
-            return cmd.ExecuteNonQuery() > 0;
+            if (string.IsNullOrEmpty(jenis?.Trim()))
+            {
+                MessageBox.Show("Nama/Jenis produk wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            try
+            {
+                Produk produkBaru = new Produk
+                {
+                    jenis_produk = jenis.Trim(),
+                    harga = harga,
+                    stok = stok,
+                    foto_Produk = foto // Disesuaikan dengan properti model: foto_Produk
+                };
+
+                // Pastikan fungsi AddProduk sudah dideklarasikan di ContextProduk.cs kamu jika mau dipakai
+                return _contextProduk.AddProduk(produkBaru);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal menambah produk ke database: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
         }
 
+        /// <summary>
+        /// Menghapus produk berdasarkan ID
+        /// </summary>
         public bool HapusProduk(int id)
         {
-            using var conn = connectDB.GetConn();
-            conn.Open();
-            var cmd = new NpgsqlCommand("DELETE FROM produk WHERE id_produk = @id", conn);
-            cmd.Parameters.AddWithValue("id", id);
-            return cmd.ExecuteNonQuery() > 0;
-        }
+            if (id <= 0) return false;
 
-        public bool UpdateStok(int idProduk, int stokBaru)
-        {
-            using var conn = connectDB.GetConn();
-            conn.Open();
-            var cmd = new NpgsqlCommand("UPDATE produk SET stok = @stok WHERE id_produk = @id", conn);
-            cmd.Parameters.AddWithValue("id", idProduk);
-            cmd.Parameters.AddWithValue("stok", stokBaru);
-            return cmd.ExecuteNonQuery() > 0;
-        }
-
-        // 2. DASHBOARD & STATISTIK
-        
-        public Dictionary<string, object> AmbilAngkaStatistik()
-        {
-            var data = new Dictionary<string, object>();
-            using var conn = connectDB.GetConn();
-            conn.Open();
-            // Implementasi Query kompleks disembunyikan agar form tetap bersih
-            using (var cmd = new NpgsqlCommand(@"SELECT COUNT(*) FROM ""Order""", conn)) data["total_pesanan"] = Convert.ToInt32(cmd.ExecuteScalar());
-            using (var cmd = new NpgsqlCommand(@"SELECT COALESCE(SUM(stok), 0) FROM produk", conn)) data["total_stok"] = Convert.ToInt32(cmd.ExecuteScalar());
-            using (var cmd = new NpgsqlCommand(@"SELECT COUNT(*) FROM ""User"" WHERE status_karyawan = true", conn)) data["karyawan_aktif"] = Convert.ToInt32(cmd.ExecuteScalar());
-            return data;
-        }
-
-        public Dictionary<string, object> AmbilAngkaStatistikKasir()
-        {
-            var data = new Dictionary<string, object>();
-            using var conn = connectDB.GetConn();
-            conn.Open();
-            using (var cmd = new NpgsqlCommand(@"SELECT COUNT(*) FROM ""Order""", conn)) data["total_transaksi"] = Convert.ToInt32(cmd.ExecuteScalar());
-            using (var cmd = new NpgsqlCommand(@"SELECT COALESCE(SUM(harga), 0) FROM produk", conn))
+            try
             {
-                double pendapatan = Convert.ToDouble(cmd.ExecuteScalar());
-                data["total_pendapatan"] = "Rp " + pendapatan.ToString("N0");
+                // Pastikan fungsi DeleteProduk sudah dideklarasikan di ContextProduk.cs kamu jika mau dipakai
+                return _contextProduk.DeleteProduk(id);
             }
-            using (var cmd = new NpgsqlCommand("SELECT jenis_produk FROM produk ORDER BY stok DESC LIMIT 1", conn))
+            catch (Exception ex)
             {
-                object result = cmd.ExecuteScalar();
-                data["produk_terlaris"] = result != null ? result.ToString() : "Belum Ada";
+                MessageBox.Show("Gagal menghapus produk dari database: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
-            return data;
-        }
-
-        public DataTable AmbilPesananTerbaru()
-        {
-            DataTable dt = new DataTable();
-            using var conn = connectDB.GetConn();
-            conn.Open();
-            string query = @"SELECT id_order AS ""ID Order"", nama_pelanggan AS ""Nama Pelanggan"", tgl_order AS ""Waktu Pesan"" FROM ""Order"" ORDER BY id_order DESC LIMIT 5";
-            using var cmd = new NpgsqlCommand(query, conn);
-            using var adapter = new NpgsqlDataAdapter(cmd);
-            adapter.Fill(dt);
-            return dt;
         }
     }
 }

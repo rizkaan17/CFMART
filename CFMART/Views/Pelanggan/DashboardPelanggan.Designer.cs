@@ -88,6 +88,7 @@ namespace CFMART
             pictureBox4 = new PictureBox();
             label4 = new Label();
             label3 = new Label();
+            btnloginkaryawan = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel2.SuspendLayout();
@@ -109,6 +110,7 @@ namespace CFMART
             // panel1
             // 
             panel1.BackColor = Color.SlateGray;
+            panel1.Controls.Add(btnloginkaryawan);
             panel1.Controls.Add(pictureBox3);
             panel1.Controls.Add(btnCheckout);
             panel1.Controls.Add(btnKeranjang);
@@ -787,6 +789,17 @@ namespace CFMART
             label3.TabIndex = 11;
             label3.Text = "Pilih Produk";
             // 
+            // btnloginkaryawan
+            // 
+            btnloginkaryawan.BackColor = Color.SeaGreen;
+            btnloginkaryawan.Location = new Point(1183, 18);
+            btnloginkaryawan.Name = "btnloginkaryawan";
+            btnloginkaryawan.Size = new Size(167, 44);
+            btnloginkaryawan.TabIndex = 6;
+            btnloginkaryawan.Text = "Login Karyawan";
+            btnloginkaryawan.UseVisualStyleBackColor = false;
+            btnloginkaryawan.Click += btnloginkaryawan_Click;
+            // 
             // DashboardPelanggan
             // 
             AutoScaleDimensions = new SizeF(10F, 27F);
@@ -901,6 +914,8 @@ namespace CFMART
         {
             return ToString();
         }
+
+        private Button btnloginkaryawan;
     }
   
 };

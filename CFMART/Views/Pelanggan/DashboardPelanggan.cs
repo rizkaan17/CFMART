@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CFMART.Models.Context;
+using CFMART.Views;
+using CFMART.Views.Pelanggan;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using CFMART.Models.Context;
-using CFMART.Views.Pelanggan;
 
 namespace CFMART
 {
@@ -86,6 +87,15 @@ namespace CFMART
 
             panelHasil.SetJudul(keyword);
             panelHasil.TampilkanHasil(hasil);
+        }
+
+        private void btnloginkaryawan_Click(object sender, EventArgs e)
+        {
+            FormLogin loginForm = new FormLogin();
+
+            // Menampilkan form tersebut
+            loginForm.Show();
+
         }
     }
 }
