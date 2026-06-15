@@ -14,7 +14,6 @@ namespace CFMART.Models
         public int tipe_pesanan_id_tipe_pesanan { get; set; }
         public bool status_pembayaran { get; set; }
         public int metode_pembayaran_id_metode_pembayaran { get; set; }
-        public string nomor_pelanggan { get; set; }
 
         // Backing field untuk Enkapsulasi nama
         private string? _namaPelanggan;

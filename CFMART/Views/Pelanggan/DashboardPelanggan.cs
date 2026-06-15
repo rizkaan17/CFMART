@@ -1,6 +1,6 @@
-﻿using CFMART.Controllers;
-using CFMART.Models;
-using CFMART.Models.Context;
+﻿using CFMART.Models.Context;
+using CFMART.Views;
+using CFMART.Views.Pelanggan;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -184,6 +184,15 @@ namespace CFMART
 
             // ✅ SEKARANG AMAN: Yang kita kirim adalah objek hasilUntukPanel yang sudah sesuai tipe lamamu
             panelHasil.TampilkanHasil(hasilUntukPanel);
+        }
+
+        private void btnloginkaryawan_Click(object sender, EventArgs e)
+        {
+            FormLogin loginForm = new FormLogin();
+
+            // Menampilkan form tersebut
+            loginForm.Show();
+
         }
     }
 }

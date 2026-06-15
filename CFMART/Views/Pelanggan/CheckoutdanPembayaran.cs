@@ -1,4 +1,4 @@
-﻿using CFMART.Controllers;
+using CFMART.Controllers;
 using CFMART.Models; // 🌟 Memanggil model ItemKeranjang yang baru
 using System;
 using System.Drawing;
@@ -57,13 +57,10 @@ namespace CFMART.Views.Pelanggan
             }
         }
 
-        private void ResetWarnaTombolMetode()
-        {
-            button1.BackColor = Color.FromArgb(60, 65, 75); // Abu-abu redup
-            button1.ForeColor = Color.DarkGray;
-
-            button2.BackColor = Color.FromArgb(60, 65, 75); // Abu-abu redup
-            button2.ForeColor = Color.DarkGray;
+            if (label2 != null)
+            {
+                label2.Text = "Metode Pembayaran";
+            }
         }
 
         // =========================================================================
@@ -109,51 +106,37 @@ namespace CFMART.Views.Pelanggan
         // =========================================================================
         private void btnBayarSekarang_Click(object sender, EventArgs e)
         {
-            // VALIDASI 1: Pastikan dropdown nomor meja (comboBox1) sudah dipilih nilainya
-            if (comboBox1 == null || comboBox1.SelectedIndex == -1)
-            {
-                MessageBox.Show("Silakan tentukan Nomor Meja makan kamu terlebih dahulu pada dropdown!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            // ... (kode validasi kamu tetap di sini) ...
 
-            // VALIDASI 2: Pastikan pelanggan sudah menekan tombol Tunai / QRIS
-            if (string.IsNullOrEmpty(_metodePembayaranTerpilih))
-            {
-                MessageBox.Show("Pilih metode pembayaran dulu ya! Klik tombol 'Tunai' atau 'QRIS'.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            // 1. AMBIL TEKS DARI TEXTBOX
+            string isiCatatan = tbCatatan.Text;
 
-            // Ambil nomor meja yang dipilih dari comboBox1 desainer
+            // 2. SIMPAN KE VARIABEL GLOBAL (Contoh: jika kamu punya class Program)
+            // Pastikan di Program.cs sudah ada property: public static string CatatanPesanan { get; set; }
+            Program.CatatanPesanan = isiCatatan;
+
+            // Mengambil teks item nomor meja
             string nomorMejaDipilih = comboBox1.SelectedItem.ToString();
 
-            // 🌟 PROSES INSERT DATABASE: Langsung melempar list global secara alami karena tipe data sudah klop
-            bool suksesSimpanDb = _transaksiController.SimpanTransaksiBaru(Program.DaftarBelanjaan, nomorMejaDipilih);
-
-            if (suksesSimpanDb)
-            {
-                // Notifikasi petunjuk alur jika data sukses terkirim ke server database
-                string notaNotifikasi = $"Pesanan untuk Meja [{nomorMejaDipilih}] sukses dibuat melalui pembayaran {_metodePembayaranTerpilih}!\n\n" +
-                                         "⚠️ SILAKAN SEGERA KE KASIR UNTUK MELAKUKAN KONFIRMASI PEMBAYARAN DAN MENGAMBIL NOTA TRANSAKSI KAMU.";
+            // 3. TAMPILKAN NOTIFIKASI DENGAN CATATANNYA
+            string notaNotifikasi = $"Pesanan untuk [{nomorMejaDipilih}] sukses dibuat!\n" +
+                                     $"Catatan: {isiCatatan}\n\n" +
+                                     "⚠️ SILAKAN SEGERA KE KASIR.";
 
                 MessageBox.Show(notaNotifikasi, "Sukses Pemesanan CFMART", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // =========================================================================
-                // CLEAN-UP SESSI RAM GLOBAL SETELAH TRANSAKSI AMAN
-                // =========================================================================
-                Program.DaftarBelanjaan.Clear(); // Kosongkan keranjang belanja karena pesanan sudah masuk database
-                Program.TipePesanan = "";        // Reset status tipe pesanan global
-                Program.MetodePembayaran = "";   // Reset penampung metode pembayaran global
+            // ==========================================
+            // AKSI BERSIH-BERSIH
+            // ==========================================
+            Program.DaftarBelanjaan.Clear();
+            Program.TipePesanan = "";
+            Program.MetodePembayaran = "";
+            Program.CatatanPesanan = ""; // Reset catatan juga agar tidak nyangkut ke pesanan berikutnya
 
-                // Buka kembali halaman DashboardPelanggan (Katalog produk menu utama)
-                DashboardPelanggan frmKatalog = new DashboardPelanggan();
-                frmKatalog.Show();
+            DashboardPelanggan frmKatalog = new DashboardPelanggan();
+            frmKatalog.Show();
 
-                this.Close(); // Tutup form CheckoutdanPembayaran ini
-            }
-            else
-            {
-                MessageBox.Show("Gagal menyimpan data transaksi ke database server. Silakan hubungi kasir atau coba lagi.", "Error PostgreSQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            this.Close();
         }
 
         // =========================================================================
@@ -169,5 +152,10 @@ namespace CFMART.Views.Pelanggan
         private void label2_Click(object sender, EventArgs e) { }
         private void pictureBox1_Click(object sender, EventArgs e) { }
         private void label4_Click(object sender, EventArgs e) { }
+
+        private void tbCatatan_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

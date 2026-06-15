@@ -45,13 +45,15 @@
             panel3 = new Panel();
             comboBox1 = new ComboBox();
             label7 = new Label();
-            label6 = new Label();
             label5 = new Label();
             btnBayarSekarang = new Button();
             label4 = new Label();
             label3 = new Label();
             lblTotal = new Label();
             connectDBBindingSource = new BindingSource(components);
+            label6 = new Label();
+            lblcatatan = new Label();
+            tbCatatan = new TextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel2.SuspendLayout();
@@ -213,6 +215,8 @@
             // panel3
             // 
             panel3.BackColor = Color.SlateGray;
+            panel3.Controls.Add(tbCatatan);
+            panel3.Controls.Add(lblcatatan);
             panel3.Controls.Add(comboBox1);
             panel3.Controls.Add(label7);
             panel3.Controls.Add(label6);
@@ -247,23 +251,12 @@
             label7.TabIndex = 17;
             label7.Text = "Nomor Meja:";
             // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Dubai", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(110, 210);
-            label6.Name = "label6";
-            label6.Size = new Size(172, 21);
-            label6.TabIndex = 16;
-            label6.Text = "Untuk nota silakan ambil di kasir";
-            // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Dubai", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(45, 179);
+            label5.Location = new Point(45, 213);
             label5.Name = "label5";
             label5.Size = new Size(289, 21);
             label5.TabIndex = 15;
@@ -273,7 +266,7 @@
             // 
             btnBayarSekarang.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBayarSekarang.ForeColor = Color.SlateGray;
-            btnBayarSekarang.Location = new Point(17, 138);
+            btnBayarSekarang.Location = new Point(17, 181);
             btnBayarSekarang.Name = "btnBayarSekarang";
             btnBayarSekarang.Size = new Size(349, 29);
             btnBayarSekarang.TabIndex = 14;
@@ -320,6 +313,37 @@
             // 
             connectDBBindingSource.DataSource = typeof(Helpers.connectDB);
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Dubai", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(110, 233);
+            label6.Name = "label6";
+            label6.Size = new Size(172, 21);
+            label6.TabIndex = 16;
+            label6.Text = "Untuk nota silakan ambil di kasir";
+            // 
+            // lblcatatan
+            // 
+            lblcatatan.AutoSize = true;
+            lblcatatan.Font = new Font("Dubai Medium", 11.25F, FontStyle.Bold);
+            lblcatatan.ForeColor = Color.White;
+            lblcatatan.Location = new Point(17, 117);
+            lblcatatan.Name = "lblcatatan";
+            lblcatatan.Size = new Size(71, 25);
+            lblcatatan.TabIndex = 19;
+            lblcatatan.Text = "Catatan:";
+            // 
+            // tbCatatan
+            // 
+            tbCatatan.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tbCatatan.Location = new Point(17, 145);
+            tbCatatan.Name = "tbCatatan";
+            tbCatatan.Size = new Size(349, 28);
+            tbCatatan.TabIndex = 20;
+            tbCatatan.TextChanged += tbCatatan_TextChanged;
+            // 
             // CheckoutdanPembayaran
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -363,11 +387,13 @@
         private PictureBox pictureBox1;
         private Label label4;
         private Label lblTotal;
-        private Label label6;
         private Label label5;
         private Button btnBayarSekarang;
         private Label label7;
         private ComboBox comboBox1;
         private BindingSource connectDBBindingSource;
+        private TextBox tbCatatan;
+        private Label lblcatatan;
+        private Label label6;
     }
 }

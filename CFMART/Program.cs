@@ -5,7 +5,7 @@ using CFMART.Models;
 
 namespace CFMART
 {
-    internal static class Program
+    static class Program
     {
         // =========================================================================
         // WADAH DATA GLOBAL RAM SEMENTARA

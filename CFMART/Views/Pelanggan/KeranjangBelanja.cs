@@ -26,26 +26,25 @@ namespace CFMART.Views.Pelanggan
             try
             {
                 // Menghubungkan langsung ke dataGridView1 bawaan desainer kamu
-                if (dataGridView1 != null)
+                if (dgvkeranjang != null)
                 {
-                    dataGridView1.DataSource = null;
-                    dataGridView1.DataSource = Program.DaftarBelanjaan;
+                    dgvkeranjang.DataSource = null;
+                    dgvkeranjang.DataSource = Program.DaftarBelanjaan;
 
-                    // 🌟 SINKRONISASI KOLOM: Merapikan header berdasarkan properti baru Model ItemKeranjang
-                    if (dataGridView1.Columns["id_produk"] != null) dataGridView1.Columns["id_produk"].Visible = false; // Sembunyikan ID agar rapi
-                    if (dataGridView1.Columns["nama_produk"] != null) dataGridView1.Columns["nama_produk"].HeaderText = "Nama Menu";
-                    if (dataGridView1.Columns["harga"] != null) dataGridView1.Columns["harga"].HeaderText = "Harga Satuan";
-                    if (dataGridView1.Columns["quantity"] != null) dataGridView1.Columns["quantity"].HeaderText = "Qty";
-                    if (dataGridView1.Columns["sub_total"] != null) dataGridView1.Columns["sub_total"].HeaderText = "Sub Total";
+                    // Merapikan nama kolom tabel di layar
+                    if (dgvkeranjang.Columns["NamaProduk"] != null) dgvkeranjang.Columns["NamaProduk"].HeaderText = "Nama Menu";
+                    if (dgvkeranjang.Columns["HargaSatuan"] != null) dgvkeranjang.Columns["HargaSatuan"].HeaderText = "Harga Satuan";
+                    if (dgvkeranjang.Columns["Jumlah"] != null) dgvkeranjang.Columns["Jumlah"].HeaderText = "Qty";
+                    if (dgvkeranjang.Columns["TotalHarga"] != null) dgvkeranjang.Columns["TotalHarga"].HeaderText = "Sub Total";
                 }
 
                 // 🌟 SINKRONISASI LINQ: Menghitung total belanjaan dari properti sub_total milik ItemKeranjang
                 double total = Program.DaftarBelanjaan.Sum(x => x.sub_total);
 
-                // Sinkron ke label2 desainer kamu
-                if (label2 != null)
+                // SEKARANG SINKRON KE label2 (Label Total Pesanan kamu)
+                if (lbltotalpesanan != null)
                 {
-                    label2.Text = $"Total Pesanan: Rp {total:N0}";
+                    lbltotalpesanan.Text = $"Total Pesanan: Rp {total:N0}";
                 }
             }
             catch (Exception)
@@ -59,14 +58,14 @@ namespace CFMART.Views.Pelanggan
         // =========================================================================
         private void button5_Click(object sender, EventArgs e)
         {
-            if (dataGridView1 == null || dataGridView1.CurrentRow == null)
+            if (dgvkeranjang == null || dgvkeranjang.CurrentRow == null)
             {
                 MessageBox.Show("Pilih item makanan di tabel terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Mengambil item bertipe ItemKeranjang yang sedang di-klik di tabel
-            ItemKeranjang itemDipilih = dataGridView1.CurrentRow.DataBoundItem as ItemKeranjang;
+            // Mengambil item yang sedang di-klik di tabel
+            dynamic itemDipilih = dgvkeranjang.CurrentRow.DataBoundItem;
 
             if (itemDipilih != null)
             {
@@ -95,13 +94,13 @@ namespace CFMART.Views.Pelanggan
         // =========================================================================
         private void button4_Click_1(object sender, EventArgs e)
         {
-            if (dataGridView1 == null || dataGridView1.CurrentRow == null)
+            if (dgvkeranjang == null || dgvkeranjang.CurrentRow == null)
             {
                 MessageBox.Show("Pilih menu makanan yang ingin dihapus dari tabel!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            ItemKeranjang itemDipilih = dataGridView1.CurrentRow.DataBoundItem as ItemKeranjang;
+            dynamic itemDipilih = dgvkeranjang.CurrentRow.DataBoundItem;
 
             if (itemDipilih != null)
             {

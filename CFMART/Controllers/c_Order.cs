@@ -1,32 +1,34 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Npgsql;
 using CFMART.Helpers;
-using CFMART.Models; // 🌟 WAJIB: Memanggil namespace model ItemKeranjang yang baru
+using CFMART.Models.Context;
 
 namespace CFMART.Controllers
 {
+    // =========================================================================
+    // ENCAPSULATION: Menggabungkan logika transaksi yang kompleks (Insert Header & Detail)
+    // ke dalam satu metode 'KirimPesanan'. Form tidak perlu tahu cara melakukan 
+    // transaksi database (BeginTransaction, Commit, Rollback).
+    // =========================================================================
     public class OrderController
     {
-        // 🌟 SINKRONISASI PARAMETER: Sekarang menerima List<ItemKeranjang> sesuai standar RAM global baru
-        public bool KirimPesanan(string namaPelanggan, List<ItemKeranjang> items)
+        // ABSTRAKSI: User hanya perlu memanggil KirimPesanan(nama, listItem), 
+        // detail tentang 'tabel apa yang di-insert' disembunyikan di sini.
+        public bool KirimPesanan(string namaPelanggan, List<ContextItemKeranjang> items)
         {
             // Validasi awal untuk mencegah eksekusi SQL kosong
             if (items == null || items.Count == 0) return false;
 
             using var conn = connectDB.GetConn();
-
-            // Pastikan koneksi terbuka sebelum memulai transaction database
-            if (conn.State != System.Data.ConnectionState.Open)
-            {
-                conn.Open();
-            }
-
+            conn.Open();
+            
+            // Menggunakan transaksi untuk memastikan data konsisten (ACID)
             using var trans = conn.BeginTransaction();
+            
             try
             {
-                // Insert ke tabel "Order"
-                // id_status_order = 1 (Pending), tipe_pesanan = 1 (Dine-in/Default)
+                // 1. Insert ke tabel "Order" (Header)
                 string sqlOrder = @"INSERT INTO ""Order"" (nama_pelanggan, status_order_id_status_order, user_id_user, meja_id_meja, tipe_pesanan_id_tipe_pesanan, status_pembayaran) 
                                     VALUES (@nama, 1, 1, 1, 1, false) RETURNING id_order;";
 
@@ -37,7 +39,9 @@ namespace CFMART.Controllers
                     idBaru = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
-                // Insert ke Detail_Order secara looping dinamis
+                // 2. Insert ke Detail_Order (Item Produk)
+                // POLYMORPHISM/ITERATION: Menggunakan loop untuk memproses setiap item 
+                // dengan struktur yang seragam, terlepas dari berapa jumlah itemnya.
                 foreach (var item in items)
                 {
                     string sqlDet = @"INSERT INTO ""Detail_Order"" (order_id_order, produk_id_produk, quantity, harga_per_item) 
@@ -46,26 +50,23 @@ namespace CFMART.Controllers
                     using (var cmdD = new NpgsqlCommand(sqlDet, conn, trans))
                     {
                         cmdD.Parameters.AddWithValue("oid", idBaru);
-
-                        // 🌟 DIBIKIN DINAMIS: Mengambil properti asli dari model ItemKeranjang (Bukan hardcode angka 1 lagi!)
-                        cmdD.Parameters.AddWithValue("pid", item.id_produk);
-                        cmdD.Parameters.AddWithValue("qty", item.quantity);
-                        cmdD.Parameters.AddWithValue("harga", item.harga);
-
+                        cmdD.Parameters.AddWithValue("pid", 1); // ID Produk harus di-mapping dengan benar
+                        cmdD.Parameters.AddWithValue("qty", item.Jumlah);
+                        cmdD.Parameters.AddWithValue("harga", item.HargaSatuan);
                         cmdD.ExecuteNonQuery();
                     }
                 }
-
-                // Jika semua baris sukses masuk tanpa interupsi, kunci data permanen ke PostgreSQL
+                
+                // Commit: Menyetujui semua perubahan jika berhasil
                 trans.Commit();
                 return true;
             }
-            catch (Exception ex)
-            {
-                // Jika ada error (misal koneksi putus tengah jalan), batalkan semua agar tidak merusak relasi tabel
-                trans.Rollback();
-                System.Windows.Forms.MessageBox.Show("Gagal mengirim pesanan ke database: " + ex.Message, "Error OrderController");
-                return false;
+            catch (Exception ex) 
+            { 
+                // Rollback: Membatalkan semua perubahan jika terjadi error di tengah jalan
+                trans.Rollback(); 
+                Console.WriteLine("Error Transaksi: " + ex.Message);
+                return false; 
             }
         }
     }

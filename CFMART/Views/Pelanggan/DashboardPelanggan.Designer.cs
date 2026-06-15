@@ -34,13 +34,14 @@ namespace CFMART
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardPelanggan));
             panel1 = new Panel();
+            btnloginkaryawan = new Button();
             pictureBox3 = new PictureBox();
             btnCheckout = new Button();
             btnKeranjang = new Button();
             btnKatalog = new Button();
             CFMART = new Label();
-            panel2 = new Panel();
-            pictureBox1 = new PictureBox();
+            panelsearch = new Panel();
+            pbsearch = new PictureBox();
             txtSearch = new TextBox();
             btnSemua = new Button();
             btnMakanan = new Button();
@@ -50,65 +51,66 @@ namespace CFMART
             button3 = new Button();
             label19 = new Label();
             label20 = new Label();
-            pictureBox8 = new PictureBox();
+            pbairmineral = new PictureBox();
             label21 = new Label();
             panelEsJeruk = new Panel();
             lblstokesjeruk = new Label();
             button4 = new Button();
             label16 = new Label();
             label17 = new Label();
-            pictureBox7 = new PictureBox();
+            pbesjeruk = new PictureBox();
             label18 = new Label();
             panelEsTeh = new Panel();
             lblstokesteh = new Label();
             button6 = new Button();
             label13 = new Label();
             label14 = new Label();
-            pictureBox6 = new PictureBox();
+            pbesteh = new PictureBox();
             label15 = new Label();
             panelMangutLele = new Panel();
             lblstokmangutlele = new Label();
             button2 = new Button();
             label10 = new Label();
             label11 = new Label();
-            pictureBox5 = new PictureBox();
+            pbmangutlele = new PictureBox();
             label12 = new Label();
             panelLeleBakar = new Panel();
             labelstoklelebakar = new Label();
             button1 = new Button();
             label7 = new Label();
             label8 = new Label();
-            pictureBox2 = new PictureBox();
+            pblelebakar = new PictureBox();
             label9 = new Label();
             panelLeleGoreng = new Panel();
             lblstoklelegoreng = new Label();
             button5 = new Button();
             label5 = new Label();
             label6 = new Label();
-            pictureBox4 = new PictureBox();
+            pblelegoreng = new PictureBox();
             label4 = new Label();
             label3 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panelsearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbsearch).BeginInit();
             panelAirMineral.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbairmineral).BeginInit();
             panelEsJeruk.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbesjeruk).BeginInit();
             panelEsTeh.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbesteh).BeginInit();
             panelMangutLele.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbmangutlele).BeginInit();
             panelLeleBakar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pblelebakar).BeginInit();
             panelLeleGoreng.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pblelegoreng).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.SlateGray;
+            panel1.Controls.Add(btnloginkaryawan);
             panel1.Controls.Add(pictureBox3);
             panel1.Controls.Add(btnCheckout);
             panel1.Controls.Add(btnKeranjang);
@@ -119,6 +121,17 @@ namespace CFMART
             panel1.Name = "panel1";
             panel1.Size = new Size(2030, 79);
             panel1.TabIndex = 0;
+            // 
+            // btnloginkaryawan
+            // 
+            btnloginkaryawan.BackColor = Color.SeaGreen;
+            btnloginkaryawan.Location = new Point(1183, 18);
+            btnloginkaryawan.Name = "btnloginkaryawan";
+            btnloginkaryawan.Size = new Size(167, 44);
+            btnloginkaryawan.TabIndex = 6;
+            btnloginkaryawan.Text = "Login Karyawan";
+            btnloginkaryawan.UseVisualStyleBackColor = false;
+            btnloginkaryawan.Click += btnloginkaryawan_Click;
             // 
             // pictureBox3
             // 
@@ -181,25 +194,25 @@ namespace CFMART
             CFMART.TabIndex = 0;
             CFMART.Text = "CFMART";
             // 
-            // panel2
+            // panelsearch
             // 
-            panel2.BackColor = Color.SlateGray;
-            panel2.Controls.Add(pictureBox1);
-            panel2.Controls.Add(txtSearch);
-            panel2.Location = new Point(78, 111);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(986, 57);
-            panel2.TabIndex = 1;
+            panelsearch.BackColor = Color.SlateGray;
+            panelsearch.Controls.Add(pbsearch);
+            panelsearch.Controls.Add(txtSearch);
+            panelsearch.Location = new Point(78, 111);
+            panelsearch.Name = "panelsearch";
+            panelsearch.Size = new Size(986, 57);
+            panelsearch.TabIndex = 1;
             // 
-            // pictureBox1
+            // pbsearch
             // 
-            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
-            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(24, 10);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(41, 37);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            pbsearch.BackgroundImage = (Image)resources.GetObject("pbsearch.BackgroundImage");
+            pbsearch.BackgroundImageLayout = ImageLayout.Stretch;
+            pbsearch.Location = new Point(24, 10);
+            pbsearch.Name = "pbsearch";
+            pbsearch.Size = new Size(41, 37);
+            pbsearch.TabIndex = 0;
+            pbsearch.TabStop = false;
             // 
             // txtSearch
             // 
@@ -253,7 +266,7 @@ namespace CFMART
             panelAirMineral.Controls.Add(button3);
             panelAirMineral.Controls.Add(label19);
             panelAirMineral.Controls.Add(label20);
-            panelAirMineral.Controls.Add(pictureBox8);
+            panelAirMineral.Controls.Add(pbairmineral);
             panelAirMineral.Controls.Add(label21);
             panelAirMineral.Location = new Point(781, 262);
             panelAirMineral.Margin = new Padding(2);
@@ -310,17 +323,17 @@ namespace CFMART
             label20.TabIndex = 9;
             label20.Text = "Rp. 12.000";
             // 
-            // pictureBox8
+            // pbairmineral
             // 
-            pictureBox8.BackColor = Color.Transparent;
-            pictureBox8.BackgroundImage = (Image)resources.GetObject("pictureBox8.BackgroundImage");
-            pictureBox8.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox8.Location = new Point(0, 0);
-            pictureBox8.Margin = new Padding(2);
-            pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(201, 123);
-            pictureBox8.TabIndex = 6;
-            pictureBox8.TabStop = false;
+            pbairmineral.BackColor = Color.Transparent;
+            pbairmineral.BackgroundImage = (Image)resources.GetObject("pbairmineral.BackgroundImage");
+            pbairmineral.BackgroundImageLayout = ImageLayout.Stretch;
+            pbairmineral.Location = new Point(0, 0);
+            pbairmineral.Margin = new Padding(2);
+            pbairmineral.Name = "pbairmineral";
+            pbairmineral.Size = new Size(201, 123);
+            pbairmineral.TabIndex = 6;
+            pbairmineral.TabStop = false;
             // 
             // label21
             // 
@@ -341,7 +354,7 @@ namespace CFMART
             panelEsJeruk.Controls.Add(button4);
             panelEsJeruk.Controls.Add(label16);
             panelEsJeruk.Controls.Add(label17);
-            panelEsJeruk.Controls.Add(pictureBox7);
+            panelEsJeruk.Controls.Add(pbesjeruk);
             panelEsJeruk.Controls.Add(label18);
             panelEsJeruk.Location = new Point(1028, 262);
             panelEsJeruk.Margin = new Padding(2);
@@ -398,17 +411,17 @@ namespace CFMART
             label17.TabIndex = 9;
             label17.Text = "Rp. 12.000";
             // 
-            // pictureBox7
+            // pbesjeruk
             // 
-            pictureBox7.BackColor = Color.Transparent;
-            pictureBox7.BackgroundImage = (Image)resources.GetObject("pictureBox7.BackgroundImage");
-            pictureBox7.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox7.Location = new Point(0, 0);
-            pictureBox7.Margin = new Padding(2);
-            pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(201, 123);
-            pictureBox7.TabIndex = 6;
-            pictureBox7.TabStop = false;
+            pbesjeruk.BackColor = Color.Transparent;
+            pbesjeruk.BackgroundImage = (Image)resources.GetObject("pbesjeruk.BackgroundImage");
+            pbesjeruk.BackgroundImageLayout = ImageLayout.Stretch;
+            pbesjeruk.Location = new Point(0, 0);
+            pbesjeruk.Margin = new Padding(2);
+            pbesjeruk.Name = "pbesjeruk";
+            pbesjeruk.Size = new Size(201, 123);
+            pbesjeruk.TabIndex = 6;
+            pbesjeruk.TabStop = false;
             // 
             // label18
             // 
@@ -429,7 +442,7 @@ namespace CFMART
             panelEsTeh.Controls.Add(button6);
             panelEsTeh.Controls.Add(label13);
             panelEsTeh.Controls.Add(label14);
-            panelEsTeh.Controls.Add(pictureBox6);
+            panelEsTeh.Controls.Add(pbesteh);
             panelEsTeh.Controls.Add(label15);
             panelEsTeh.Location = new Point(64, 492);
             panelEsTeh.Margin = new Padding(2);
@@ -486,17 +499,17 @@ namespace CFMART
             label14.TabIndex = 9;
             label14.Text = "Rp. 12.000";
             // 
-            // pictureBox6
+            // pbesteh
             // 
-            pictureBox6.BackColor = Color.Transparent;
-            pictureBox6.BackgroundImage = (Image)resources.GetObject("pictureBox6.BackgroundImage");
-            pictureBox6.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox6.Location = new Point(0, 0);
-            pictureBox6.Margin = new Padding(2);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(201, 123);
-            pictureBox6.TabIndex = 6;
-            pictureBox6.TabStop = false;
+            pbesteh.BackColor = Color.Transparent;
+            pbesteh.BackgroundImage = (Image)resources.GetObject("pbesteh.BackgroundImage");
+            pbesteh.BackgroundImageLayout = ImageLayout.Stretch;
+            pbesteh.Location = new Point(0, 0);
+            pbesteh.Margin = new Padding(2);
+            pbesteh.Name = "pbesteh";
+            pbesteh.Size = new Size(201, 123);
+            pbesteh.TabIndex = 6;
+            pbesteh.TabStop = false;
             // 
             // label15
             // 
@@ -517,7 +530,7 @@ namespace CFMART
             panelMangutLele.Controls.Add(button2);
             panelMangutLele.Controls.Add(label10);
             panelMangutLele.Controls.Add(label11);
-            panelMangutLele.Controls.Add(pictureBox5);
+            panelMangutLele.Controls.Add(pbmangutlele);
             panelMangutLele.Controls.Add(label12);
             panelMangutLele.Location = new Point(539, 262);
             panelMangutLele.Margin = new Padding(2);
@@ -574,17 +587,17 @@ namespace CFMART
             label11.TabIndex = 9;
             label11.Text = "Rp. 22.000";
             // 
-            // pictureBox5
+            // pbmangutlele
             // 
-            pictureBox5.BackColor = Color.Transparent;
-            pictureBox5.BackgroundImage = (Image)resources.GetObject("pictureBox5.BackgroundImage");
-            pictureBox5.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox5.Location = new Point(0, 0);
-            pictureBox5.Margin = new Padding(2);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(201, 123);
-            pictureBox5.TabIndex = 6;
-            pictureBox5.TabStop = false;
+            pbmangutlele.BackColor = Color.Transparent;
+            pbmangutlele.BackgroundImage = (Image)resources.GetObject("pbmangutlele.BackgroundImage");
+            pbmangutlele.BackgroundImageLayout = ImageLayout.Stretch;
+            pbmangutlele.Location = new Point(0, 0);
+            pbmangutlele.Margin = new Padding(2);
+            pbmangutlele.Name = "pbmangutlele";
+            pbmangutlele.Size = new Size(201, 123);
+            pbmangutlele.TabIndex = 6;
+            pbmangutlele.TabStop = false;
             // 
             // label12
             // 
@@ -605,7 +618,7 @@ namespace CFMART
             panelLeleBakar.Controls.Add(button1);
             panelLeleBakar.Controls.Add(label7);
             panelLeleBakar.Controls.Add(label8);
-            panelLeleBakar.Controls.Add(pictureBox2);
+            panelLeleBakar.Controls.Add(pblelebakar);
             panelLeleBakar.Controls.Add(label9);
             panelLeleBakar.Location = new Point(297, 262);
             panelLeleBakar.Margin = new Padding(2);
@@ -662,17 +675,17 @@ namespace CFMART
             label8.TabIndex = 9;
             label8.Text = "Rp. 18.000";
             // 
-            // pictureBox2
+            // pblelebakar
             // 
-            pictureBox2.BackColor = Color.Transparent;
-            pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
-            pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox2.Location = new Point(0, 0);
-            pictureBox2.Margin = new Padding(2);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(201, 123);
-            pictureBox2.TabIndex = 6;
-            pictureBox2.TabStop = false;
+            pblelebakar.BackColor = Color.Transparent;
+            pblelebakar.BackgroundImage = (Image)resources.GetObject("pblelebakar.BackgroundImage");
+            pblelebakar.BackgroundImageLayout = ImageLayout.Stretch;
+            pblelebakar.Location = new Point(0, 0);
+            pblelebakar.Margin = new Padding(2);
+            pblelebakar.Name = "pblelebakar";
+            pblelebakar.Size = new Size(201, 123);
+            pblelebakar.TabIndex = 6;
+            pblelebakar.TabStop = false;
             // 
             // label9
             // 
@@ -693,7 +706,7 @@ namespace CFMART
             panelLeleGoreng.Controls.Add(button5);
             panelLeleGoreng.Controls.Add(label5);
             panelLeleGoreng.Controls.Add(label6);
-            panelLeleGoreng.Controls.Add(pictureBox4);
+            panelLeleGoreng.Controls.Add(pblelegoreng);
             panelLeleGoreng.Controls.Add(label4);
             panelLeleGoreng.Location = new Point(64, 262);
             panelLeleGoreng.Margin = new Padding(2);
@@ -750,17 +763,17 @@ namespace CFMART
             label6.TabIndex = 9;
             label6.Text = "Rp. 12.000";
             // 
-            // pictureBox4
+            // pblelegoreng
             // 
-            pictureBox4.BackColor = Color.Transparent;
-            pictureBox4.BackgroundImage = (Image)resources.GetObject("pictureBox4.BackgroundImage");
-            pictureBox4.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox4.Location = new Point(0, 0);
-            pictureBox4.Margin = new Padding(2);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(201, 123);
-            pictureBox4.TabIndex = 6;
-            pictureBox4.TabStop = false;
+            pblelegoreng.BackColor = Color.Transparent;
+            pblelegoreng.BackgroundImage = (Image)resources.GetObject("pblelegoreng.BackgroundImage");
+            pblelegoreng.BackgroundImageLayout = ImageLayout.Stretch;
+            pblelegoreng.Location = new Point(0, 0);
+            pblelegoreng.Margin = new Padding(2);
+            pblelegoreng.Name = "pblelegoreng";
+            pblelegoreng.Size = new Size(201, 123);
+            pblelegoreng.TabIndex = 6;
+            pblelegoreng.TabStop = false;
             // 
             // label4
             // 
@@ -804,7 +817,7 @@ namespace CFMART
             Controls.Add(btnMinuman);
             Controls.Add(btnMakanan);
             Controls.Add(btnSemua);
-            Controls.Add(panel2);
+            Controls.Add(panelsearch);
             Controls.Add(panel1);
             Font = new Font("Dubai Medium", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ForeColor = Color.White;
@@ -814,27 +827,27 @@ namespace CFMART
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panelsearch.ResumeLayout(false);
+            panelsearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbsearch).EndInit();
             panelAirMineral.ResumeLayout(false);
             panelAirMineral.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbairmineral).EndInit();
             panelEsJeruk.ResumeLayout(false);
             panelEsJeruk.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbesjeruk).EndInit();
             panelEsTeh.ResumeLayout(false);
             panelEsTeh.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbesteh).EndInit();
             panelMangutLele.ResumeLayout(false);
             panelMangutLele.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbmangutlele).EndInit();
             panelLeleBakar.ResumeLayout(false);
             panelLeleBakar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pblelebakar).EndInit();
             panelLeleGoreng.ResumeLayout(false);
             panelLeleGoreng.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pblelegoreng).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -846,8 +859,8 @@ namespace CFMART
         private Button btnKatalog;
         private Button btnKeranjang;
         private Button btnCheckout;
-        private Panel panel2;
-        private PictureBox pictureBox1;
+        private Panel panelsearch;
+        private PictureBox pbsearch;
         private TextBox txtSearch;
         private Button btnSemua;
         private Button btnMakanan;
@@ -856,33 +869,33 @@ namespace CFMART
         private Panel panelAirMineral;
         private Label label19;
         private Label label20;
-        private PictureBox pictureBox8;
+        private PictureBox pbairmineral;
         private Label label21;
         private Panel panelEsJeruk;
         private Label label16;
         private Label label17;
-        private PictureBox pictureBox7;
+        private PictureBox pbesjeruk;
         private Label label18;
         private Panel panelEsTeh;
         private Label label13;
         private Label label14;
-        private PictureBox pictureBox6;
+        private PictureBox pbesteh;
         private Label label15;
         private Panel panelMangutLele;
         private Label label10;
         private Label label11;
-        private PictureBox pictureBox5;
+        private PictureBox pbmangutlele;
         private Label label12;
         private Panel panelLeleBakar;
         private Label label7;
         private Label label8;
-        private PictureBox pictureBox2;
+        private PictureBox pblelebakar;
         private Label label9;
         private Panel panelLeleGoreng;
         private Button button5;
         private Label label5;
         private Label label6;
-        private PictureBox pictureBox4;
+        private PictureBox pblelegoreng;
         private Label label4;
         private Label label3;
         private Button button3;
@@ -901,6 +914,8 @@ namespace CFMART
         {
             return ToString();
         }
+
+        private Button btnloginkaryawan;
     }
   
 };
