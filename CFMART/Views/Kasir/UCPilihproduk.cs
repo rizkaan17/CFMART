@@ -6,43 +6,47 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CFMART.Views.Kasir
+namespace CFMART.Views.Kasir // 🌟 Murni CFMART
 {
     public partial class UCPilihproduk : UserControl
     {
-        // 1. Inisialisasi Kontroler dan Data Global
+        private readonly TransaksiController _transaksiController = new TransaksiController();
         private readonly ProdukController _produkController = new ProdukController();
         private List<ItemKeranjang> _keranjangBelanja = new List<ItemKeranjang>();
 
-        // 2. Variabel State
         private string _pilihanMetode = "Tunai";
         private string _pilihanStatus = "Lunas";
 
-        // 3. Array untuk mapping UI (PENTING: Pastikan nama di Designer sama)
-        private Panel[] _arrayPanelMenu;
-        private Label[] _arrayLabelNama, _arrayLabelHarga, _arrayLabelStok;
-        private Button[] _arrayButtonPlus;
+        private Panel[] _arrayPanelMenu = Array.Empty<Panel>();
+        private Label[] _arrayLabelNama = Array.Empty<Label>();
+        private Label[] _arrayLabelHarga = Array.Empty<Label>();
+        private Label[] _arrayLabelStok = Array.Empty<Label>();
+        private Button[] _arrayButtonPlus = Array.Empty<Button>();
 
         public UCPilihproduk()
         {
             InitializeComponent();
+            this.Load += new System.EventHandler(this.UCPilihproduk_Load);
 
-            // Inisialisasi Komponen UI
+            if (tbSearchProduk != null)
+                tbSearchProduk.TextChanged += new System.EventHandler(this.tbSearchProduk_TextChanged);
+
+            if (btnCetakNota != null) btnCetakNota.Click += btnCetakNota_Click;
+            if (btnTunai != null && btnQris != null) btnTunai.Click += (s, e) => SetMetodePembayaran("Tunai", btnTunai, btnQris);
+            if (btnQris != null && btnTunai != null) btnQris.Click += (s, e) => SetMetodePembayaran("QRIS", btnQris, btnTunai);
+            if (btnLunas != null && btnBlmLunas != null) btnLunas.Click += (s, e) => SetStatusPembayaran("Lunas", btnLunas, btnBlmLunas);
+            if (btnBlmLunas != null && btnLunas != null) btnBlmLunas.Click += (s, e) => SetStatusPembayaran("Belum Lunas", btnBlmLunas, btnLunas);
+        }
+
+        private void UCPilihproduk_Load(object? sender, EventArgs e)
+        {
             InisialisasiArrayKomponen();
             AturKomponenOtomatis();
+            MuatKatalogProduk("");
+            RenderListPanelKanan();
 
-            // Bind Event
-            btnCetakNota.Click += btnCetakNota_Click;
-            btnTunai.Click += (s, e) => SetMetodePembayaran("Tunai", btnTunai, btnQris);
-            btnQris.Click += (s, e) => SetMetodePembayaran("QRIS", btnQris, btnTunai);
-            btnLunas.Click += (s, e) => SetStatusPembayaran("Lunas", btnLunas, btnBlmLunas);
-            btnBlmLunas.Click += (s, e) => SetStatusPembayaran("Belum Lunas", btnBlmLunas, btnLunas);
-
-            // Paksa Load saat objek dibuat
-            this.Load += (s, e) => {
-                MuatKatalogProduk("");
-                RenderListPanelKanan();
-            };
+            if (btnTunai != null) btnTunai.BackColor = Color.DarkSlateGray;
+            if (btnLunas != null) btnLunas.BackColor = Color.DarkSlateGray;
         }
 
         private void InisialisasiArrayKomponen()
@@ -53,48 +57,57 @@ namespace CFMART.Views.Kasir
             _arrayLabelStok = new Label[] { lblAngkaStok, lblAngkaStok2, lblAngkaStok3, lblAngkaStok4, lblAngkaStok5, lblAngkaStok6 };
             _arrayButtonPlus = new Button[] { btnMenu1, btnMenu2, btnMenu3, btnMenu4, btnMenu5, btnMenu6 };
 
-            foreach (var btn in _arrayButtonPlus) btn.Click += TombolPlusKatalog_Click;
+            for (int i = 0; i < _arrayButtonPlus.Length; i++)
+            {
+                if (_arrayButtonPlus[i] != null) _arrayButtonPlus[i].Click += TombolPlusKatalog_Click;
+            }
         }
 
         private void MuatKatalogProduk(string keyword)
         {
-            try
-            {
-                var listProduk = _produkController.AmbilSemuaProduk();
+            List<Produk> listProduk = string.IsNullOrWhiteSpace(keyword) || keyword == "Cari produk di sini..." || keyword == "Cari Produk..."
+                ? _produkController.AmbilSemuaProduk()
+                : _produkController.CariProduk(keyword);
 
-                if (listProduk == null || listProduk.Count == 0)
-                {
-                    // Jika ini muncul, berarti database kosong atau query salah
-                    return;
-                }
-
-                for (int i = 0; i < _arrayPanelMenu.Length; i++)
-                {
-                    if (i < listProduk.Count)
-                    {
-                        _arrayPanelMenu[i].Visible = true;
-                        _arrayLabelNama[i].Text = listProduk[i].jenis_produk;
-                        _arrayLabelHarga[i].Text = $"Rp {listProduk[i].harga:N0}";
-                        _arrayLabelStok[i].Text = listProduk[i].stok.ToString();
-                        _arrayButtonPlus[i].Tag = listProduk[i];
-                    }
-                    else { _arrayPanelMenu[i].Visible = false; }
-                }
-            }
-            catch (Exception ex)
+            for (int i = 0; i < _arrayPanelMenu.Length; i++)
             {
-                MessageBox.Show("Database Error: " + ex.Message);
+                if (_arrayPanelMenu[i] == null) continue;
+
+                if (i < listProduk.Count)
+                {
+                    Produk prod = listProduk[i];
+                    if (_arrayLabelNama[i] != null) _arrayLabelNama[i].Text = prod.jenis_produk;
+                    if (_arrayLabelHarga[i] != null) _arrayLabelHarga[i].Text = $"Rp {prod.harga:N0}";
+                    if (_arrayLabelStok[i] != null) _arrayLabelStok[i].Text = prod.stok.ToString();
+                    if (_arrayButtonPlus[i] != null) _arrayButtonPlus[i].Tag = prod;
+
+                    _arrayPanelMenu[i].Visible = true;
+                }
+                else
+                {
+                    _arrayPanelMenu[i].Visible = false;
+                    if (_arrayButtonPlus[i] != null) _arrayButtonPlus[i].Tag = null;
+                }
             }
         }
 
         private void TombolPlusKatalog_Click(object sender, EventArgs e)
         {
-            var btn = (Button)sender;
-            var prod = (Produk)btn.Tag;
-            if (prod == null) return;
+            if (sender is not Button btnPlus || btnPlus.Tag is not Produk prod) return;
 
-            var item = _keranjangBelanja.FirstOrDefault(k => k.id_produk == prod.id_produk);
-            if (item == null)
+            if (prod.stok <= 0)
+            {
+                MessageBox.Show($"Stok untuk '{prod.jenis_produk}' sudah habis di toko!", "Stok Kosong", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            ItemKeranjang itemAda = _keranjangBelanja.FirstOrDefault(k => k.id_produk == prod.id_produk);
+
+            if (itemAda != null)
+            {
+                itemAda.quantity++;
+            }
+            else
             {
                 _keranjangBelanja.Add(new ItemKeranjang
                 {
@@ -104,47 +117,133 @@ namespace CFMART.Views.Kasir
                     quantity = 1
                 });
             }
-            else if (item.quantity < prod.stok)
-            {
-                item.quantity++;
-            }
-            else { MessageBox.Show("Stok tidak mencukupi!"); }
 
+            prod.stok--;
             RenderListPanelKanan();
+
+            for (int i = 0; i < _arrayButtonPlus.Length; i++)
+            {
+                if (_arrayButtonPlus[i] == btnPlus)
+                {
+                    if (_arrayLabelStok[i] != null) _arrayLabelStok[i].Text = prod.stok.ToString();
+                    break;
+                }
+            }
         }
 
         private void RenderListPanelKanan()
         {
+            if (flpDaftarPesanan == null) return;
             flpDaftarPesanan.Controls.Clear();
-            foreach (var item in _keranjangBelanja)
+
+            if (lblDaftarPesanan != null) flpDaftarPesanan.Controls.Add(lblDaftarPesanan);
+
+            foreach (ItemKeranjang item in _keranjangBelanja)
             {
-                var card = new UCItemKeranjang();
-                card.SetData(item);
-                card.OnHapusItemKlik += (x) => { _keranjangBelanja.Remove(x); RenderListPanelKanan(); };
-                flpDaftarPesanan.Controls.Add(card);
+                UCItemKeranjang cardItem = new UCItemKeranjang();
+                cardItem.SetData(item);
+
+                cardItem.OnKuantitasBerubah += (itemTerupdate) => HitungUlangTotalBelanja();
+                cardItem.OnHapusItemKlik += (itemDihapus) =>
+                {
+                    _keranjangBelanja.Remove(itemDihapus);
+                    RenderListPanelKanan();
+
+                    Produk? p = _produkController.AmbilSemuaProduk().FirstOrDefault(pr => pr.id_produk == itemDihapus.id_produk);
+                    if (p != null) MuatKatalogProduk("");
+                };
+                flpDaftarPesanan.Controls.Add(cardItem);
             }
-            lblTotal.Text = $"Rp {_keranjangBelanja.Sum(i => i.sub_total):N0}";
+
+            HitungUlangTotalBelanja();
         }
 
-        private void btnCetakNota_Click(object sender, EventArgs e)
+        private void HitungUlangTotalBelanja()
         {
-            if (_keranjangBelanja.Count == 0) return;
-            OrderController oc = new OrderController();
+            double total = _keranjangBelanja.Sum(item => item.sub_total);
+            if (lblTotal != null) lblTotal.Text = $"Rp {total:N0}";
+        }
 
-            if (oc.KirimPesanan("Kasir", _keranjangBelanja))
+        private void SetMetodePembayaran(string metode, Button aktif, Button nonAktif)
+        {
+            _pilihanMetode = metode;
+            if (aktif != null) aktif.BackColor = Color.DarkSlateGray;
+            if (nonAktif != null) nonAktif.BackColor = Color.SlateGray;
+        }
+
+        private void SetStatusPembayaran(string status, Button aktif, Button nonAktif)
+        {
+            _pilihanStatus = status;
+            if (aktif != null) aktif.BackColor = Color.DarkSlateGray;
+            if (nonAktif != null) nonAktif.BackColor = Color.SlateGray;
+        }
+
+        private void btnCetakNota_Click(object? sender, EventArgs e)
+        {
+            if (_keranjangBelanja.Count == 0)
             {
-                FormCetakNota nota = new FormCetakNota();
-                nota.TampilkanDataNotaBaru(_keranjangBelanja, _keranjangBelanja.Sum(i => i.sub_total), 0, _pilihanMetode, _pilihanStatus, "Kasir CFMART");
-                nota.ShowDialog();
+                MessageBox.Show("Daftar pesanan kasir masih kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string namaPemesan = tbAtasNama != null ? tbAtasNama.Text.Trim() : "";
+
+            if (string.IsNullOrWhiteSpace(namaPemesan))
+            {
+                MessageBox.Show("Nama pelanggan wajib diisi untuk pesanan kasir (Take Away)!", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (tbAtasNama != null) tbAtasNama.Focus();
+                return;
+            }
+
+            double totalBelanja = _keranjangBelanja.Sum(item => item.sub_total);
+            double uangDibayar = totalBelanja;
+            if (tbUangDiterima != null && double.TryParse(tbUangDiterima.Text, out double inputCash))
+            {
+                uangDibayar = inputCash;
+            }
+
+            if (uangDibayar < totalBelanja)
+            {
+                MessageBox.Show("Uang pembayaran yang dimasukkan masih kurang!", "Transaksi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            double kembalian = uangDibayar - totalBelanja;
+
+            bool statusSimpanDb = _transaksiController.KirimPesanan(namaPemesan, _keranjangBelanja, _pilihanStatus);
+
+            if (statusSimpanDb)
+            {
+                FormCetakNota notaForm = new FormCetakNota();
+                notaForm.TampilkanDataNotaBaru(_keranjangBelanja, totalBelanja, kembalian, _pilihanMetode);
+                notaForm.ShowDialog();
+
                 _keranjangBelanja.Clear();
+                if (tbAtasNama != null) tbAtasNama.Text = "";
+                if (tbUangDiterima != null) tbUangDiterima.Text = "";
+
                 RenderListPanelKanan();
                 MuatKatalogProduk("");
             }
-            else MessageBox.Show("Gagal simpan ke database!");
         }
 
-        private void SetMetodePembayaran(string m, Button a, Button n) { _pilihanMetode = m; a.BackColor = Color.DarkSlateGray; n.BackColor = Color.SlateGray; }
-        private void SetStatusPembayaran(string s, Button a, Button n) { _pilihanStatus = s; a.BackColor = Color.DarkSlateGray; n.BackColor = Color.SlateGray; }
-        private void AturKomponenOtomatis() { flpDaftarPesanan.FlowDirection = FlowDirection.TopDown; flpDaftarPesanan.WrapContents = false; }
+        private void tbSearchProduk_TextChanged(object? sender, EventArgs e)
+        {
+            if (tbSearchProduk == null) return;
+            string keyword = tbSearchProduk.Text;
+            if (keyword != "Cari produk di sini..." && keyword != "Cari Produk...") MuatKatalogProduk(keyword);
+        }
+
+        private void AturKomponenOtomatis()
+        {
+            if (tbSearchProduk != null)
+            {
+                tbSearchProduk.Text = "Cari Produk...";
+                tbSearchProduk.ForeColor = Color.Gray;
+                tbSearchProduk.Enter += (s, e) => { if (s is TextBox txt && txt.Text == "Cari Produk...") { txt.Text = ""; txt.ForeColor = Color.Black; } };
+                tbSearchProduk.Leave += (s, e) => { if (s is TextBox txt && string.IsNullOrWhiteSpace(txt.Text)) { txt.Text = "Cari Produk..."; txt.ForeColor = Color.Gray; MuatKatalogProduk(""); } };
+            }
+            if (flpDaftarPesanan != null) { flpDaftarPesanan.FlowDirection = FlowDirection.TopDown; flpDaftarPesanan.WrapContents = false; }
+        }
     }
 }

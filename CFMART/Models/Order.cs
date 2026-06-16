@@ -1,7 +1,4 @@
-﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace CFMART.Models
 {
@@ -15,13 +12,13 @@ namespace CFMART.Models
         public bool status_pembayaran { get; set; }
         public int metode_pembayaran_id_metode_pembayaran { get; set; }
 
-        // Backing field untuk Enkapsulasi nama
-        private string? _namaPelanggan;
+        private string _namaPelanggan = string.Empty;
 
-        public string? nama_pelanggan
+        // 🌟 ATURAN MODEL: Wajib diisi (Proteksi kebersihan string)
+        public string nama_pelanggan
         {
             get => _namaPelanggan;
-            set => _namaPelanggan = string.IsNullOrWhiteSpace(value) ? "Pelanggan CFMART" : value.Trim();
+            set => _namaPelanggan = value?.Trim() ?? string.Empty;
         }
     }
 }

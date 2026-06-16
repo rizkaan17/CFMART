@@ -9,7 +9,7 @@ namespace CFMART.Helpers
             "Host=localhost;" +
             "Port=5432;" +
             "Username=postgres;" +
-            "Password=rosa123;" +
+            "Password=riz27;" +
             "Database=CFMART;";
 
         public static NpgsqlConnection GetConn()

@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDashboardKasir));
             pnlHeaderKasir = new Panel();
+            btnKonfirmasi = new Button();
             btnBiodata = new Button();
             btnRingkasan = new Button();
             btnKasir = new Button();
@@ -38,7 +39,6 @@
             lblLogo = new Label();
             pnlLogoKasir = new Panel();
             pnlMain = new Panel();
-            btnKonfirmasi = new Button();
             pnlHeaderKasir.SuspendLayout();
             SuspendLayout();
             // 
@@ -59,6 +59,22 @@
             pnlHeaderKasir.Name = "pnlHeaderKasir";
             pnlHeaderKasir.Size = new Size(1480, 116);
             pnlHeaderKasir.TabIndex = 0;
+            // 
+            // btnKonfirmasi
+            // 
+            btnKonfirmasi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnKonfirmasi.BackColor = Color.SlateGray;
+            btnKonfirmasi.FlatStyle = FlatStyle.Flat;
+            btnKonfirmasi.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKonfirmasi.ForeColor = Color.White;
+            btnKonfirmasi.Location = new Point(645, 29);
+            btnKonfirmasi.Margin = new Padding(2);
+            btnKonfirmasi.Name = "btnKonfirmasi";
+            btnKonfirmasi.Size = new Size(296, 62);
+            btnKonfirmasi.TabIndex = 16;
+            btnKonfirmasi.Text = "Konfirmasi Pembayaran";
+            btnKonfirmasi.UseVisualStyleBackColor = false;
+            btnKonfirmasi.Click += btnKonfirmasi_Click;
             // 
             // btnBiodata
             // 
@@ -169,21 +185,6 @@
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(1480, 655);
             pnlMain.TabIndex = 13;
-            // 
-            // btnKonfirmasi
-            // 
-            btnKonfirmasi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnKonfirmasi.BackColor = Color.SlateGray;
-            btnKonfirmasi.FlatStyle = FlatStyle.Flat;
-            btnKonfirmasi.Font = new Font("Dubai", 10.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKonfirmasi.ForeColor = Color.White;
-            btnKonfirmasi.Location = new Point(645, 29);
-            btnKonfirmasi.Margin = new Padding(2);
-            btnKonfirmasi.Name = "btnKonfirmasi";
-            btnKonfirmasi.Size = new Size(296, 62);
-            btnKonfirmasi.TabIndex = 16;
-            btnKonfirmasi.Text = "Konfirmasi Pembayaran";
-            btnKonfirmasi.UseVisualStyleBackColor = false;
             // 
             // FormDashboardKasir
             // 

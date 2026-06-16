@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
-using CFMART;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace CFMART
 {
     [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
-    partial class DashboardPelanggan
+    public partial class DashboardPelanggan : Form // 🌟 FIX: Memastikan kecocokan modifier partial class
     {
         /// <summary>
         /// Required designer variable.
@@ -39,7 +40,7 @@ namespace CFMART
             btnCheckout = new Button();
             btnKeranjang = new Button();
             btnKatalog = new Button();
-            CFMART = new Label();
+            CFMARTLabel = new Label(); // Diubah namanya sedikit agar tidak konflik dengan nama namespace proyek
             panelsearch = new Panel();
             pbsearch = new PictureBox();
             txtSearch = new TextBox();
@@ -115,7 +116,7 @@ namespace CFMART
             panel1.Controls.Add(btnCheckout);
             panel1.Controls.Add(btnKeranjang);
             panel1.Controls.Add(btnKatalog);
-            panel1.Controls.Add(CFMART);
+            panel1.Controls.Add(CFMARTLabel);
             panel1.Location = new Point(-4, -4);
             panel1.Margin = new Padding(4, 5, 4, 5);
             panel1.Name = "panel1";
@@ -182,17 +183,17 @@ namespace CFMART
             btnKatalog.Text = "Katalog";
             btnKatalog.UseVisualStyleBackColor = false;
             // 
-            // CFMART
+            // CFMARTLabel
             // 
-            CFMART.AutoSize = true;
-            CFMART.Font = new Font("Dubai", 26.2499962F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            CFMART.ForeColor = Color.OrangeRed;
-            CFMART.Location = new Point(92, 13);
-            CFMART.Margin = new Padding(4, 0, 4, 0);
-            CFMART.Name = "CFMART";
-            CFMART.Size = new Size(158, 60);
-            CFMART.TabIndex = 0;
-            CFMART.Text = "CFMART";
+            CFMARTLabel.AutoSize = true;
+            CFMARTLabel.Font = new Font("Dubai", 26.2499962F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            CFMARTLabel.ForeColor = Color.OrangeRed;
+            CFMARTLabel.Location = new Point(92, 13);
+            CFMARTLabel.Margin = new Padding(4, 0, 4, 0);
+            CFMARTLabel.Name = "CFMARTLabel";
+            CFMARTLabel.Size = new Size(158, 60);
+            CFMARTLabel.TabIndex = 0;
+            CFMARTLabel.Text = "CFMART";
             // 
             // panelsearch
             // 
@@ -234,7 +235,6 @@ namespace CFMART
             btnSemua.TabIndex = 3;
             btnSemua.Text = "Semua";
             btnSemua.UseVisualStyleBackColor = false;
-            btnSemua.TextChanged += btnSemua_Click;
             btnSemua.Click += btnSemua_Click;
             // 
             // btnMakanan
@@ -297,7 +297,6 @@ namespace CFMART
             button3.TabStop = false;
             button3.Text = "+";
             button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click_1;
             // 
             // label19
             // 
@@ -321,7 +320,7 @@ namespace CFMART
             label20.Name = "label20";
             label20.Size = new Size(78, 25);
             label20.TabIndex = 9;
-            label20.Text = "Rp. 12.000";
+            label20.Text = "Rp. 5.000"; // Ganti info label statis sesuai harga lezat Air Mineral kelompokmu
             // 
             // pbairmineral
             // 
@@ -385,7 +384,6 @@ namespace CFMART
             button4.TabStop = false;
             button4.Text = "+";
             button4.UseVisualStyleBackColor = false;
-            button4.Click += button4_Click_1;
             // 
             // label16
             // 
@@ -409,7 +407,7 @@ namespace CFMART
             label17.Name = "label17";
             label17.Size = new Size(78, 25);
             label17.TabIndex = 9;
-            label17.Text = "Rp. 12.000";
+            label17.Text = "Rp. 7.000";
             // 
             // pbesjeruk
             // 
@@ -473,7 +471,6 @@ namespace CFMART
             button6.TabStop = false;
             button6.Text = "+";
             button6.UseVisualStyleBackColor = false;
-            button6.Click += button6_Click_1;
             // 
             // label13
             // 
@@ -497,7 +494,7 @@ namespace CFMART
             label14.Name = "label14";
             label14.Size = new Size(78, 25);
             label14.TabIndex = 9;
-            label14.Text = "Rp. 12.000";
+            label14.Text = "Rp. 5.000"; // Sinkronisasi teks statis es teh manis andalan kasir
             // 
             // pbesteh
             // 
@@ -561,7 +558,6 @@ namespace CFMART
             button2.TabStop = false;
             button2.Text = "+";
             button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click_1;
             // 
             // label10
             // 
@@ -649,7 +645,6 @@ namespace CFMART
             button1.TabStop = false;
             button1.Text = "+";
             button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click_1;
             // 
             // label7
             // 
@@ -737,7 +732,6 @@ namespace CFMART
             button5.TabStop = false;
             button5.Text = "+";
             button5.UseVisualStyleBackColor = false;
-            button5.Click += button5_Click_1;
             // 
             // label5
             // 
@@ -855,7 +849,7 @@ namespace CFMART
         #endregion
 
         private Panel panel1;
-        private Label CFMART;
+        private Label CFMARTLabel;
         private Button btnKatalog;
         private Button btnKeranjang;
         private Button btnCheckout;
@@ -917,5 +911,4 @@ namespace CFMART
 
         private Button btnloginkaryawan;
     }
-  
-};
+}

@@ -1,62 +1,47 @@
 ﻿using CFMART.Models;
 using CFMART.Models.Context;
+using CFMART.Models;          // 🌟 Memanggil folder Models murni tempat ItemKeranjang berada
+using CFMART.Models.Context;  // 🌟 Memanggil folder Context tempat ContextTransaksi berada
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Data;
 
 namespace CFMART.Controllers
 {
+    // 🌟 SINKRON: Namanya sekarang resmi TransaksiController sesuai dengan isinya!
     public class TransaksiController
     {
-        /// <summary>
-        /// Menangani proses check-out / simpan seluruh isi keranjang belanja dari RAM ke PostgreSQL
-        /// </summary>
-        /// <param name="keranjang">List belanjaan dari DataGridView pesanan pelanggan</param>
-        /// <param name="nomerMeja">Input nomer meja dari TextBox kasir</param>
-        /// <returns>True jika semua data berhasil disimpan total ke database</returns>
-        public bool SimpanTransaksiBaru(List<ItemKeranjang> keranjang, string nomerMeja)
+        private readonly ContextTransaksi _context = new ContextTransaksi();
+
+        // Jembatan Simpan Nota Kasir ke Database
+        public bool KirimPesanan(string namaPelanggan, List<ItemKeranjang> items, string statusTeks)
         {
-            // 1. Validasi awal: Cegah transaksi jika keranjang masih kosong melompong
-            if (keranjang == null || keranjang.Count == 0)
-            {
-                MessageBox.Show("Keranjang belanja masih kosong! Silakan pilih produk terlebih dahulu.",
-                                "Gagal Transaksi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+            // Meneruskan variabel namaPelanggan dari UI Kasir ke parameter nomor meja/nama di Context
+            return _context.InsertNotaDanDetail(2, 0, namaPelanggan, items);
+        }
 
-            // 2. Ambil ID Kasir yang sedang aktif dari global static session User
-            User kasirAktif = ContextUser.user;
-            int idKasir = (kasirAktif != null) ? kasirAktif.id_user : 2; // Fallback otomatis ke ID 2 (Sari) jika session kosong
+        // Jembatan Kotak Kiri Dashboard (Total Nota Hari Ini)
+        public int AmbilTotalTransaksiHariIni()
+        {
+            return _context.GetTotalTransaksiHariIni();
+        }
 
-            try
-            {
-                // 3. Hitung total harga keseluruhan nota dari isi list keranjang belanja RAM
-                double totalHargaNota = 0;
-                foreach (var item in keranjang)
-                {
-                    totalHargaNota += item.sub_total;
-                }
+        // Jembatan Kotak Tengah Dashboard (Omzet Uang Hari Ini)
+        public double AmbilPendapatanHariIni()
+        {
+            return _context.GetPendapatanHariIni();
+        }
 
-                // 4. Hubungkan ke ContextTransaksi untuk mengeksekusi data ke PostgreSQL
-                ContextTransaksi contextTransaksi = new ContextTransaksi();
+        // Jembatan Kotak Kanan Dashboard (Kuantitas Produk Terlaris)
+        public int AmbilTotalProdukTerlaris()
+        {
+            return _context.GetTotalProdukTerlaris();
+        }
 
-                // Kirim bungkusan data matang ke level database
-                bool sukses = contextTransaksi.InsertNotaDanDetail(idKasir, totalHargaNota, nomerMeja, keranjang);
-
-                if (sukses)
-                {
-                    MessageBox.Show("Transaksi pesanan pelanggan berhasil disimpan!",
-                                    "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                return sukses;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memproses transaksi di level Controller: " + ex.Message,
-                                "Error Sistem", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+        // Jembatan Tabel Riwayat Bagian Bawah
+        public DataTable AmbilRiwayatTransaksi()
+        {
+            return _context.GetRiwayatTransaksi();
         }
     }
 }

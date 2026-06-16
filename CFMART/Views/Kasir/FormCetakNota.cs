@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using CFMART.Models;
 
@@ -8,56 +7,48 @@ namespace CFMART.Views.Kasir
 {
     public partial class FormCetakNota : Form
     {
-        public FormCetakNota()
+        // =========================================================================
+        // 🌟 SINKRONISASI NOTA: MURNI HANYA MENAMPILKAN METODE PEMBAYARAN
+        // =========================================================================
+        public void TampilkanDataNotaBaru(List<ItemKeranjang> daftarBarang, double total, double kembalian, string metodePembayaran)
         {
-            InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
-
-            btnTutup.Click += (s, e) => this.Close();
-            btnCetakNota.Click += BtnCetakNota_Click;
-        }
-
-        /// <summary>
-        /// Fungsi utama penyuap data riil nota
-        /// </summary>
-        /// <param name="identitas">Bisa diisi Nama Pelanggan (jika kasir) atau No. Meja (jika pelanggan)</param>
-        public void TampilkanDataNotaBaru(List<ItemKeranjang> listBelanja, double total, double kembali, string metode, string status, string identitas)
-        {
-            // 1. Data Meta
-            lblTglNota.Text = ": " + DateTime.Now.ToString("dd-MM-yyyy HH:mm");
-            lblNoNota.Text = ": NOTA-" + DateTime.Now.ToString("yyMMddHHmmss");
-            lblNamaKasir.Text = ": Kasir Aktif";
-
-            // Logika baru: Menampilkan Nama/Meja berdasarkan data yang dikirim
-            lblNamaMeja.Text = ": " + identitas;
-
-            // 2. Loop Item
-            flpItemNota.Controls.Clear();
-            foreach (var item in listBelanja)
+            try
             {
-                Label lblBarisItem = new Label();
-                lblBarisItem.AutoSize = false;
-                lblBarisItem.Size = new Size(380, 30);
-                lblBarisItem.Font = new Font("Dubai", 8.5F, FontStyle.Regular);
+                if (lblTotal != null)
+                {
+                    lblTotal.Text = $"Rp {total:N0}";
+                }
 
-                string namaMenu = item.nama_produk.Length > 15 ? item.nama_produk.Substring(0, 15) : item.nama_produk.PadRight(15);
-                string qty = item.quantity.ToString().PadRight(4);
-                string subTotalItem = item.sub_total.ToString("N0");
+                if (lblKembalian != null)
+                {
+                    lblKembalian.Text = $"Rp {kembalian:N0}";
+                }
 
-                lblBarisItem.Text = $"{namaMenu} x{qty} Rp {subTotalItem}";
-                flpItemNota.Controls.Add(lblBarisItem);
+                // Kita suapi label metode pembayaran dengan string murni ("Tunai" / "QRIS")
+                if (lblMetode != null)
+                {
+                    lblMetode.Text = metodePembayaran;
+                }
+
+                if (flpItemNota != null)
+                {
+                    flpItemNota.Controls.Clear();
+
+                    foreach (var item in daftarBarang)
+                    {
+                        Label lblBarisBarang = new Label();
+                        lblBarisBarang.AutoSize = true;
+                        lblBarisBarang.ForeColor = System.Drawing.Color.Black;
+                        lblBarisBarang.Text = $"{item.nama_produk}   x{item.quantity}   Rp {item.sub_total:N0}";
+
+                        flpItemNota.Controls.Add(lblBarisBarang);
+                    }
+                }
             }
-
-            // 3. Data Nominal
-            lblAngkaTotal.Text = ": Rp " + total.ToString("N0");
-            lblAngkaKembalian.Text = ": Rp " + kembali.ToString("N0");
-            lblNamaMetode.Text = ": " + (string.IsNullOrWhiteSpace(metode) ? "Tunai" : metode);
-            lblNamaStatus.Text = ": " + (string.IsNullOrWhiteSpace(status) ? "Lunas" : status);
-        }
-
-        private void BtnCetakNota_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Nota berhasil dikirimkan ke printer thermal kasir!", "Cetak Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal merelasikan data ke struk nota visual: " + ex.Message, "Error TampilkanDataNotaBaru");
+            }
         }
     }
 }

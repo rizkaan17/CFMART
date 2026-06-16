@@ -1,61 +1,93 @@
-﻿using Npgsql;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Windows.Forms;
+using Npgsql;
+using CFMART.Models;
 
 namespace CFMART.Models.Context
 {
-    // INHERITANCE: Mewarisi BaseContext
     public class ContextOrder : BaseContext
     {
-        public List<Order> GetAllOrder()
+        public bool KirimPesanan(string namaPelanggan, List<ItemKeranjang> items, string statusTeks)
         {
-            List<Order> orders = new List<Order>();
-            string query = @"
-                SELECT id_order, tgl_order, user_id_user, meja_id_meja, tipe_pesanan_id_tipe_pesanan, status_pembayaran, metode_pembayaran_id_metode_pembayaran, nomor_pelanggan, nama_pelanggan
-                FROM ""Order""
-                ORDER BY id_order";
+            if (items == null || items.Count == 0) return false;
 
-            using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
-            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-            using (NpgsqlDataReader reader = cmd.ExecuteReader())
+            // 🌟 Sudah benar menggunakan AmbilKoneksi bawaan BaseContext
+            using var conn = AmbilKoneksi();
+            if (conn.State != ConnectionState.Open) conn.Open();
+
+            using var trans = conn.BeginTransaction();
+            try
             {
-                while (reader.Read())
+                // 🌟 FIX NAMA TABEL: Menggunakan "Order" huruf kapital dengan petik ganda
+                string sqlOrder = @"INSERT INTO ""Order"" (nama_pelanggan, status_order_id_status_order, user_id_user, meja_id_meja, tipe_pesanan_id_tipe_pesanan, status_pembayaran) 
+                                    VALUES (@nama, 1, 2, 1, 1, true) RETURNING id_order;";
+
+                int idBaru;
+                using (var cmd = new NpgsqlCommand(sqlOrder, conn, trans))
                 {
-                    orders.Add(new Order
-                    {
-                        id_order = Convert.ToInt32(reader["id_order"]),
-                        tgl_order = Convert.ToDateTime(reader["tgl_order"]),
-                        user_id_user = Convert.ToInt32(reader["user_id_user"]),
-                        meja_id_meja = Convert.ToInt32(reader["meja_id_meja"]),
-                        tipe_pesanan_id_tipe_pesanan = Convert.ToInt32(reader["tipe_pesanan_id_tipe_pesanan"]),
-                        status_pembayaran = Convert.ToBoolean(reader["status_pembayaran"]),
-                        metode_pembayaran_id_metode_pembayaran = reader["metode_pembayaran_id_metode_pembayaran"] == DBNull.Value ? 0 : Convert.ToInt32(reader["metode_pembayaran_id_metode_pembayaran"]),
-                        nama_pelanggan = reader["nama_pelanggan"] == DBNull.Value ? null : reader["nama_pelanggan"].ToString()
-                    });
+                    cmd.Parameters.AddWithValue("nama", namaPelanggan);
+                    idBaru = Convert.ToInt32(cmd.ExecuteScalar());
                 }
+
+                foreach (var item in items)
+                {
+                    // 🌟 FIX NAMA TABEL: Menggunakan "Detail_Order" huruf kapital dengan petik ganda
+                    string sqlDet = @"INSERT INTO ""Detail_Order"" (order_id_order, produk_id_produk, quantity, harga_per_item) 
+                                      VALUES (@oid, @pid, @qty, @harga);";
+
+                    using (var cmdD = new NpgsqlCommand(sqlDet, conn, trans))
+                    {
+                        cmdD.Parameters.AddWithValue("oid", idBaru);
+                        cmdD.Parameters.AddWithValue("pid", item.id_produk);
+                        cmdD.Parameters.AddWithValue("qty", item.quantity);
+                        cmdD.Parameters.AddWithValue("harga", item.harga);
+                        cmdD.ExecuteNonQuery();
+                    }
+
+                    // Potong stok produk di database
+                    string sqlUpdateStok = @"UPDATE ""Produk"" SET stok = stok - @qty WHERE id_produk = @pid;";
+                    using (var cmdUp = new NpgsqlCommand(sqlUpdateStok, conn, trans))
+                    {
+                        cmdUp.Parameters.AddWithValue("qty", item.quantity);
+                        cmdUp.Parameters.AddWithValue("pid", item.id_produk);
+                        cmdUp.ExecuteNonQuery();
+                    }
+                }
+                trans.Commit();
+                return true;
             }
-            return orders;
+            catch (Exception ex)
+            {
+                trans.Rollback();
+                MessageBox.Show("Gagal menyimpan: " + ex.Message);
+                return false;
+            }
         }
 
-        public bool AddOrder(Order order)
+        public double AmbilPendapatanHariIni()
         {
+            double total = 0;
+            // 🌟 FIX QUERY: Menyelaraskan nama tabel kapital dan memfilter berdasarkan tanggal hari ini
             string query = @"
-                INSERT INTO ""Order"" (tgl_order, user_id_user, meja_id_meja, tipe_pesanan_id_tipe_pesanan, status_pembayaran, metode_pembayaran_id_metode_pembayaran, nomor_pelanggan, nama_pelanggan)
-                VALUES (@tgl, @user, @meja, @tipe, @status_bayar, @metode_bayar, @nomor, @nama)";
-
-            using (NpgsqlConnection conn = AmbilKoneksi())
-            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                SELECT COALESCE(SUM(d.quantity * d.harga_per_item), 0) 
+                FROM ""Order"" o
+                JOIN ""Detail_Order"" d ON o.id_order = d.order_id_order
+                WHERE o.status_pembayaran = true AND o.tgl_order::date = CURRENT_DATE;";
+            try
             {
-                cmd.Parameters.AddWithValue("@tgl", order.tgl_order);
-                cmd.Parameters.AddWithValue("@user", order.user_id_user);
-                cmd.Parameters.AddWithValue("@meja", order.meja_id_meja);
-                cmd.Parameters.AddWithValue("@tipe", order.tipe_pesanan_id_tipe_pesanan);
-                cmd.Parameters.AddWithValue("@status_bayar", order.status_pembayaran);
-                cmd.Parameters.AddWithValue("@metode_bayar", order.metode_pembayaran_id_metode_pembayaran == 0 ? DBNull.Value : order.metode_pembayaran_id_metode_pembayaran);
-                cmd.Parameters.AddWithValue("@nama", (object?)order.nama_pelanggan ?? DBNull.Value);
-
-                return cmd.ExecuteNonQuery() > 0;
+                // 🌟 FIX INHERITANCE: Mengganti connectDB.GetConn() menjadi AmbilKoneksi()
+                using var conn = AmbilKoneksi();
+                if (conn.State != ConnectionState.Open) conn.Open();
+                using var cmd = new NpgsqlCommand(query, conn);
+                total = Convert.ToDouble(cmd.ExecuteScalar());
             }
+            catch
+            {
+                return 0;
+            }
+            return total;
         }
     }
 }

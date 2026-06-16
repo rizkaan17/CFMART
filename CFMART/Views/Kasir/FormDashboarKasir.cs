@@ -16,6 +16,9 @@ namespace CFMART.Views.Kasir
         {
             InitializeComponent();
 
+            // Memaksa posisi dashboard langsung muncul tepat di tengah layar monitor kasir
+            this.StartPosition = FormStartPosition.CenterScreen;
+
             // Mengikat Event Load secara manual agar fungsi FormDashboardKasir_Load PASTI dieksekusi saat form muncul
             this.Load += new System.EventHandler(this.FormDashboardKasir_Load);
         }
@@ -27,14 +30,17 @@ namespace CFMART.Views.Kasir
         }
 
         /// <summary>
-        /// Mekanisme untuk mengganti isi panel utama dengan User Control baru
+        /// Mekanisme untuk mengganti isi panel utama dengan User Control baru secara dinamis
         /// </summary>
         private void PindahHalaman(UserControl halamanBaru)
         {
+            // Proteksi awal: mencegah crash jika pnlMain belum ter-render sempurna oleh desainer
+            if (pnlMain == null) return;
+
             // 1. Bersihkan semua komponen/User Control lama di dalam panelMain
             pnlMain.Controls.Clear();
 
-            // 2. Paksa ukuran User Control baru mengikuti luas panelMain
+            // 2. Paksa ukuran User Control baru mengikuti luas panelMain figma kamu
             halamanBaru.Dock = DockStyle.Fill;
 
             // 3. Masukkan dan munculkan User Control baru ke panelMain
@@ -57,6 +63,16 @@ namespace CFMART.Views.Kasir
             PindahHalaman(new UCBiodataKasir());
         }
 
+        // =========================================================================
+        // 🌟 SINKRONISASI HALAMAN: MENYAMBUNGKAN TOMBOL KONFIRMASI KASIR
+        // =========================================================================
+        private void btnKonfirmasi_Click(object sender, EventArgs e)
+        {
+            // 💡 Catatan Penting: Jika nama file UC konfirmasi di kelompokmu sedikit berbeda,
+            // (misal cuma 'UCKonfirmasi' atau 'UCKonfirmasiPesanan'), silakan ganti nama class di bawah ini ya!
+            PindahHalaman(new UCKonfirmasiPembayaran());
+        }
+
         private void btnLogoutKasir_Click(object sender, EventArgs e)
         {
             // 1. Tampilkan konfirmasi biar kasir gak sengaja keklik keluar
@@ -74,9 +90,8 @@ namespace CFMART.Views.Kasir
                 FormLogin loginForm = new FormLogin();
                 loginForm.Show();
 
-                // 4. Sembunyikan atau tutup form dashboard saat ini tanpa mematikan aplikasi
+                // 4. Sembunyikan form dashboard saat ini tanpa mematikan aplikasi
                 this.Hide();
-                // Catatan: Jika ingin benar-benar dispose memori form dashboard, gunakan: this.Dispose();
             }
         }
     }

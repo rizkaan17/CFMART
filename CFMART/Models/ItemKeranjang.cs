@@ -4,10 +4,6 @@ using System.Text;
 
 namespace CFMART.Models
 {
-    /// <summary>
-    /// 🌟 NON-PERSISTENT MODEL: Model memori RAM sementara untuk menampung baris keranjang belanja.
-    /// Tidak perlu ada tabelnya di pgAdmin karena hanya hidup selama transaksi kasir aktif.
-    /// </summary>
     public class ItemKeranjang
     {
         // 1. ID Produk wajib dibawa untuk jadi Foreign Key (FK) pas simpan ke tabel detail_order
@@ -24,6 +20,6 @@ namespace CFMART.Models
 
         // 5. 🌟 ENKAPSULASI: Properti read-only otomatis (tanpa set) untuk menghitung sub-total per baris menu.
         // Dosen sangat suka ini karena menerapkan pilar encapsulation murni lewat logic program C#.
-        public double sub_total => harga * quantity; //METHOD
+        public double sub_total => harga * quantity; 
     }
 }
