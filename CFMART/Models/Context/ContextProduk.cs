@@ -7,64 +7,70 @@ namespace CFMART.Models.Context
     // INHERITANCE: Mewarisi BaseContext
     public class ContextProduk : BaseContext
     {
-        // TAMPILKAN SEMUA PRODUK
         public List<Produk> GetAllProduk()
         {
             List<Produk> produkList = new List<Produk>();
-            string query = @"SELECT id_produk, jenis_produk, harga, stok, foto_produk FROM produk ORDER BY id_produk";
+            string query = "SELECT id_produk, jenis_produk, harga, stok, foto_produk FROM produk ORDER BY id_produk";
 
-            using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
-            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-            using (NpgsqlDataReader reader = cmd.ExecuteReader())
+            using (NpgsqlConnection conn = AmbilKoneksi())
             {
-                while (reader.Read())
+                conn.Open(); // <-- DILENGKAPI
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                using (NpgsqlDataReader reader = cmd.ExecuteReader())
                 {
-                    produkList.Add(new Produk
+                    while (reader.Read())
                     {
-                        id_produk = Convert.ToInt32(reader["id_produk"]),
-                        jenis_produk = reader["jenis_produk"].ToString() ?? "",
-                        harga = Convert.ToDouble(reader["harga"]),
-                        stok = Convert.ToInt32(reader["stok"]),
-                        foto_Produk = reader["foto_produk"] == DBNull.Value ? null : (byte[])reader["foto_produk"]
-                    });
+                        var p = new Produk
+                        {
+                            id_produk = reader.GetInt32(0),
+                            jenis_produk = reader.GetString(1),
+                            harga = reader.GetDouble(2),
+                            stok = reader.GetInt32(3),
+                            foto_Produk = reader["foto_produk"] != DBNull.Value ? (byte[])reader["foto_produk"] : null
+                        };
+                        produkList.Add(p);
+                    }
                 }
             }
             return produkList;
         }
 
-        // UPDATE STOK / HARGA PRODUK
         public bool UpdateProduk(Produk produk)
         {
             string query = @"UPDATE produk SET jenis_produk = @jenis, harga = @harga, stok = @stok, foto_produk = @foto WHERE id_produk = @id";
 
             using (NpgsqlConnection conn = AmbilKoneksi())
-            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
-                cmd.Parameters.AddWithValue("@id", produk.id_produk);
-                cmd.Parameters.AddWithValue("@jenis", produk.jenis_produk);
-                cmd.Parameters.AddWithValue("@harga", produk.harga);
-                cmd.Parameters.AddWithValue("@stok", produk.stok);
-                cmd.Parameters.AddWithValue("@foto", (object?)produk.foto_Produk ?? DBNull.Value);
+                conn.Open(); // <-- DILENGKAPI
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", produk.id_produk);
+                    cmd.Parameters.AddWithValue("@jenis", produk.jenis_produk);
+                    cmd.Parameters.AddWithValue("@harga", produk.harga);
+                    cmd.Parameters.AddWithValue("@stok", produk.stok);
+                    cmd.Parameters.AddWithValue("@foto", (object?)produk.foto_Produk ?? DBNull.Value);
 
-                return cmd.ExecuteNonQuery() > 0;
+                    return cmd.ExecuteNonQuery() > 0;
+                }
             }
         }
-
-        // Taruh di dalam kelas ContextProduk : BaseContext
 
         public bool AddProduk(Produk produk)
         {
             string query = @"INSERT INTO produk (jenis_produk, harga, stok, foto_produk) VALUES (@jenis, @harga, @stok, @foto)";
 
             using (NpgsqlConnection conn = AmbilKoneksi())
-            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
-                cmd.Parameters.AddWithValue("@jenis", produk.jenis_produk);
-                cmd.Parameters.AddWithValue("@harga", produk.harga);
-                cmd.Parameters.AddWithValue("@stok", produk.stok);
-                cmd.Parameters.AddWithValue("@foto", (object?)produk.foto_Produk ?? DBNull.Value);
+                conn.Open(); // <-- DILENGKAPI
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@jenis", produk.jenis_produk);
+                    cmd.Parameters.AddWithValue("@harga", produk.harga);
+                    cmd.Parameters.AddWithValue("@stok", produk.stok);
+                    cmd.Parameters.AddWithValue("@foto", (object?)produk.foto_Produk ?? DBNull.Value);
 
-                return cmd.ExecuteNonQuery() > 0;
+                    return cmd.ExecuteNonQuery() > 0;
+                }
             }
         }
 
@@ -73,10 +79,13 @@ namespace CFMART.Models.Context
             string query = @"DELETE FROM produk WHERE id_produk = @id";
 
             using (NpgsqlConnection conn = AmbilKoneksi())
-            using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
-                cmd.Parameters.AddWithValue("@id", id);
-                return cmd.ExecuteNonQuery() > 0;
+                conn.Open(); // <-- DILENGKAPI
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
             }
         }
     }

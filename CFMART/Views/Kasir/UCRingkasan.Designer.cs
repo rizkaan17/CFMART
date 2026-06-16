@@ -228,7 +228,6 @@
             lblTransaksi.Size = new Size(95, 67);
             lblTransaksi.TabIndex = 1;
             lblTransaksi.Text = "142";
-            lblTransaksi.Click += lblAngkaTotal_Click;
             // 
             // lblRingkasanLaporanPenjualan
             // 

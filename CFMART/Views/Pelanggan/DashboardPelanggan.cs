@@ -1,6 +1,8 @@
 ﻿using CFMART.Models.Context;
 using CFMART.Views;
+using CFMART.Controllers;
 using CFMART.Views.Pelanggan;
+using CFMART.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -189,10 +191,10 @@ namespace CFMART
         private void btnloginkaryawan_Click(object sender, EventArgs e)
         {
             FormLogin loginForm = new FormLogin();
-
-            // Menampilkan form tersebut
             loginForm.Show();
 
+            // Menyembunyikan saja agar form tidak mati (data di RAM tetap aman)
+            this.Hide();
         }
     }
 }

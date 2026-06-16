@@ -8,6 +8,7 @@ namespace CFMART.Views.Admin
 {
     public partial class UCManajemenProduk : UserControl
     {
+        private string selectedFilePath = "";
         private readonly ProdukController _produkController = new ProdukController();
         private int? selectedIdProduk = null;
 
@@ -18,7 +19,7 @@ namespace CFMART.Views.Admin
             // 🌟 FIX MASALAH 1: Paksa ikat Event Load & CellClick via kode agar PASTI jalan saat running!
             this.Load += new System.EventHandler(this.UCManajemenProduk_Load);
             this.dgvManajemenProduk.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvManajemenProduk_CellClick);
-            
+
             // Jika ada tombol "+ Tambah" di pojok kanan atas, kita ikat juga event-nya di sini
             // Pastikan namanya sesuai dengan nama komponen di desainer kamu (misal: btnTambahAtas)
             this.btnTambahProduk.Click += new System.EventHandler(this.btnTambahAtas_Click);
@@ -144,6 +145,27 @@ namespace CFMART.Views.Admin
             tbStok.Clear();
             selectedIdProduk = null; // Reset ID jadi null kembali
             btnSimpan2.Text = "Simpan Produk"; // Kembalikan teks tombol hijau ke default figma
+        }
+
+        private void btnBatal2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPilihProduk_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                selectedFilePath = open.FileName;
+                MessageBox.Show("Foto terpilih: " + System.IO.Path.GetFileName(selectedFilePath));
+            }
+        }
+
+        private void tbNamaProduk_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -10,41 +10,39 @@ namespace CFMART.Views.Kasir
 {
     public partial class UCPilihproduk : UserControl
     {
-        // 1. Inisialisasi ProdukController sesuai aturan MVC
+        // 1. Inisialisasi Kontroler dan Data Global
         private readonly ProdukController _produkController = new ProdukController();
-
-        // LIST UNTUK KERANJANG BELANJA (Menampung barang sementara di RAM Kasir)
         private List<ItemKeranjang> _keranjangBelanja = new List<ItemKeranjang>();
 
-        // Array pembantu komponen desainer katalog kiri kamu
+        // 2. Variabel State
+        private string _pilihanMetode = "Tunai";
+        private string _pilihanStatus = "Lunas";
+
+        // 3. Array untuk mapping UI (PENTING: Pastikan nama di Designer sama)
         private Panel[] _arrayPanelMenu;
-        private Label[] _arrayLabelNama;
-        private Label[] _arrayLabelHarga;
-        private Label[] _arrayLabelStok;
+        private Label[] _arrayLabelNama, _arrayLabelHarga, _arrayLabelStok;
         private Button[] _arrayButtonPlus;
 
         public UCPilihproduk()
         {
             InitializeComponent();
 
-            // Mengikat event Load & Pencarian secara aman lewat kode
-            this.Load += new System.EventHandler(this.UCPilihproduk_Load);
-            this.tbSearchProduk.TextChanged += new System.EventHandler(this.tbSearchProduk_TextChanged);
-        }
-
-        private void UCPilihproduk_Load(object sender, EventArgs e)
-        {
-            // Kelompokkan 6 kotak komponen desainer visual ke dalam array OOP
+            // Inisialisasi Komponen UI
             InisialisasiArrayKomponen();
-
-            // Atur kosmetik awal untuk komponen pendukung
             AturKomponenOtomatis();
 
-            // Memuat data produk pertama kali dari database ke 6 kotak katalog kiri
-            MuatKatalogProduk("");
+            // Bind Event
+            btnCetakNota.Click += btnCetakNota_Click;
+            btnTunai.Click += (s, e) => SetMetodePembayaran("Tunai", btnTunai, btnQris);
+            btnQris.Click += (s, e) => SetMetodePembayaran("QRIS", btnQris, btnTunai);
+            btnLunas.Click += (s, e) => SetStatusPembayaran("Lunas", btnLunas, btnBlmLunas);
+            btnBlmLunas.Click += (s, e) => SetStatusPembayaran("Belum Lunas", btnBlmLunas, btnLunas);
 
-            // Reset tampilan list kanan di awal running
-            RenderListPanelKanan();
+            // Paksa Load saat objek dibuat
+            this.Load += (s, e) => {
+                MuatKatalogProduk("");
+                RenderListPanelKanan();
+            };
         }
 
         private void InisialisasiArrayKomponen()
@@ -55,68 +53,48 @@ namespace CFMART.Views.Kasir
             _arrayLabelStok = new Label[] { lblAngkaStok, lblAngkaStok2, lblAngkaStok3, lblAngkaStok4, lblAngkaStok5, lblAngkaStok6 };
             _arrayButtonPlus = new Button[] { btnMenu1, btnMenu2, btnMenu3, btnMenu4, btnMenu5, btnMenu6 };
 
-            // Mengikat event klik tombol plus (+) desainer katalog kiri secara massal
-            for (int i = 0; i < _arrayButtonPlus.Length; i++)
-            {
-                _arrayButtonPlus[i].Click += TombolPlusKatalog_Click;
-            }
+            foreach (var btn in _arrayButtonPlus) btn.Click += TombolPlusKatalog_Click;
         }
 
         private void MuatKatalogProduk(string keyword)
         {
-            List<Produk> listProduk = string.IsNullOrWhiteSpace(keyword) || keyword == "Cari produk di sini..." || keyword == "Cari Produk..."
-                ? _produkController.AmbilSemuaProduk()
-                : _produkController.CariProduk(keyword);
-
-            for (int i = 0; i < _arrayPanelMenu.Length; i++)
+            try
             {
-                if (i < listProduk.Count)
-                {
-                    Produk prod = listProduk[i];
+                var listProduk = _produkController.AmbilSemuaProduk();
 
-                    _arrayLabelNama[i].Text = prod.jenis_produk;
-                    _arrayLabelHarga[i].Text = $"Rp {prod.harga:N0}";
-                    _arrayLabelStok[i].Text = prod.stok.ToString();
-
-                    _arrayButtonPlus[i].Tag = prod;
-                    _arrayPanelMenu[i].Visible = true;
-                }
-                else
+                if (listProduk == null || listProduk.Count == 0)
                 {
-                    _arrayPanelMenu[i].Visible = false;
-                    _arrayButtonPlus[i].Tag = null;
+                    // Jika ini muncul, berarti database kosong atau query salah
+                    return;
                 }
+
+                for (int i = 0; i < _arrayPanelMenu.Length; i++)
+                {
+                    if (i < listProduk.Count)
+                    {
+                        _arrayPanelMenu[i].Visible = true;
+                        _arrayLabelNama[i].Text = listProduk[i].jenis_produk;
+                        _arrayLabelHarga[i].Text = $"Rp {listProduk[i].harga:N0}";
+                        _arrayLabelStok[i].Text = listProduk[i].stok.ToString();
+                        _arrayButtonPlus[i].Tag = listProduk[i];
+                    }
+                    else { _arrayPanelMenu[i].Visible = false; }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Database Error: " + ex.Message);
             }
         }
 
-        /// <summary>
-        /// EVENT KLIK TAMBAH BARANG DI KATALOG KIRI
-        /// </summary>
         private void TombolPlusKatalog_Click(object sender, EventArgs e)
         {
-            Button btnPlus = (Button)sender;
-            if (btnPlus.Tag == null) return;
+            var btn = (Button)sender;
+            var prod = (Produk)btn.Tag;
+            if (prod == null) return;
 
-            Produk prod = (Produk)btnPlus.Tag;
-
-            if (prod.stok <= 0)
-            {
-                MessageBox.Show($"Stok untuk '{prod.jenis_produk}' sudah habis!", "Stok Kosong", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            ItemKeranjang itemAda = _keranjangBelanja.FirstOrDefault(k => k.id_produk == prod.id_produk);
-
-            if (itemAda != null)
-            {
-                if (itemAda.quantity >= prod.stok)
-                {
-                    MessageBox.Show($"Jumlah beli tidak boleh melebihi sisa stok toko ({prod.stok})!", "Batas Stok", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                itemAda.quantity++;
-            }
-            else
+            var item = _keranjangBelanja.FirstOrDefault(k => k.id_produk == prod.id_produk);
+            if (item == null)
             {
                 _keranjangBelanja.Add(new ItemKeranjang
                 {
@@ -126,99 +104,47 @@ namespace CFMART.Views.Kasir
                     quantity = 1
                 });
             }
+            else if (item.quantity < prod.stok)
+            {
+                item.quantity++;
+            }
+            else { MessageBox.Show("Stok tidak mencukupi!"); }
 
-            // Segarkan list di panel kanan
             RenderListPanelKanan();
         }
 
-        /// <summary>
-        /// 🌟 LOGIKA UTAMA: Memasukkan UCItemKeranjang ke dalam flowLayoutPanel1 secara dinamis
-        /// </summary>
         private void RenderListPanelKanan()
         {
-            // 1. Bersihkan isi lama agar item tidak menumpuk duplikat saat ada perubahan data
             flpDaftarPesanan.Controls.Clear();
-
-            // 2. Tetap masukkan label header "Daftar Pesanan Pelanggan" ke baris paling atas panel
-            flpDaftarPesanan.Controls.Add(lblDaftarPesanan);
-
-            double grandTotal = 0;
-
-            // 3. Looping untuk membuat dan memasukkan komponen cetakan kecil kamu ke panel kanan
-            foreach (ItemKeranjang item in _keranjangBelanja)
+            foreach (var item in _keranjangBelanja)
             {
-                // ✅ SINKRONISASI 1: Panggil constructor kosong bawaan desainer UC yang baru
-                UCItemKeranjang cardItem = new UCItemKeranjang();
-
-                // ✅ SINKRONISASI 2: Suapi data model ItemKeranjang lewat fungsi SetData
-                cardItem.SetData(item);
-
-                // ✅ SINKRONISASI 3: Mengikat Custom Event Action penambah/pengurang kuantitas porsi menu
-                cardItem.OnKuantitasBerubah += (itemTerupdate) => HitungUlangTotalBelanja();
-
-                // ✅ SINKRONISASI 4: Mengikat Custom Event Action tombol silang (x) hapus baris
-                cardItem.OnHapusItemKlik += (itemDihapus) =>
-                {
-                    _keranjangBelanja.Remove(itemDihapus); // hapus dari list temporary RAM kasir
-                    RenderListPanelKanan();                // gambar ulang seluruh isi panel kanan secara real-time
-                };
-
-                // 4. PERINTAH UTAMA: Memasukkan fisik card ke dalam FlowLayoutPanel kanan desainer kamu
-                flpDaftarPesanan.Controls.Add(cardItem);
-
-                grandTotal += item.sub_total;
+                var card = new UCItemKeranjang();
+                card.SetData(item);
+                card.OnHapusItemKlik += (x) => { _keranjangBelanja.Remove(x); RenderListPanelKanan(); };
+                flpDaftarPesanan.Controls.Add(card);
             }
-
-            // Jalankan fungsi hitung total untuk memperbarui label nominal di layout kasir kamu
-            HitungUlangTotalBelanja();
+            lblTotal.Text = $"Rp {_keranjangBelanja.Sum(i => i.sub_total):N0}";
         }
 
-        private void HitungUlangTotalBelanja()
+        private void btnCetakNota_Click(object sender, EventArgs e)
         {
-            double total = _keranjangBelanja.Sum(item => item.sub_total);
+            if (_keranjangBelanja.Count == 0) return;
+            OrderController oc = new OrderController();
 
-            // 🌟 SINKRONISASI OPTIONAL: Jika desainer kasirmu punya label grand total (misal lblAngkaTotal),
-            // hilangkan tanda komentar '//' di bawah ini dan samakan namanya agar kasir bisa melihat total nota
-            // lblAngkaTotal.Text = $"Rp {total:N0}";
-        }
-
-        private void tbSearchProduk_TextChanged(object sender, EventArgs e)
-        {
-            if (tbSearchProduk.Text != "Cari produk di sini..." && tbSearchProduk.Text != "Cari Produk...")
+            if (oc.KirimPesanan("Kasir", _keranjangBelanja))
             {
-                MuatKatalogProduk(tbSearchProduk.Text);
-            }
-        }
-
-        private void AturKomponenOtomatis()
-        {
-            tbSearchProduk.Text = "Cari Produk...";
-            tbSearchProduk.ForeColor = Color.Gray;
-            tbSearchProduk.Enter += TextBox1_Enter;
-            tbSearchProduk.Leave += TextBox1_Leave;
-
-            // Mengatur arah aliran item agar lurus rapi ke bawah (TopDown)
-            flpDaftarPesanan.FlowDirection = FlowDirection.TopDown;
-            flpDaftarPesanan.WrapContents = false;
-        }
-
-        private void TextBox1_Enter(object sender, EventArgs e)
-        {
-            if (tbSearchProduk.Text == "Cari produk di sini..." || tbSearchProduk.Text == "Cari Produk...")
-            {
-                tbSearchProduk.Text = "";
-                tbSearchProduk.ForeColor = Color.Black;
-            }
-        }
-
-        private void TextBox1_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(tbSearchProduk.Text))
-            {
-                tbSearchProduk.Text = "Cari Produk...";
-                tbSearchProduk.ForeColor = Color.Gray;
+                FormCetakNota nota = new FormCetakNota();
+                nota.TampilkanDataNotaBaru(_keranjangBelanja, _keranjangBelanja.Sum(i => i.sub_total), 0, _pilihanMetode, _pilihanStatus, "Kasir CFMART");
+                nota.ShowDialog();
+                _keranjangBelanja.Clear();
+                RenderListPanelKanan();
                 MuatKatalogProduk("");
             }
+            else MessageBox.Show("Gagal simpan ke database!");
         }
+
+        private void SetMetodePembayaran(string m, Button a, Button n) { _pilihanMetode = m; a.BackColor = Color.DarkSlateGray; n.BackColor = Color.SlateGray; }
+        private void SetStatusPembayaran(string s, Button a, Button n) { _pilihanStatus = s; a.BackColor = Color.DarkSlateGray; n.BackColor = Color.SlateGray; }
+        private void AturKomponenOtomatis() { flpDaftarPesanan.FlowDirection = FlowDirection.TopDown; flpDaftarPesanan.WrapContents = false; }
     }
 }

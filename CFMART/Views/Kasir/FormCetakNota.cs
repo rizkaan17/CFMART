@@ -11,51 +11,44 @@ namespace CFMART.Views.Kasir
         public FormCetakNota()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen; // Muncul tepat di tengah monitor
+            this.StartPosition = FormStartPosition.CenterScreen;
 
-            // Mengikat aksi tombol tutup agar menutup form nota saat diklik
             btnTutup.Click += (s, e) => this.Close();
             btnCetakNota.Click += BtnCetakNota_Click;
         }
 
         /// <summary>
-        /// Fungsi utama penyuap data riil nota dari halaman UCPilihproduk
+        /// Fungsi utama penyuap data riil nota
         /// </summary>
-        public void TampilkanDataNotaBaru(List<ItemKeranjang> listBelanja, double total, double kembali, string metode, string status)
+        /// <param name="identitas">Bisa diisi Nama Pelanggan (jika kasir) atau No. Meja (jika pelanggan)</param>
+        public void TampilkanDataNotaBaru(List<ItemKeranjang> listBelanja, double total, double kembali, string metode, string status, string identitas)
         {
-            // 1. Sinkronisasikan Data Meta Atas Nota
+            // 1. Data Meta
             lblTglNota.Text = ": " + DateTime.Now.ToString("dd-MM-yyyy HH:mm");
             lblNoNota.Text = ": NOTA-" + DateTime.Now.ToString("yyMMddHHmmss");
             lblNamaKasir.Text = ": Kasir Aktif";
 
-            // 2. Bersihkan isi FlowLayoutPanel bawaan desainer sebelum diisi ulang
-            flpItemNota.Controls.Clear();
-            flpItemNota.FlowDirection = FlowDirection.TopDown;
-            flpItemNota.WrapContents = false;
+            // Logika baru: Menampilkan Nama/Meja berdasarkan data yang dikirim
+            lblNamaMeja.Text = ": " + identitas;
 
-            // 3. Looping data barang belanjaan untuk dicetak ke dalam FlowLayoutPanel
+            // 2. Loop Item
+            flpItemNota.Controls.Clear();
             foreach (var item in listBelanja)
             {
-                // Membuat label baris teks baru per produk belanjaan kasir
                 Label lblBarisItem = new Label();
                 lblBarisItem.AutoSize = false;
                 lblBarisItem.Size = new Size(380, 30);
                 lblBarisItem.Font = new Font("Dubai", 8.5F, FontStyle.Regular);
-                lblBarisItem.ForeColor = Color.Black;
 
-                // Memakai teknik PadRight string agar kolom Qty dan Harga lurus sejajar vertikal
                 string namaMenu = item.nama_produk.Length > 15 ? item.nama_produk.Substring(0, 15) : item.nama_produk.PadRight(15);
                 string qty = item.quantity.ToString().PadRight(4);
-                string hargaSatuan = item.harga.ToString("N0").PadRight(9);
                 string subTotalItem = item.sub_total.ToString("N0");
 
-                lblBarisItem.Text = $"{namaMenu} x{qty} {hargaSatuan} Rp {subTotalItem}";
-
-                // Masukkan label teks buatan ke dalam layout aliran nota kamu
+                lblBarisItem.Text = $"{namaMenu} x{qty} Rp {subTotalItem}";
                 flpItemNota.Controls.Add(lblBarisItem);
             }
 
-            // 4. Sinkronisasikan Data Angka Nominal Bawah Nota
+            // 3. Data Nominal
             lblAngkaTotal.Text = ": Rp " + total.ToString("N0");
             lblAngkaKembalian.Text = ": Rp " + kembali.ToString("N0");
             lblNamaMetode.Text = ": " + (string.IsNullOrWhiteSpace(metode) ? "Tunai" : metode);

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Npgsql;
 using CFMART.Helpers;
-using CFMART.Models.Context;
+using CFMART.Models; // 🌟 WAJIB: Memanggil namespace folder model baru kamu
 
 namespace CFMART.Controllers
 {
@@ -15,17 +15,23 @@ namespace CFMART.Controllers
     {
         // ABSTRAKSI: User hanya perlu memanggil KirimPesanan(nama, listItem), 
         // detail tentang 'tabel apa yang di-insert' disembunyikan di sini.
-        public bool KirimPesanan(string namaPelanggan, List<ContextItemKeranjang> items)
+        // 🌟 SINKRONISASI: Sekarang menerima List<ItemKeranjang> sesuai standar RAM global baru
+        public bool KirimPesanan(string namaPelanggan, List<ItemKeranjang> items)
         {
             // Validasi awal untuk mencegah eksekusi SQL kosong
             if (items == null || items.Count == 0) return false;
 
             using var conn = connectDB.GetConn();
-            conn.Open();
-            
+
+            // Pastikan gerbang koneksi terbuka sebelum memulai transaksi database pgAdmin
+            if (conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
             // Menggunakan transaksi untuk memastikan data konsisten (ACID)
             using var trans = conn.BeginTransaction();
-            
+
             try
             {
                 // 1. Insert ke tabel "Order" (Header)
@@ -50,23 +56,26 @@ namespace CFMART.Controllers
                     using (var cmdD = new NpgsqlCommand(sqlDet, conn, trans))
                     {
                         cmdD.Parameters.AddWithValue("oid", idBaru);
-                        cmdD.Parameters.AddWithValue("pid", 1); // ID Produk harus di-mapping dengan benar
-                        cmdD.Parameters.AddWithValue("qty", item.Jumlah);
-                        cmdD.Parameters.AddWithValue("harga", item.HargaSatuan);
+
+                        // 🌟 SEKARANG DINAMIS: Mengambil properti asli dari model ItemKeranjang (Bukan hardcode angka 1 lagi!)
+                        cmdD.Parameters.AddWithValue("pid", item.id_produk);
+                        cmdD.Parameters.AddWithValue("qty", item.quantity);
+                        cmdD.Parameters.AddWithValue("harga", item.harga);
+
                         cmdD.ExecuteNonQuery();
                     }
                 }
-                
+
                 // Commit: Menyetujui semua perubahan jika berhasil
                 trans.Commit();
                 return true;
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 // Rollback: Membatalkan semua perubahan jika terjadi error di tengah jalan
-                trans.Rollback(); 
-                Console.WriteLine("Error Transaksi: " + ex.Message);
-                return false; 
+                trans.Rollback();
+                System.Windows.Forms.MessageBox.Show("Gagal menyimpan transaksi ke database: " + ex.Message, "Error OrderController");
+                return false;
             }
         }
     }

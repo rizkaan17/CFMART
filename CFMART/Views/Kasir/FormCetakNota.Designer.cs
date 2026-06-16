@@ -54,6 +54,8 @@
             btnTutup = new Button();
             lblAngkaKembalian = new Label();
             lblKembalian = new Label();
+            label1 = new Label();
+            lblNamaMeja = new Label();
             SuspendLayout();
             // 
             // lblCFMART
@@ -62,9 +64,10 @@
             lblCFMART.BackColor = Color.Transparent;
             lblCFMART.Font = new Font("Dubai", 8F);
             lblCFMART.ForeColor = Color.Black;
-            lblCFMART.Location = new Point(150, 16);
+            lblCFMART.Location = new Point(195, 20);
+            lblCFMART.Margin = new Padding(4, 0, 4, 0);
             lblCFMART.Name = "lblCFMART";
-            lblCFMART.Size = new Size(70, 27);
+            lblCFMART.Size = new Size(99, 37);
             lblCFMART.TabIndex = 1;
             lblCFMART.Text = "CFMART";
             // 
@@ -74,9 +77,10 @@
             lblGaris.BackColor = Color.Transparent;
             lblGaris.Font = new Font("Dubai", 8F);
             lblGaris.ForeColor = Color.Black;
-            lblGaris.Location = new Point(1, 42);
+            lblGaris.Location = new Point(1, 54);
+            lblGaris.Margin = new Padding(4, 0, 4, 0);
             lblGaris.Name = "lblGaris";
-            lblGaris.Size = new Size(420, 27);
+            lblGaris.Size = new Size(561, 37);
             lblGaris.TabIndex = 2;
             lblGaris.Text = "--------------------------------------------------------------------";
             // 
@@ -86,9 +90,10 @@
             lblTanggalNota.BackColor = Color.Transparent;
             lblTanggalNota.Font = new Font("Dubai", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTanggalNota.ForeColor = Color.Black;
-            lblTanggalNota.Location = new Point(12, 61);
+            lblTanggalNota.Location = new Point(16, 78);
+            lblTanggalNota.Margin = new Padding(4, 0, 4, 0);
             lblTanggalNota.Name = "lblTanggalNota";
-            lblTanggalNota.Size = new Size(67, 27);
+            lblTanggalNota.Size = new Size(93, 37);
             lblTanggalNota.TabIndex = 3;
             lblTanggalNota.Text = "Tanggal ";
             // 
@@ -98,9 +103,10 @@
             lblNomorNota.BackColor = Color.Transparent;
             lblNomorNota.Font = new Font("Dubai", 8F);
             lblNomorNota.ForeColor = Color.Black;
-            lblNomorNota.Location = new Point(12, 89);
+            lblNomorNota.Location = new Point(16, 114);
+            lblNomorNota.Margin = new Padding(4, 0, 4, 0);
             lblNomorNota.Name = "lblNomorNota";
-            lblNomorNota.Size = new Size(70, 27);
+            lblNomorNota.Size = new Size(96, 37);
             lblNomorNota.TabIndex = 4;
             lblNomorNota.Text = "No. Nota";
             // 
@@ -110,9 +116,10 @@
             lblKasir.BackColor = Color.Transparent;
             lblKasir.Font = new Font("Dubai", 8F);
             lblKasir.ForeColor = Color.Black;
-            lblKasir.Location = new Point(13, 114);
+            lblKasir.Location = new Point(17, 146);
+            lblKasir.Margin = new Padding(4, 0, 4, 0);
             lblKasir.Name = "lblKasir";
-            lblKasir.Size = new Size(45, 27);
+            lblKasir.Size = new Size(62, 37);
             lblKasir.TabIndex = 5;
             lblKasir.Text = "Kasir";
             // 
@@ -122,9 +129,10 @@
             lblTglNota.BackColor = Color.Transparent;
             lblTglNota.Font = new Font("Dubai", 8F);
             lblTglNota.ForeColor = Color.Black;
-            lblTglNota.Location = new Point(110, 61);
+            lblTglNota.Location = new Point(143, 78);
+            lblTglNota.Margin = new Padding(4, 0, 4, 0);
             lblTglNota.Name = "lblTglNota";
-            lblTglNota.Size = new Size(25, 27);
+            lblTglNota.Size = new Size(34, 37);
             lblTglNota.TabIndex = 6;
             lblTglNota.Text = ": -";
             // 
@@ -134,9 +142,10 @@
             lblNoNota.BackColor = Color.Transparent;
             lblNoNota.Font = new Font("Dubai", 8F);
             lblNoNota.ForeColor = Color.Black;
-            lblNoNota.Location = new Point(110, 88);
+            lblNoNota.Location = new Point(143, 113);
+            lblNoNota.Margin = new Padding(4, 0, 4, 0);
             lblNoNota.Name = "lblNoNota";
-            lblNoNota.Size = new Size(25, 27);
+            lblNoNota.Size = new Size(34, 37);
             lblNoNota.TabIndex = 7;
             lblNoNota.Text = ": -";
             // 
@@ -146,9 +155,10 @@
             lblNamaKasir.BackColor = Color.Transparent;
             lblNamaKasir.Font = new Font("Dubai", 8F);
             lblNamaKasir.ForeColor = Color.Black;
-            lblNamaKasir.Location = new Point(110, 113);
+            lblNamaKasir.Location = new Point(143, 145);
+            lblNamaKasir.Margin = new Padding(4, 0, 4, 0);
             lblNamaKasir.Name = "lblNamaKasir";
-            lblNamaKasir.Size = new Size(25, 27);
+            lblNamaKasir.Size = new Size(34, 37);
             lblNamaKasir.TabIndex = 8;
             lblNamaKasir.Text = ": -";
             // 
@@ -158,17 +168,19 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Dubai Medium", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.Black;
-            label7.Location = new Point(3, 185);
+            label7.Location = new Point(4, 237);
+            label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(0, 54);
+            label7.Size = new Size(0, 73);
             label7.TabIndex = 9;
             // 
             // flpItemNota
             // 
             flpItemNota.Font = new Font("Dubai", 8F);
-            flpItemNota.Location = new Point(12, 173);
+            flpItemNota.Location = new Point(16, 243);
+            flpItemNota.Margin = new Padding(4, 4, 4, 4);
             flpItemNota.Name = "flpItemNota";
-            flpItemNota.Size = new Size(404, 223);
+            flpItemNota.Size = new Size(525, 285);
             flpItemNota.TabIndex = 10;
             // 
             // label8
@@ -177,9 +189,10 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Dubai", 8F);
             label8.ForeColor = Color.Black;
-            label8.Location = new Point(1, 175);
+            label8.Location = new Point(1, 224);
+            label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
-            label8.Size = new Size(0, 27);
+            label8.Size = new Size(0, 37);
             label8.TabIndex = 11;
             // 
             // lblAngkaTotal
@@ -188,9 +201,10 @@
             lblAngkaTotal.BackColor = Color.Transparent;
             lblAngkaTotal.Font = new Font("Dubai", 8F);
             lblAngkaTotal.ForeColor = Color.Black;
-            lblAngkaTotal.Location = new Point(165, 421);
+            lblAngkaTotal.Location = new Point(214, 571);
+            lblAngkaTotal.Margin = new Padding(4, 0, 4, 0);
             lblAngkaTotal.Name = "lblAngkaTotal";
-            lblAngkaTotal.Size = new Size(49, 27);
+            lblAngkaTotal.Size = new Size(67, 37);
             lblAngkaTotal.TabIndex = 13;
             lblAngkaTotal.Text = ": Rp. -";
             // 
@@ -200,9 +214,10 @@
             lblTotal.BackColor = Color.Transparent;
             lblTotal.Font = new Font("Dubai", 8F);
             lblTotal.ForeColor = Color.Black;
-            lblTotal.Location = new Point(12, 421);
+            lblTotal.Location = new Point(16, 571);
+            lblTotal.Margin = new Padding(4, 0, 4, 0);
             lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(68, 27);
+            lblTotal.Size = new Size(93, 37);
             lblTotal.TabIndex = 12;
             lblTotal.Text = "Subtotal";
             // 
@@ -212,9 +227,10 @@
             lblNamaStatus.BackColor = Color.Transparent;
             lblNamaStatus.Font = new Font("Dubai", 8F);
             lblNamaStatus.ForeColor = Color.Black;
-            lblNamaStatus.Location = new Point(165, 503);
+            lblNamaStatus.Location = new Point(214, 676);
+            lblNamaStatus.Margin = new Padding(4, 0, 4, 0);
             lblNamaStatus.Name = "lblNamaStatus";
-            lblNamaStatus.Size = new Size(25, 27);
+            lblNamaStatus.Size = new Size(34, 37);
             lblNamaStatus.TabIndex = 19;
             lblNamaStatus.Text = ": -";
             // 
@@ -224,9 +240,10 @@
             lblNamaMetode.BackColor = Color.Transparent;
             lblNamaMetode.Font = new Font("Dubai", 8F);
             lblNamaMetode.ForeColor = Color.Black;
-            lblNamaMetode.Location = new Point(165, 481);
+            lblNamaMetode.Location = new Point(214, 648);
+            lblNamaMetode.Margin = new Padding(4, 0, 4, 0);
             lblNamaMetode.Name = "lblNamaMetode";
-            lblNamaMetode.Size = new Size(25, 27);
+            lblNamaMetode.Size = new Size(34, 37);
             lblNamaMetode.TabIndex = 18;
             lblNamaMetode.Text = ": -";
             // 
@@ -236,9 +253,10 @@
             label15.BackColor = Color.Transparent;
             label15.Font = new Font("Dubai", 8F);
             label15.ForeColor = Color.Black;
-            label15.Location = new Point(13, 503);
+            label15.Location = new Point(17, 676);
+            label15.Margin = new Padding(4, 0, 4, 0);
             label15.Name = "label15";
-            label15.Size = new Size(137, 27);
+            label15.Size = new Size(189, 37);
             label15.TabIndex = 17;
             label15.Text = "Status Pembayaran";
             // 
@@ -248,9 +266,10 @@
             lblMetode.BackColor = Color.Transparent;
             lblMetode.Font = new Font("Dubai", 8F);
             lblMetode.ForeColor = Color.Black;
-            lblMetode.Location = new Point(12, 481);
+            lblMetode.Location = new Point(16, 648);
+            lblMetode.Margin = new Padding(4, 0, 4, 0);
             lblMetode.Name = "lblMetode";
-            lblMetode.Size = new Size(143, 27);
+            lblMetode.Size = new Size(199, 37);
             lblMetode.TabIndex = 16;
             lblMetode.Text = "Metode Pembayaran";
             // 
@@ -260,9 +279,10 @@
             lblGaris2.BackColor = Color.Transparent;
             lblGaris2.Font = new Font("Dubai", 8F);
             lblGaris2.ForeColor = Color.Black;
-            lblGaris2.Location = new Point(3, 146);
+            lblGaris2.Location = new Point(4, 209);
+            lblGaris2.Margin = new Padding(4, 0, 4, 0);
             lblGaris2.Name = "lblGaris2";
-            lblGaris2.Size = new Size(420, 27);
+            lblGaris2.Size = new Size(561, 37);
             lblGaris2.TabIndex = 20;
             lblGaris2.Text = "--------------------------------------------------------------------";
             // 
@@ -272,9 +292,10 @@
             lblGaris3.BackColor = Color.Transparent;
             lblGaris3.Font = new Font("Dubai", 8F);
             lblGaris3.ForeColor = Color.Black;
-            lblGaris3.Location = new Point(4, 403);
+            lblGaris3.Location = new Point(-1, 538);
+            lblGaris3.Margin = new Padding(4, 0, 4, 0);
             lblGaris3.Name = "lblGaris3";
-            lblGaris3.Size = new Size(420, 27);
+            lblGaris3.Size = new Size(561, 37);
             lblGaris3.TabIndex = 21;
             lblGaris3.Text = "--------------------------------------------------------------------";
             // 
@@ -284,9 +305,10 @@
             label17.BackColor = Color.Transparent;
             label17.Font = new Font("Dubai", 8F);
             label17.ForeColor = Color.Black;
-            label17.Location = new Point(4, 463);
+            label17.Location = new Point(-1, 625);
+            label17.Margin = new Padding(4, 0, 4, 0);
             label17.Name = "label17";
-            label17.Size = new Size(420, 27);
+            label17.Size = new Size(561, 37);
             label17.TabIndex = 22;
             label17.Text = "--------------------------------------------------------------------";
             // 
@@ -296,9 +318,10 @@
             label18.BackColor = Color.Transparent;
             label18.Font = new Font("Dubai", 8F);
             label18.ForeColor = Color.Black;
-            label18.Location = new Point(3, 524);
+            label18.Location = new Point(1, 701);
+            label18.Margin = new Padding(4, 0, 4, 0);
             label18.Name = "label18";
-            label18.Size = new Size(420, 27);
+            label18.Size = new Size(561, 37);
             label18.TabIndex = 23;
             label18.Text = "--------------------------------------------------------------------";
             // 
@@ -308,9 +331,10 @@
             lblUcapan.BackColor = Color.Transparent;
             lblUcapan.Font = new Font("Dubai", 9F);
             lblUcapan.ForeColor = Color.Black;
-            lblUcapan.Location = new Point(79, 551);
+            lblUcapan.Location = new Point(103, 727);
+            lblUcapan.Margin = new Padding(4, 0, 4, 0);
             lblUcapan.Name = "lblUcapan";
-            lblUcapan.Size = new Size(267, 30);
+            lblUcapan.Size = new Size(362, 40);
             lblUcapan.TabIndex = 24;
             lblUcapan.Text = "Terima kasih atas kunjungan anda!  ";
             // 
@@ -319,9 +343,10 @@
             btnCetakNota.BackColor = Color.SteelBlue;
             btnCetakNota.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCetakNota.ForeColor = Color.White;
-            btnCetakNota.Location = new Point(28, 648);
+            btnCetakNota.Location = new Point(36, 829);
+            btnCetakNota.Margin = new Padding(4, 4, 4, 4);
             btnCetakNota.Name = "btnCetakNota";
-            btnCetakNota.Size = new Size(177, 34);
+            btnCetakNota.Size = new Size(230, 44);
             btnCetakNota.TabIndex = 25;
             btnCetakNota.Text = "Cetak";
             btnCetakNota.UseVisualStyleBackColor = false;
@@ -331,9 +356,10 @@
             btnTutup.BackColor = Color.Red;
             btnTutup.Font = new Font("Dubai Medium", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnTutup.ForeColor = Color.White;
-            btnTutup.Location = new Point(225, 648);
+            btnTutup.Location = new Point(292, 829);
+            btnTutup.Margin = new Padding(4, 4, 4, 4);
             btnTutup.Name = "btnTutup";
-            btnTutup.Size = new Size(161, 34);
+            btnTutup.Size = new Size(209, 44);
             btnTutup.TabIndex = 26;
             btnTutup.Text = "Tutup";
             btnTutup.UseVisualStyleBackColor = false;
@@ -344,9 +370,10 @@
             lblAngkaKembalian.BackColor = Color.Transparent;
             lblAngkaKembalian.Font = new Font("Dubai", 8F);
             lblAngkaKembalian.ForeColor = Color.Black;
-            lblAngkaKembalian.Location = new Point(165, 442);
+            lblAngkaKembalian.Location = new Point(214, 598);
+            lblAngkaKembalian.Margin = new Padding(4, 0, 4, 0);
             lblAngkaKembalian.Name = "lblAngkaKembalian";
-            lblAngkaKembalian.Size = new Size(49, 27);
+            lblAngkaKembalian.Size = new Size(67, 37);
             lblAngkaKembalian.TabIndex = 28;
             lblAngkaKembalian.Text = ": Rp. -";
             // 
@@ -356,17 +383,46 @@
             lblKembalian.BackColor = Color.Transparent;
             lblKembalian.Font = new Font("Dubai", 8F);
             lblKembalian.ForeColor = Color.Black;
-            lblKembalian.Location = new Point(12, 442);
+            lblKembalian.Location = new Point(16, 598);
+            lblKembalian.Margin = new Padding(4, 0, 4, 0);
             lblKembalian.Name = "lblKembalian";
-            lblKembalian.Size = new Size(78, 27);
+            lblKembalian.Size = new Size(109, 37);
             lblKembalian.TabIndex = 27;
             lblKembalian.Text = "Kembalian";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Dubai", 8F);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(143, 176);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(34, 37);
+            label1.TabIndex = 30;
+            label1.Text = ": -";
+            // 
+            // lblNamaMeja
+            // 
+            lblNamaMeja.AutoSize = true;
+            lblNamaMeja.BackColor = Color.Transparent;
+            lblNamaMeja.Font = new Font("Dubai", 8F);
+            lblNamaMeja.ForeColor = Color.Black;
+            lblNamaMeja.Location = new Point(17, 177);
+            lblNamaMeja.Margin = new Padding(4, 0, 4, 0);
+            lblNamaMeja.Name = "lblNamaMeja";
+            lblNamaMeja.Size = new Size(123, 37);
+            lblNamaMeja.TabIndex = 29;
+            lblNamaMeja.Text = "Nama/Meja";
+            // 
             // FormCetakNota
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(428, 694);
+            ClientSize = new Size(556, 888);
+            Controls.Add(label1);
+            Controls.Add(lblNamaMeja);
             Controls.Add(lblAngkaKembalian);
             Controls.Add(lblKembalian);
             Controls.Add(btnTutup);
@@ -393,6 +449,7 @@
             Controls.Add(lblGaris3);
             Controls.Add(label17);
             Controls.Add(label18);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "FormCetakNota";
             Text = "FormCetakNota";
             ResumeLayout(false);
@@ -427,5 +484,7 @@
         private Button btnTutup;
         private Label lblAngkaKembalian;
         private Label lblKembalian;
+        private Label label1;
+        private Label lblNamaMeja;
     }
 }

@@ -13,6 +13,9 @@ namespace CFMART
         public static List<ItemKeranjang> DaftarBelanjaan { get; set; } = new List<ItemKeranjang>();
         public static string TipePesanan { get; set; } = "";
         public static string MetodePembayaran { get; set; } = "";
+        public static string CatatanPesanan = "";
+
+        public static bool IsSudahBayar = false;
 
         /// <summary>
         ///  The main entry point for the application.
@@ -25,7 +28,7 @@ namespace CFMART
 
             // 🌟 LANGSUNG JALANKAN DASHBOARD PELANGGAN UNTUK TESTING
             // Kita tunjuk langsung folder path-nya: CFMART.Views.Pelanggan.DashboardPelanggan
-            Application.Run(new CFMART.Views.FormLogin());
+            Application.Run(new DashboardPelanggan());
         }
     }
 }

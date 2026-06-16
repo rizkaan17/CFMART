@@ -149,6 +149,32 @@ namespace CFMART.Controllers
                 return false;
             }
         }
+        /// <summary>
+        /// Method tambahan untuk menambah produk langsung dari file path
+        /// </summary>
+        public bool TambahProdukDariFile(string jenis, double harga, int stok, string filePath)
+        {
+            try
+            {
+                // 1. Validasi file path agar tidak error saat aplikasi dijalankan
+                if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+                {
+                    // Jika user tidak pilih foto, kita tetap bisa simpan produk (foto = null)
+                    return TambahProduk(jenis, harga, stok, null);
+                }
+
+                // 2. Ubah file jadi byte array
+                byte[] fotoByte = System.IO.File.ReadAllBytes(filePath);
+
+                // 3. Panggil method TambahProduk yang sudah ada (Code Reuse)
+                return TambahProduk(jenis, harga, stok, fotoByte);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memproses file foto: " + ex.Message, "Error File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
 
         /// <summary>
         /// Menghapus produk berdasarkan ID

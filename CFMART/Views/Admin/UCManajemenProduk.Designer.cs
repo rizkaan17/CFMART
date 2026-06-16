@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UCManajemenProduk));
             btnTambahProduk = new Button();
             pnlTambahProduk = new Panel();
+            btnPilihProduk = new Button();
+            pictureBox1 = new PictureBox();
             btnBatal2 = new Button();
             btnSimpan2 = new Button();
             lblStok = new Label();
@@ -43,6 +45,7 @@
             lblManajemenProduk = new Label();
             dgvManajemenProduk = new DataGridView();
             pnlTambahProduk.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvManajemenProduk).BeginInit();
             SuspendLayout();
             // 
@@ -64,6 +67,8 @@
             // 
             pnlTambahProduk.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pnlTambahProduk.BackColor = Color.LightSlateGray;
+            pnlTambahProduk.Controls.Add(btnPilihProduk);
+            pnlTambahProduk.Controls.Add(pictureBox1);
             pnlTambahProduk.Controls.Add(btnBatal2);
             pnlTambahProduk.Controls.Add(btnSimpan2);
             pnlTambahProduk.Controls.Add(lblStok);
@@ -75,8 +80,30 @@
             pnlTambahProduk.Controls.Add(lblTambahProduk);
             pnlTambahProduk.Location = new Point(470, 146);
             pnlTambahProduk.Name = "pnlTambahProduk";
-            pnlTambahProduk.Size = new Size(1237, 403);
+            pnlTambahProduk.Size = new Size(1237, 481);
             pnlTambahProduk.TabIndex = 6;
+            // 
+            // btnPilihProduk
+            // 
+            btnPilihProduk.BackColor = Color.LightSlateGray;
+            btnPilihProduk.Font = new Font("Dubai Medium", 10.124999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnPilihProduk.ForeColor = SystemColors.ButtonHighlight;
+            btnPilihProduk.Location = new Point(29, 359);
+            btnPilihProduk.Name = "btnPilihProduk";
+            btnPilihProduk.Size = new Size(293, 46);
+            btnPilihProduk.TabIndex = 16;
+            btnPilihProduk.Text = "Pilih Produk";
+            btnPilihProduk.UseVisualStyleBackColor = false;
+            btnPilihProduk.Click += btnPilihProduk_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BorderStyle = BorderStyle.FixedSingle;
+            pictureBox1.Location = new Point(29, 90);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(293, 244);
+            pictureBox1.TabIndex = 15;
+            pictureBox1.TabStop = false;
             // 
             // btnBatal2
             // 
@@ -84,12 +111,13 @@
             btnBatal2.FlatStyle = FlatStyle.Popup;
             btnBatal2.Font = new Font("Dubai", 10.124999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBatal2.ForeColor = Color.White;
-            btnBatal2.Location = new Point(853, 313);
+            btnBatal2.Location = new Point(832, 383);
             btnBatal2.Name = "btnBatal2";
             btnBatal2.Size = new Size(130, 67);
             btnBatal2.TabIndex = 14;
             btnBatal2.Text = "Batal";
             btnBatal2.UseVisualStyleBackColor = false;
+            btnBatal2.Click += btnBatal2_Click;
             // 
             // btnSimpan2
             // 
@@ -97,7 +125,7 @@
             btnSimpan2.FlatStyle = FlatStyle.Popup;
             btnSimpan2.Font = new Font("Dubai", 10.124999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnSimpan2.ForeColor = Color.White;
-            btnSimpan2.Location = new Point(998, 313);
+            btnSimpan2.Location = new Point(977, 383);
             btnSimpan2.Name = "btnSimpan2";
             btnSimpan2.Size = new Size(221, 67);
             btnSimpan2.TabIndex = 13;
@@ -111,7 +139,7 @@
             lblStok.BackColor = Color.Transparent;
             lblStok.Font = new Font("Dubai", 10.124999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblStok.ForeColor = Color.White;
-            lblStok.Location = new Point(666, 90);
+            lblStok.Location = new Point(799, 90);
             lblStok.Name = "lblStok";
             lblStok.Size = new Size(71, 45);
             lblStok.TabIndex = 12;
@@ -123,7 +151,7 @@
             lblHarga.BackColor = Color.Transparent;
             lblHarga.Font = new Font("Dubai", 10.124999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblHarga.ForeColor = Color.White;
-            lblHarga.Location = new Point(29, 240);
+            lblHarga.Location = new Point(376, 240);
             lblHarga.Name = "lblHarga";
             lblHarga.Size = new Size(144, 45);
             lblHarga.TabIndex = 10;
@@ -135,7 +163,7 @@
             lblNamaProduk.BackColor = Color.Transparent;
             lblNamaProduk.Font = new Font("Dubai", 10.124999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblNamaProduk.ForeColor = Color.White;
-            lblNamaProduk.Location = new Point(29, 90);
+            lblNamaProduk.Location = new Point(376, 90);
             lblNamaProduk.Name = "lblNamaProduk";
             lblNamaProduk.Size = new Size(171, 45);
             lblNamaProduk.TabIndex = 9;
@@ -144,26 +172,27 @@
             // tbStok
             // 
             tbStok.BackColor = Color.White;
-            tbStok.Location = new Point(666, 138);
+            tbStok.Location = new Point(799, 138);
             tbStok.Name = "tbStok";
-            tbStok.Size = new Size(512, 39);
+            tbStok.Size = new Size(379, 39);
             tbStok.TabIndex = 8;
             // 
             // tbHarga
             // 
             tbHarga.BackColor = Color.White;
-            tbHarga.Location = new Point(29, 288);
+            tbHarga.Location = new Point(376, 288);
             tbHarga.Name = "tbHarga";
-            tbHarga.Size = new Size(512, 39);
+            tbHarga.Size = new Size(379, 39);
             tbHarga.TabIndex = 6;
             // 
             // tbNamaProduk
             // 
             tbNamaProduk.BackColor = Color.White;
-            tbNamaProduk.Location = new Point(29, 138);
+            tbNamaProduk.Location = new Point(376, 138);
             tbNamaProduk.Name = "tbNamaProduk";
-            tbNamaProduk.Size = new Size(512, 39);
+            tbNamaProduk.Size = new Size(379, 39);
             tbNamaProduk.TabIndex = 5;
+            tbNamaProduk.TextChanged += tbNamaProduk_TextChanged;
             // 
             // lblTambahProduk
             // 
@@ -196,11 +225,11 @@
             dgvManajemenProduk.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvManajemenProduk.BackgroundColor = Color.LightSlateGray;
             dgvManajemenProduk.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvManajemenProduk.Location = new Point(470, 568);
+            dgvManajemenProduk.Location = new Point(470, 662);
             dgvManajemenProduk.Name = "dgvManajemenProduk";
             dgvManajemenProduk.ReadOnly = true;
             dgvManajemenProduk.RowHeadersWidth = 82;
-            dgvManajemenProduk.Size = new Size(1237, 488);
+            dgvManajemenProduk.Size = new Size(1237, 394);
             dgvManajemenProduk.TabIndex = 7;
             // 
             // UCManajemenProduk
@@ -216,6 +245,7 @@
             Size = new Size(2165, 1085);
             pnlTambahProduk.ResumeLayout(false);
             pnlTambahProduk.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvManajemenProduk).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -236,5 +266,7 @@
         private Label lblTambahProduk;
         private Label lblManajemenProduk;
         private DataGridView dgvManajemenProduk;
+        private Button btnPilihProduk;
+        private PictureBox pictureBox1;
     }
 }

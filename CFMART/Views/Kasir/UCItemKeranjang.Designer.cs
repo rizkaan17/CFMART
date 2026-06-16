@@ -43,9 +43,10 @@
             lblNamaItem.BackColor = Color.Transparent;
             lblNamaItem.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblNamaItem.ForeColor = Color.White;
-            lblNamaItem.Location = new Point(10, 9);
+            lblNamaItem.Location = new Point(14, 18);
+            lblNamaItem.Margin = new Padding(4, 0, 4, 0);
             lblNamaItem.Name = "lblNamaItem";
-            lblNamaItem.Size = new Size(126, 40);
+            lblNamaItem.Size = new Size(168, 54);
             lblNamaItem.TabIndex = 0;
             lblNamaItem.Text = "Nama Item";
             // 
@@ -55,9 +56,10 @@
             lblQuantity.BackColor = Color.Transparent;
             lblQuantity.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblQuantity.ForeColor = Color.White;
-            lblQuantity.Location = new Point(293, 7);
+            lblQuantity.Location = new Point(386, 18);
+            lblQuantity.Margin = new Padding(4, 0, 4, 0);
             lblQuantity.Name = "lblQuantity";
-            lblQuantity.Size = new Size(30, 40);
+            lblQuantity.Size = new Size(40, 54);
             lblQuantity.TabIndex = 1;
             lblQuantity.Text = "3";
             // 
@@ -67,9 +69,10 @@
             lblHargaItem.BackColor = Color.Transparent;
             lblHargaItem.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblHargaItem.ForeColor = Color.White;
-            lblHargaItem.Location = new Point(467, 7);
+            lblHargaItem.Location = new Point(612, 13);
+            lblHargaItem.Margin = new Padding(4, 0, 4, 0);
             lblHargaItem.Name = "lblHargaItem";
-            lblHargaItem.Size = new Size(63, 40);
+            lblHargaItem.Size = new Size(84, 54);
             lblHargaItem.TabIndex = 2;
             lblHargaItem.Text = "Rp. -";
             // 
@@ -78,9 +81,10 @@
             btnTambahItem.BackColor = Color.SlateGray;
             btnTambahItem.Font = new Font("Dubai", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnTambahItem.ForeColor = Color.White;
-            btnTambahItem.Location = new Point(217, 12);
+            btnTambahItem.Location = new Point(282, 15);
+            btnTambahItem.Margin = new Padding(4);
             btnTambahItem.Name = "btnTambahItem";
-            btnTambahItem.Size = new Size(58, 34);
+            btnTambahItem.Size = new Size(75, 53);
             btnTambahItem.TabIndex = 3;
             btnTambahItem.Text = "+";
             btnTambahItem.UseVisualStyleBackColor = false;
@@ -90,9 +94,10 @@
             btnMinusItem.BackColor = Color.SlateGray;
             btnMinusItem.Font = new Font("Dubai", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnMinusItem.ForeColor = Color.White;
-            btnMinusItem.Location = new Point(339, 10);
+            btnMinusItem.Location = new Point(450, 17);
+            btnMinusItem.Margin = new Padding(4);
             btnMinusItem.Name = "btnMinusItem";
-            btnMinusItem.Size = new Size(58, 34);
+            btnMinusItem.Size = new Size(75, 51);
             btnMinusItem.TabIndex = 4;
             btnMinusItem.Text = "-";
             btnMinusItem.UseVisualStyleBackColor = false;
@@ -102,16 +107,17 @@
             btnHapusItem.BackColor = Color.SlateGray;
             btnHapusItem.Font = new Font("Dubai", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnHapusItem.ForeColor = Color.White;
-            btnHapusItem.Location = new Point(648, 11);
+            btnHapusItem.Location = new Point(842, 17);
+            btnHapusItem.Margin = new Padding(4);
             btnHapusItem.Name = "btnHapusItem";
-            btnHapusItem.Size = new Size(58, 34);
+            btnHapusItem.Size = new Size(75, 55);
             btnHapusItem.TabIndex = 5;
             btnHapusItem.Text = "x";
             btnHapusItem.UseVisualStyleBackColor = false;
             // 
             // UCItemKeranjang
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             Controls.Add(btnHapusItem);
@@ -120,8 +126,9 @@
             Controls.Add(lblHargaItem);
             Controls.Add(lblQuantity);
             Controls.Add(lblNamaItem);
+            Margin = new Padding(4);
             Name = "UCItemKeranjang";
-            Size = new Size(720, 55);
+            Size = new Size(962, 94);
             ResumeLayout(false);
             PerformLayout();
         }
