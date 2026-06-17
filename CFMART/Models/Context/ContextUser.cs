@@ -82,6 +82,19 @@ namespace CFMART.Models.Context
                 }
             }
         }
+        public bool HapusKaryawan(int idUser)
+        {
+            string query = "DELETE FROM \"User\" WHERE id_user = @id";
+            using (NpgsqlConnection conn = AmbilKoneksi())
+            {
+                conn.Open();
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", idUser);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
 
         public User Login(string username, string password)
         {

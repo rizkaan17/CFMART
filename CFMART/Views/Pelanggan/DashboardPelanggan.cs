@@ -1,8 +1,6 @@
-﻿using CFMART.Views;
-using CFMART.Controllers;
-using CFMART.Views.Pelanggan;
-using CFMART.Views.Kasir;     // Sudah aman mendeteksi PanelHasilCari di subfolder
+﻿using CFMART.Controllers;
 using CFMART.Models;
+using CFMART.Views;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,48 +12,117 @@ namespace CFMART
     public partial class DashboardPelanggan : Form
     {
         private readonly ProdukController _produkController = new ProdukController();
-        private PanelHasilCari panelHasil = null;
+        private List<Produk> _semuaProdukCache = new List<Produk>();
+        private string _kategoriAktif = "Semua"; // Untuk melacak filter tombol kategori
 
         public DashboardPelanggan()
         {
             InitializeComponent();
             this.Load += new System.EventHandler(this.DashboardPelanggan_Load);
 
-            // 🌟 OPSI TAMBAHAN: Jika di desainer button1-button6 belum diikat event-nya, 
-            // kita ikat secara terpusat ke satu fungsi yang sama di sini
+            this.Activated += DashboardPelanggan_Activated;
+
+            // Ikat event klik 6 tombol plus menu makanan & minuman secara otomatis
             IkatEventTombolPlus();
+        }
+        private void DashboardPelanggan_Activated(object sender, EventArgs e)
+        {
+            // Setiap kali kembali ke dashboard ini, ambil data terbaru dari DB
+            RefreshDataProduk();
         }
 
         private void DashboardPelanggan_Load(object sender, EventArgs e)
         {
-            AmbilStokTerbaruDariDatabase();
+            // Ambil data awal dari database PostgreSQL saat form dibuka
+            RefreshDataProduk();
         }
 
         /// <summary>
-        /// Mengambil sisa stok riil berdasarkan ID Produk mutlak dari database pgAdmin
+        /// Mengambil data terbaru dari database dan merender katalog sesuai saringan
         /// </summary>
-        private void AmbilStokTerbaruDariDatabase()
+        private void RefreshDataProduk()
         {
-            List<Produk> listProduk = _produkController.AmbilSemuaProduk();
+            _semuaProdukCache = _produkController.AmbilSemuaProduk();
+            FilterDanRenderKatalog();
+        }
+        private Image ConvertBytesToImage(byte[] data)
+        {
+            if (data == null || data.Length == 0) return null;
+            using (var ms = new System.IO.MemoryStream(data))
+            {
+                return Image.FromStream(ms);
+            }
+        }
+        /// <summary>
+        /// 🌟 LOGIKA UTAMA: Menyaring tampilan menu berdasarkan Textbox Search DAN Tombol Kategori
+        /// </summary>
+        private void FilterDanRenderKatalog()
+        {
+            string keyword = txtSearch.Text.Trim().ToLower();
 
-            // Pencarian berbasis ID Jauh lebih aman dibanding pencarian string nama
-            var pBakar = listProduk.FirstOrDefault(p => p.id_produk == 1);
-            if (pBakar != null && labelstoklelebakar != null) labelstoklelebakar.Text = pBakar.stok.ToString();
+            // Abaikan keyword jika masih berupa placeholder bawaan figma
+            if (keyword == "cari lele bakar, goreng, ...") keyword = "";
 
-            var pMangut = listProduk.FirstOrDefault(p => p.id_produk == 2);
-            if (pMangut != null && lblstokmangutlele != null) lblstokmangutlele.Text = pMangut.stok.ToString();
+            // 1. Saring berdasarkan teks search
+            var hasilSaring = _semuaProdukCache.Where(p =>
+                string.IsNullOrEmpty(keyword) ||
+                p.jenis_produk.ToLower().Contains(keyword)
+            ).ToList();
 
-            var pAir = listProduk.FirstOrDefault(p => p.id_produk == 3);
-            if (pAir != null && lblstokairmineral != null) lblstokairmineral.Text = pAir.stok.ToString();
+            // 2. Saring berdasarkan kategori aktif (Makanan/Minuman)
+            if (_kategoriAktif == "Makanan")
+            {
+                // Menyesuaikan ID makanan kelompokmu (Lele Bakar=1, Mangut=2, Lele Goreng=5)
+                int[] idMakanan = { 1, 2, 3};
+                hasilSaring = hasilSaring.Where(p => idMakanan.Contains(p.id_produk)).ToList();
+            }
+            else if (_kategoriAktif == "Minuman")
+            {
+                // Menyesuaikan ID minuman kelompokmu (Air Mineral=3, Es Jeruk=4, Es Teh=6)
+                int[] idMinuman = { 4, 5, 6 };
+                hasilSaring = hasilSaring.Where(p => idMinuman.Contains(p.id_produk)).ToList();
+            }
 
-            var pJeruk = listProduk.FirstOrDefault(p => p.id_produk == 4);
-            if (pJeruk != null && lblstokesjeruk != null) lblstokesjeruk.Text = pJeruk.stok.ToString();
+            // 3. Atur Visibilitas Kontainer Panel Menu di Layar (Mirip cara kerja Kasir kamu!)
 
-            var pGoreng = listProduk.FirstOrDefault(p => p.id_produk == 5);
-            if (pGoreng != null && lblstoklelegoreng != null) lblstoklelegoreng.Text = pGoreng.stok.ToString();
+            UpdatePanelTampilan(1, panelLeleBakar, labelstoklelebakar, pblelebakar, button1, "Lele Bakar", 18000, hasilSaring);
+            UpdatePanelTampilan(3, panelMangutLele, lblstokmangutlele, pbmangutlele, button2, "Mangut Lele", 22000, hasilSaring);
+            UpdatePanelTampilan(6, panelAirMineral, lblstokairmineral, pbairmineral, button3, "Air Mineral", 5000, hasilSaring);
+            UpdatePanelTampilan(5, panelEsJeruk, lblstokesjeruk, pbesjeruk, button4, "Es Jeruk", 7000, hasilSaring);
+            UpdatePanelTampilan(2, panelLeleGoreng, lblstoklelegoreng, pblelegoreng, button5, "Lele Goreng", 12000, hasilSaring);
+            UpdatePanelTampilan(4, panelEsTeh, lblstokesteh, pbesteh, button6, "Es Teh", 5000, hasilSaring);
+        }
 
-            var pTeh = listProduk.FirstOrDefault(p => p.id_produk == 6);
-            if (pTeh != null && lblstokesteh != null) lblstokesteh.Text = pTeh.stok.ToString();
+        private void UpdatePanelTampilan(int idProd, Panel pnl, Label lblStok, PictureBox pbx, Button btnPlus, string namaDefault, double hargaDefault, List<Produk> listSaring)
+        {
+            if (pnl == null) return;
+
+            // Cek apakah produk dengan ID ini lolos dari saringan pencarian
+            var prod = listSaring.FirstOrDefault(p => p.id_produk == idProd);
+
+            if (prod != null)
+            {
+                if (lblStok != null) lblStok.Text = prod.stok.ToString();
+                if (btnPlus != null) btnPlus.Tag = new Tuple<int, string, double>(prod.id_produk, prod.jenis_produk, prod.harga);
+                if (pbx != null && prod.foto_Produk != null)
+                {
+                    pbx.Image = ConvertBytesToImage(prod.foto_Produk);
+                }
+                pnl.Visible = true; // Sembunyikan/tampilkan panel secara live di tempat!
+            }
+            else
+            {
+                pnl.Visible = false; // Jika tidak cocok dengan search, panel menu langsung sembunyi
+                if (btnPlus != null) btnPlus.Tag = null;
+            }
+        }
+
+
+        // --- 🌟 LIVE PENCARIAN (CARA KASIR): Menggantikan panel melayang lama ---
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            // Setiap kali huruf diketik, langsung saring item di tempat tanpa memunculkan form baru
+            FilterDanRenderKatalog();
         }
 
         private void TambahKeKeranjang(int idProduk, string nama, double harga)
@@ -77,7 +144,7 @@ namespace CFMART
                 {
                     id_produk = idProduk,
                     nama_produk = nama,
-                    harga = (int)harga, // Sinkronisasi cast ke int HargaSatuan milik ItemKeranjang
+                    harga = (int)harga,
                     quantity = 1
                 });
             }
@@ -85,119 +152,49 @@ namespace CFMART
             MessageBox.Show($"{nama} sukses dimasukkan ke dalam keranjang belanja!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // =========================================================================
-        // 🌟 REFACTOR TERPUSAT: Menggabungkan 6 fungsi tombol menjadi 1 fungsi sakti
-        // =========================================================================
         private void IkatEventTombolPlus()
         {
-            // Kita pasang data di properti Tag masing-masing button sebagai penanda (ID, Nama, Harga)
-            if (button1 != null) { button1.Tag = new Tuple<int, string, double>(1, "Lele Bakar", 18000); button1.Click += TombolPlusMenu_Click; }
-            if (button2 != null) { button2.Tag = new Tuple<int, string, double>(2, "Mangut Lele", 22000); button2.Click += TombolPlusMenu_Click; }
-            if (button3 != null) { button3.Tag = new Tuple<int, string, double>(3, "Air Mineral", 5000); button3.Click += TombolPlusMenu_Click; }
-            if (button4 != null) { button4.Tag = new Tuple<int, string, double>(4, "Es Jeruk", 7000); button4.Click += TombolPlusMenu_Click; }
-            if (button5 != null) { button5.Tag = new Tuple<int, string, double>(5, "Lele Goreng", 12000); button5.Click += TombolPlusMenu_Click; }
-            if (button6 != null) { button6.Tag = new Tuple<int, string, double>(6, "Es Teh", 5000); button6.Click += TombolPlusMenu_Click; }
+            if (button1 != null) button1.Click += TombolPlusMenu_Click;
+            if (button2 != null) button2.Click += TombolPlusMenu_Click;
+            if (button3 != null) button3.Click += TombolPlusMenu_Click;
+            if (button4 != null) button4.Click += TombolPlusMenu_Click;
+            if (button5 != null) button5.Click += TombolPlusMenu_Click;
+            if (button6 != null) button6.Click += TombolPlusMenu_Click;
         }
 
         private void TombolPlusMenu_Click(object? sender, EventArgs e)
         {
             if (sender is Button btn && btn.Tag is Tuple<int, string, double> dataMenu)
             {
-                // Eksekusi fungsi tambah keranjang menggunakan data dinamis di dalam Tag
                 TambahKeKeranjang(dataMenu.Item1, dataMenu.Item2, dataMenu.Item3);
             }
         }
 
-        // --- NAVIGASI HEADER ---
+        // --- FILTER KATEGORI (DIINTEGRASIKAN DENGAN SEARCH) ---
+        private void btnSemua_Click(object sender, EventArgs e) { _kategoriAktif = "Semua"; FilterDanRenderKatalog(); }
+        private void btnMakanan_Click(object sender, EventArgs e) { _kategoriAktif = "Makanan"; FilterDanRenderKatalog(); }
+        private void btnMinuman_Click(object sender, EventArgs e) { _kategoriAktif = "Minuman"; FilterDanRenderKatalog(); }
+
+        // --- NAVIGASI NAV BAR ---
         private void btnKeranjang_Click(object sender, EventArgs e)
         {
             Views.Pelanggan.KeranjangBelanja frmKeranjang = new Views.Pelanggan.KeranjangBelanja();
-            frmKeranjang.ShowDialog(); // Diubah jadi ShowDialog agar fokus sebagai pop-up belanja
+            frmKeranjang.ShowDialog();
+            RefreshDataProduk(); // Segarkan stok barangkali ada item yang dikurangi/batal
         }
 
         private void btnCheckout_Click(object sender, EventArgs e)
         {
             Views.Pelanggan.CheckoutdanPembayaran frmCheckout = new Views.Pelanggan.CheckoutdanPembayaran();
             frmCheckout.ShowDialog();
-        }
-
-        // --- FILTER KATEGORI ---
-        private void btnSemua_Click(object sender, EventArgs e) => ToggleVisibility(true, true);
-        private void btnMakanan_Click(object sender, EventArgs e) => ToggleVisibility(true, false);
-        private void btnMinuman_Click(object sender, EventArgs e) => ToggleVisibility(false, true);
-
-        private void ToggleVisibility(bool mkn, bool mnm)
-        {
-            if (panelLeleGoreng != null) panelLeleGoreng.Visible = mkn;
-            if (panelLeleBakar != null) panelLeleBakar.Visible = mkn;
-            if (panelMangutLele != null) panelMangutLele.Visible = mkn;
-
-            if (panelAirMineral != null) panelAirMineral.Visible = mnm;
-            if (panelEsJeruk != null) panelEsJeruk.Visible = mnm;
-            if (panelEsTeh != null) panelEsTeh.Visible = mnm;
-        }
-
-        // --- PENCARIAN DINAMIS ---
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            string keyword = txtSearch.Text.Trim();
-
-            if (string.IsNullOrEmpty(keyword) || keyword == "Cari lele bakar, goreng, ...")
-            {
-                if (panelHasil != null)
-                {
-                    this.Controls.Remove(panelHasil);
-                    panelHasil.Dispose();
-                    panelHasil = null;
-                }
-                return;
-            }
-
-            List<Produk> hasilPencarianDb = _produkController.CariProduk(keyword);
-
-            var hasilUntukPanel = hasilPencarianDb.Select(p => new DataProdukCari
-            {
-                Nama = p.jenis_produk,
-                Harga = (int)p.harga,
-                Gambar = null
-            }).ToList();
-
-            if (panelHasil == null)
-            {
-                panelHasil = new PanelHasilCari();
-                panelHasil.Location = new Point(150, 170);
-
-                panelHasil.OnTambahKeranjangKlik += (nama, harga) =>
-                {
-                    var produkTerpilih = hasilPencarianDb.FirstOrDefault(p => p.jenis_produk == nama);
-                    int idProd = (produkTerpilih != null) ? produkTerpilih.id_produk : 1;
-                    TambahKeKeranjang(idProd, nama, harga);
-                };
-
-                panelHasil.OnCloseKlik += () =>
-                {
-                    this.Controls.Remove(panelHasil);
-                    panelHasil.Dispose();
-                    panelHasil = null;
-                    txtSearch.Clear();
-                };
-                this.Controls.Add(panelHasil);
-                panelHasil.BringToFront();
-            }
-
-            panelHasil.SetJudul(keyword);
-            panelHasil.TampilkanHasil(hasilUntukPanel);
+            RefreshDataProduk();
         }
 
         private void btnloginkaryawan_Click(object sender, EventArgs e)
         {
             FormLogin loginForm = new FormLogin();
-
-            // 🌟 LEBIH ELEGAN: Membuka sebagai dialog penahan. Dashboard tidak perlu menghilang amblas
             loginForm.ShowDialog();
-
-            // Begitu loginForm ditutup, segarkan angka stok barangkali ada perubahan dari kasir
-            AmbilStokTerbaruDariDatabase();
+            RefreshDataProduk(); // Segarkan angka stok setelah kasir/karyawan selesai melakukan input transaksi baru
         }
     }
 }

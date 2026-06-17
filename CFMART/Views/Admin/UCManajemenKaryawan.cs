@@ -34,6 +34,16 @@ namespace CFMART.Views.Admin
 
             // 4. Jalankan fungsi memuat data dari database
             TampilkanSemuaKaryawan();
+
+            if (dgvManajemenKaryawan.Columns["btnHapus"] == null)
+            {
+                DataGridViewButtonColumn btnHapus = new DataGridViewButtonColumn();
+                btnHapus.Name = "btnHapus";
+                btnHapus.HeaderText = ""; // Biar bersih, tidak ada judul
+                btnHapus.Text = "Hapus";
+                btnHapus.UseColumnTextForButtonValue = true;
+                dgvManajemenKaryawan.Columns.Add(btnHapus);
+            }
         }
 
         /// <summary>
@@ -169,7 +179,21 @@ namespace CFMART.Views.Admin
 
         private void dgvManajemenKaryawan_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dgvManajemenKaryawan_CellClick(sender, e);
+            if (e.RowIndex >= 0 && dgvManajemenKaryawan.Columns[e.ColumnIndex].Name == "btnHapus")
+            {
+                int idHapus = Convert.ToInt32(dgvManajemenKaryawan.Rows[e.RowIndex].Cells["ID"].Value);
+
+                var confirm = MessageBox.Show("Yakin ingin menghapus karyawan ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.Yes)
+                {
+                    if (c_Karyawan.HapusKaryawan(idHapus))
+                    {
+                        MessageBox.Show("Karyawan berhasil dihapus!");
+                        TampilkanSemuaKaryawan(); // Refresh tabel
+                        BersihkanForm();
+                    }
+                }
+            }
         }
 
         private void BersihkanForm()

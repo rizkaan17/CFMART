@@ -194,5 +194,57 @@ namespace CFMART.Controllers
                 return false;
             }
         }
+        public bool KurangiStok(int idProduk, int jumlah)
+        {
+            try
+            {
+                // 1. Cari data produk yang mau dikurangi stoknya
+                Produk produk = CariProduk(idProduk);
+                if (produk != null && produk.stok >= jumlah)
+                {
+                    // 2. Kurangi stok di object model
+                    int stokBaru = produk.stok - jumlah;
+
+                    // 3. Simpan perubahan ke database menggunakan method Update yang sudah ada
+                    // (Kita pakai overload yang tidak perlu foto agar praktis)
+                    return UpdateProduk(produk.id_produk, produk.jenis_produk, produk.harga, stokBaru);
+                }
+                else
+                {
+                    MessageBox.Show("Stok tidak mencukupi!");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal update stok: " + ex.Message);
+                return false;
+            }
+        }
+        public bool TambahStok(int idProduk, int jumlah)
+        {
+            try
+            {
+                // 1. Cari data produk
+                Produk produk = CariProduk(idProduk);
+                if (produk != null)
+                {
+                    // 2. Tambah stok
+                    int stokBaru = produk.stok + jumlah;
+
+                    // 3. Simpan perubahan ke database
+                    return UpdateProduk(produk.id_produk, produk.jenis_produk, produk.harga, stokBaru);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal update stok: " + ex.Message);
+                return false;
+            }
+        }
     }
 }

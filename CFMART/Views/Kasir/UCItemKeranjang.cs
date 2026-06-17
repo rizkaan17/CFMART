@@ -1,13 +1,15 @@
-﻿using System;
+﻿using CFMART.Controllers;
+using CFMART.Models; // 🌟 Memanggil model ItemKeranjang yang baru
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using CFMART.Models; // 🌟 Memanggil model ItemKeranjang yang baru
 
 namespace CFMART.Views.Kasir
 {
     public partial class UCItemKeranjang : UserControl
     {
         // Menyimpan data model internal untuk baris item ini
+        private readonly ProdukController _produkController = new ProdukController();
         private ItemKeranjang _itemData;
 
         // =========================================================================
@@ -48,19 +50,21 @@ namespace CFMART.Views.Kasir
         // =========================================================================
         // ➕ TOMBOL TAMBAH QUANTITY (btnTambahItem)
         // =========================================================================
+        public event Action OnDataPerluRefresh;
         private void BtnTambahItem_Click(object sender, EventArgs e)
         {
             if (_itemData == null) return;
 
-            // Naikkan kuantitas porsi menu sebesar 1
-            _itemData.quantity += 1;
-
-            // Segarkan tampilan label lokal baris ini
-            lblQuantity.Text = _itemData.quantity.ToString();
-            lblHargaItem.Text = "Rp " + _itemData.sub_total.ToString("N0");
-
-            // Lempar pemberitahuan ke form induk kasir agar total akhir nota ikut meroket naik
-            OnKuantitasBerubah?.Invoke(_itemData);
+            // Cek stok di database sebelum tambah
+            if (_produkController.KurangiStok(_itemData.id_produk, 1))
+            {
+                _itemData.quantity += 1;
+                lblQuantity.Text = _itemData.quantity.ToString();
+                lblHargaItem.Text = "Rp " + _itemData.sub_total.ToString("N0");
+                OnKuantitasBerubah?.Invoke(_itemData);
+                OnDataPerluRefresh?.Invoke();
+            }
+            else { MessageBox.Show("Stok tidak cukup!"); }
         }
 
         // =========================================================================
@@ -70,22 +74,16 @@ namespace CFMART.Views.Kasir
         {
             if (_itemData == null) return;
 
-            // Jika sisa porsi tinggal 1 dan diklik minus, arahkan otomatis ke fungsi hapus baris
-            if (_itemData.quantity <= 1)
+            if (_itemData.quantity > 1)
             {
-                BtnHapusItem_Click(sender, e);
-                return;
+                _produkController.TambahStok(_itemData.id_produk, 1); // Kembalikan stok
+                _itemData.quantity -= 1;
+                lblQuantity.Text = _itemData.quantity.ToString();
+                lblHargaItem.Text = "Rp " + _itemData.sub_total.ToString("N0");
+                OnKuantitasBerubah?.Invoke(_itemData);
+                OnDataPerluRefresh?.Invoke();
             }
-
-            // Kurangi kuantitas porsi menu sebesar 1
-            _itemData.quantity -= 1;
-
-            // Segarkan tampilan label lokal baris ini
-            lblQuantity.Text = _itemData.quantity.ToString();
-            lblHargaItem.Text = "Rp " + _itemData.sub_total.ToString("N0");
-
-            // Lempar pemberitahuan ke form induk kasir agar total akhir nota ikut menyusut turun
-            OnKuantitasBerubah?.Invoke(_itemData);
+            else { BtnHapusItem_Click(sender, e); }
         }
 
         // =========================================================================

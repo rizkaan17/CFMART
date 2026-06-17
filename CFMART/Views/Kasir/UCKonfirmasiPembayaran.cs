@@ -9,30 +9,28 @@ namespace CFMART.Views.Kasir
     public partial class UCKonfirmasiPembayaran : UserControl
     {
         private double _totalBelanja = 0;
-
-        // Penampung internal agar data barang tidak hilang saat berpindah method
         private List<ItemKeranjang> _listPesanan = new List<ItemKeranjang>();
+
+        // Variabel untuk menyimpan status yang diedit kasir
+        private string _statusPembayaran = "Lunas";
 
         public UCKonfirmasiPembayaran()
         {
             InitializeComponent();
 
-            // Event untuk hitung kembalian otomatis saat angka diketik
+            // Event untuk hitung kembalian otomatis
             tbUangDiterima.TextChanged += TbUangDiterima_TextChanged;
-
-            // Event untuk tombol konfirmasi
             btnKonfirmasi.Click += BtnKonfirmasi_Click;
-
-            // Pengaman disposal agar tidak crash
             btnKeluar.Click += (s, e) => this.Dispose();
+
+            // Event untuk radio button status (Pastikan nama rbtnLunas & rbtnBlmLunas sesuai Designer)
+            rbtnLunas.CheckedChanged += (s, e) => { if (rbtnLunas.Checked) _statusPembayaran = "Lunas"; };
+            rbtnBlmLunas.CheckedChanged += (s, e) => { if (rbtnBlmLunas.Checked) _statusPembayaran = "Belum Lunas"; };
         }
 
-        // Method untuk menerima lemparan data dari halaman pesanan sebelumnya
         public void TampilkanData(string noPesanan, string noMeja, List<ItemKeranjang> listPesanan)
         {
             if (listPesanan == null) return;
-
-            // ✅ AMAN: Mengunci data list pesanan luar ke dalam variabel internal RAM
             _listPesanan = listPesanan;
 
             lblAngkaNoPesanan.Text = ": " + noPesanan;
@@ -42,7 +40,7 @@ namespace CFMART.Views.Kasir
             _totalBelanja = _listPesanan.Sum(i => i.sub_total);
             lblAngkaTotal.Text = ": Rp. " + _totalBelanja.ToString("N0");
 
-            // Tampilkan detail pesanan di FlowLayoutPanel secara vertikal
+            // Tampilkan detail pesanan
             flpPesanan.Controls.Clear();
             foreach (var item in _listPesanan)
             {
@@ -61,34 +59,32 @@ namespace CFMART.Views.Kasir
             {
                 double kembalian = uangDiterima - _totalBelanja;
                 lblAngkaKembalian.Text = kembalian >= 0 ? "Rp. " + kembalian.ToString("N0") : "Kurang";
-                lblAngkaKembalian.ForeColor = kembalian >= 0 ? System.Drawing.Color.Black : System.Drawing.Color.Red;
             }
             else
             {
                 lblAngkaKembalian.Text = "Rp. -";
-                lblAngkaKembalian.ForeColor = System.Drawing.Color.Black;
             }
         }
 
         private void BtnKonfirmasi_Click(object sender, EventArgs e)
         {
+            // Validasi uang
             if (double.TryParse(tbUangDiterima.Text, out double uangDiterima) && uangDiterima >= _totalBelanja)
             {
-                MessageBox.Show("Pembayaran Berhasil!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 FormCetakNota formNota = new FormCetakNota();
                 double kembalian = uangDiterima - _totalBelanja;
+                string metode = (rbtnLunas != null && rbtnLunas.Checked) ? "Tunai" : "QRIS";
+                string idOrder = DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                // 🌟 TUNTAS: Memilih string metode pembayaran berdasarkan RadioButton aktif kasir
-                // (Sesuaikan rbtnTunai dengan name komponen RadioButton figma-mu jika berbeda)
-                string metodeTerpilih = (rbtnTunai != null && rbtnTunai.Checked) ? "Tunai" : "QRIS";
-
-                // ✅ SINKRON TOTAL: Memanggil TampilkanDataNotaBaru tepat dengan 4 parameter sesuai request nota murni!
+                // ✅ MEMANGGIL DENGAN 7 PARAMETER SESUAI REVISI TERAKHIR
                 formNota.TampilkanDataNotaBaru(
                     _listPesanan,
                     _totalBelanja,
                     kembalian,
-                    metodeTerpilih
+                    metode,
+                    lblAngkaNoMeja.Text.Replace(": ", ""), // Identitas
+                    idOrder,
+                    _statusPembayaran // Status Lunas/Belum Lunas
                 );
 
                 formNota.ShowDialog();
@@ -96,7 +92,7 @@ namespace CFMART.Views.Kasir
             }
             else
             {
-                MessageBox.Show("Uang pembayaran kurang atau tidak valid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Uang tidak valid/kurang!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

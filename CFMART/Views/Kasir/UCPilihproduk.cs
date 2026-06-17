@@ -95,39 +95,21 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
         {
             if (sender is not Button btnPlus || btnPlus.Tag is not Produk prod) return;
 
-            if (prod.stok <= 0)
+            // 1. Cek & Kurangi di database dulu
+            if (_produkController.KurangiStok(prod.id_produk, 1))
             {
-                MessageBox.Show($"Stok untuk '{prod.jenis_produk}' sudah habis di toko!", "Stok Kosong", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                // 2. Kalau database sukses, baru tambah ke keranjang
+                ItemKeranjang itemAda = _keranjangBelanja.FirstOrDefault(k => k.id_produk == prod.id_produk);
+                if (itemAda != null) itemAda.quantity++;
+                else _keranjangBelanja.Add(new ItemKeranjang { id_produk = prod.id_produk, nama_produk = prod.jenis_produk, harga = prod.harga, quantity = 1 });
 
-            ItemKeranjang itemAda = _keranjangBelanja.FirstOrDefault(k => k.id_produk == prod.id_produk);
-
-            if (itemAda != null)
-            {
-                itemAda.quantity++;
+                // 3. Refresh UI biar stok di layar update
+                MuatKatalogProduk(tbSearchProduk.Text);
+                RenderListPanelKanan();
             }
             else
             {
-                _keranjangBelanja.Add(new ItemKeranjang
-                {
-                    id_produk = prod.id_produk,
-                    nama_produk = prod.jenis_produk,
-                    harga = prod.harga,
-                    quantity = 1
-                });
-            }
-
-            prod.stok--;
-            RenderListPanelKanan();
-
-            for (int i = 0; i < _arrayButtonPlus.Length; i++)
-            {
-                if (_arrayButtonPlus[i] == btnPlus)
-                {
-                    if (_arrayLabelStok[i] != null) _arrayLabelStok[i].Text = prod.stok.ToString();
-                    break;
-                }
+                MessageBox.Show("Stok habis di database!");
             }
         }
 
@@ -144,13 +126,18 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
                 cardItem.SetData(item);
 
                 cardItem.OnKuantitasBerubah += (itemTerupdate) => HitungUlangTotalBelanja();
+                cardItem.OnDataPerluRefresh += () => MuatKatalogProduk("");
                 cardItem.OnHapusItemKlik += (itemDihapus) =>
                 {
-                    _keranjangBelanja.Remove(itemDihapus);
-                    RenderListPanelKanan();
+                    // 1. KEMBALIKAN STOK ke database saat item dihapus (PENTING!)
+                    _produkController.TambahStok(itemDihapus.id_produk, itemDihapus.quantity);
 
-                    Produk? p = _produkController.AmbilSemuaProduk().FirstOrDefault(pr => pr.id_produk == itemDihapus.id_produk);
-                    if (p != null) MuatKatalogProduk("");
+                    // 2. Hapus dari keranjang
+                    _keranjangBelanja.Remove(itemDihapus);
+
+                    // 3. Refresh tampilan
+                    RenderListPanelKanan();
+                    MuatKatalogProduk(""); // Refresh katalog agar stok terbaru muncul
                 };
                 flpDaftarPesanan.Controls.Add(cardItem);
             }
@@ -180,17 +167,18 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
 
         private void btnCetakNota_Click(object? sender, EventArgs e)
         {
+            // 1. Validasi awal
             if (_keranjangBelanja.Count == 0)
             {
                 MessageBox.Show("Daftar pesanan kasir masih kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            string namaPemesan = tbAtasNama != null ? tbAtasNama.Text.Trim() : "";
+            string namaPemesan = tbAtasNama != null ? tbAtasNama.Text.Trim() : "Umum";
 
             if (string.IsNullOrWhiteSpace(namaPemesan))
             {
-                MessageBox.Show("Nama pelanggan wajib diisi untuk pesanan kasir (Take Away)!", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nama pelanggan wajib diisi!", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (tbAtasNama != null) tbAtasNama.Focus();
                 return;
             }
@@ -204,20 +192,35 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
 
             if (uangDibayar < totalBelanja)
             {
-                MessageBox.Show("Uang pembayaran yang dimasukkan masih kurang!", "Transaksi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Uang pembayaran kurang!", "Transaksi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             double kembalian = uangDibayar - totalBelanja;
 
-            bool statusSimpanDb = _transaksiController.KirimPesanan(namaPemesan, _keranjangBelanja, _pilihanStatus);
+            // 2. Simpan ke Database
+            bool statusSimpanDb;
+            try
+            {
+                statusSimpanDb = _transaksiController.KirimPesanan(namaPemesan, _keranjangBelanja, _pilihanStatus);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "Debug Error");
+                return;
+            }
 
+            // 3. Tampilkan Nota (Hanya sekali saja!)
             if (statusSimpanDb)
             {
                 FormCetakNota notaForm = new FormCetakNota();
-                notaForm.TampilkanDataNotaBaru(_keranjangBelanja, totalBelanja, kembalian, _pilihanMetode);
+
+                // Kirim semua data termasuk namaPemesan
+                notaForm.TampilkanDataNotaBaru(_keranjangBelanja, totalBelanja, kembalian, _pilihanMetode, namaPemesan, DateTime.Now.ToString("yyyyMMddHHmmss"),_pilihanStatus);
+
                 notaForm.ShowDialog();
 
+                // 4. Reset form setelah nota ditutup
                 _keranjangBelanja.Clear();
                 if (tbAtasNama != null) tbAtasNama.Text = "";
                 if (tbUangDiterima != null) tbUangDiterima.Text = "";
@@ -225,8 +228,11 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
                 RenderListPanelKanan();
                 MuatKatalogProduk("");
             }
+            else
+            {
+                MessageBox.Show("Gagal menyimpan transaksi ke database.", "Gagal");
+            }
         }
-
         private void tbSearchProduk_TextChanged(object? sender, EventArgs e)
         {
             if (tbSearchProduk == null) return;

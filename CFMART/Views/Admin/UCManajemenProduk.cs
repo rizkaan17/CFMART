@@ -23,6 +23,16 @@ namespace CFMART.Views.Admin
             // Jika ada tombol "+ Tambah" di pojok kanan atas, kita ikat juga event-nya di sini
             // Pastikan namanya sesuai dengan nama komponen di desainer kamu (misal: btnTambahAtas)
             this.btnTambahProduk.Click += new System.EventHandler(this.btnTambahAtas_Click);
+            SetupKolomHapus();
+        }
+        private void SetupKolomHapus()
+        {
+            DataGridViewButtonColumn btnHapus = new DataGridViewButtonColumn();
+            btnHapus.HeaderText = "";
+            btnHapus.Text = "Hapus";
+            btnHapus.Name = "btnHapus";
+            btnHapus.UseColumnTextForButtonValue = true;
+            dgvManajemenProduk.Columns.Add(btnHapus);
         }
 
         private void UCManajemenProduk_Load(object sender, EventArgs e)
@@ -64,7 +74,7 @@ namespace CFMART.Views.Admin
         /// </summary>
         private void btnSimpan2_Click(object sender, EventArgs e)
         {
-            // Validasi Input Dasar
+            // 1. Validasi Input Dasar
             if (string.IsNullOrWhiteSpace(tbNamaProduk.Text) || string.IsNullOrWhiteSpace(tbHarga.Text) || string.IsNullOrWhiteSpace(tbStok.Text))
             {
                 MessageBox.Show("Semua kolom data wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -78,11 +88,18 @@ namespace CFMART.Views.Admin
                 return;
             }
 
-            // CEK KONDISI: Apakah sedang Mode Update atau Mode Simpan Baru?
+            // 2. Ambil data foto (jika ada)
+            byte[] fotoBytes = null;
+            if (!string.IsNullOrEmpty(selectedFilePath) && System.IO.File.Exists(selectedFilePath))
+            {
+                fotoBytes = System.IO.File.ReadAllBytes(selectedFilePath);
+            }
+
+            // 3. Eksekusi Berdasarkan Mode
             if (selectedIdProduk != null)
             {
-                // A. JALANKAN MODE UPDATE
-                bool suksesUpdate = _produkController.UpdateProduk(selectedIdProduk.Value, nama, harga, stok);
+                // MODE UPDATE: Gunakan 5 parameter
+                bool suksesUpdate = _produkController.UpdateProduk(selectedIdProduk.Value, nama, harga, stok, fotoBytes);
                 if (suksesUpdate)
                 {
                     MessageBox.Show("Data produk berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -92,8 +109,9 @@ namespace CFMART.Views.Admin
             }
             else
             {
-                // B. JALANKAN MODE SIMPAN BARU
-                bool suksesTambah = _produkController.TambahProduk(nama, harga, stok, null);
+                // MODE SIMPAN BARU: Gunakan 4 parameter
+                // Pastikan controller kamu punya method TambahProduk(nama, harga, stok, fotoBytes)
+                bool suksesTambah = _produkController.TambahProduk(nama, harga, stok, fotoBytes);
                 if (suksesTambah)
                 {
                     MessageBox.Show("Produk baru berhasil disimpan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -108,17 +126,76 @@ namespace CFMART.Views.Admin
         /// </summary>
         private void dgvManajemenProduk_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            // 1. Validasi: Jika klik header atau area kosong, abaikan
+            if (e.RowIndex < 0) return;
+
+            // 2. Ambil baris yang diklik
+            DataGridViewRow row = dgvManajemenProduk.Rows[e.RowIndex];
+
+            // 3. CEK: Apakah yang diklik kolom "Hapus"?
+            if (dgvManajemenProduk.Columns[e.ColumnIndex].Name == "btnHapus")
             {
-                DataGridViewRow row = dgvManajemenProduk.Rows[e.RowIndex];
+                int idHapus = Convert.ToInt32(row.Cells["id_produk"].Value);
+                string namaHapus = row.Cells["jenis_produk"].Value?.ToString() ?? "";
 
-                selectedIdProduk = Convert.ToInt32(row.Cells["id_produk"].Value);
-                tbNamaProduk.Text = row.Cells["jenis_produk"].Value?.ToString() ?? "";
-                tbHarga.Text = row.Cells["harga"].Value?.ToString() ?? "0";
-                tbStok.Text = row.Cells["stok"].Value?.ToString() ?? "0";
+                var confirm = MessageBox.Show(
+                    $"Yakin ingin menghapus produk \"{namaHapus}\"?",
+                    "Konfirmasi Hapus",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
 
-                // Ubah teks tombol hijau menjadi "Update Produk"
+                if (confirm == DialogResult.Yes)
+                {
+                    bool sukses = _produkController.HapusProduk(idHapus);
+                    if (sukses)
+                    {
+                        MessageBox.Show("Produk berhasil dihapus.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshData();
+                        SetModeTambah();
+                    }
+                }
+                return; // Keluar dari fungsi setelah proses hapus
+            }
+
+            // 4. JIKA KLIK DATA (MODE UPDATE): 
+            // Ambil objek Produk dari baris yang diklik agar datanya lengkap termasuk foto
+            Produk produkTerpilih = (Produk)row.DataBoundItem;
+
+            if (produkTerpilih != null)
+            {
+                // Masukkan data ke TextBox
+                selectedIdProduk = produkTerpilih.id_produk;
+                tbNamaProduk.Text = produkTerpilih.jenis_produk;
+                tbHarga.Text = produkTerpilih.harga.ToString();
+                tbStok.Text = produkTerpilih.stok.ToString();
+
+                // Ubah teks tombol menjadi Update
                 btnSimpan2.Text = "Update Produk";
+
+                // 5. TAMPILKAN FOTO DI PICTUREBOX
+                if (produkTerpilih.foto_Produk != null && produkTerpilih.foto_Produk.Length > 0)
+                {
+                    try
+                    {
+                        using (var ms = new MemoryStream(produkTerpilih.foto_Produk))
+                        {
+                            pictureBox1.Image = System.Drawing.Image.FromStream(ms);
+                            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Gagal memuat foto: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    // Jika produk tidak punya foto, kosongkan PictureBox
+                    pictureBox1.Image = null;
+                }
+
+                // Penting: Reset selectedFilePath karena kita sedang buka produk yang sudah ada di DB
+                selectedFilePath = "";
             }
         }
 
@@ -143,8 +220,13 @@ namespace CFMART.Views.Admin
             tbNamaProduk.Clear();
             tbHarga.Clear();
             tbStok.Clear();
-            selectedIdProduk = null; // Reset ID jadi null kembali
-            btnSimpan2.Text = "Simpan Produk"; // Kembalikan teks tombol hijau ke default figma
+
+            // Pastikan PictureBox bersih saat klik Tambah/Batal
+            pictureBox1.Image = null;
+
+            selectedIdProduk = null;
+            selectedFilePath = ""; // Reset path
+            btnSimpan2.Text = "Simpan Produk";
         }
 
         private void btnBatal2_Click(object sender, EventArgs e)
@@ -156,10 +238,20 @@ namespace CFMART.Views.Admin
         {
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+
             if (open.ShowDialog() == DialogResult.OK)
             {
+                // 1. Simpan path file-nya
                 selectedFilePath = open.FileName;
-                MessageBox.Show("Foto terpilih: " + System.IO.Path.GetFileName(selectedFilePath));
+
+                // 2. Tampilkan gambar ke PictureBox agar Admin bisa melihat apa yang dipilih
+                // Ganti 'pictureBoxProduk' dengan nama PictureBox yang ada di form kamu
+                pictureBox1.Image = System.Drawing.Image.FromFile(selectedFilePath);
+
+                // 3. (Opsional) Mengatur agar gambar pas dengan ukuran box
+                pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                MessageBox.Show("Foto terpilih!");
             }
         }
 

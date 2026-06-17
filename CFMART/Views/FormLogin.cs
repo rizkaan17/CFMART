@@ -18,6 +18,12 @@ namespace CFMART.Views
         public FormLogin()
         {
             InitializeComponent();
+
+            // 🌟 SETTING AWAL: Memastikan password langsung bertopeng bulat-bulat saat aplikasi pertama dibuka
+            if (tbPassword != null)
+            {
+                tbPassword.UseSystemPasswordChar = true;
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -43,20 +49,29 @@ namespace CFMART.Views
                     kasirForm.Show();
                 }
 
-                this.Hide(); // Sembunyikan form login
+                this.Hide(); // Sembunyikan form login agar RAM tetap aman
+            }
+        }
+
+        // ======================================================================
+        // 🌟 FITUR BARU: Mengatur Intip/Sembunyikan Password via Button btnEye
+        // ======================================================================
+        private void btnEye_Click(object sender, EventArgs e)
+        {
+            if (tbPassword != null && btnEye != null)
+            {
+                // Membalik keadaan topeng password (kalau true jadi false, kalau false jadi true)
+                tbPassword.UseSystemPasswordChar = !tbPassword.UseSystemPasswordChar;
+
+                // Mengubah tulisan tombol secara dinamis agar interaktif sesuai keadaan password
+                btnEye.Text = tbPassword.UseSystemPasswordChar ? "Lihat" : "Sembunyikan";
             }
         }
 
         private void FormLogin_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // Memastikan seluruh thread aplikasi mati total saat form login di-close
+            // Memastikan seluruh thread aplikasi mati total saat form login di-close oleh user
             Application.Exit();
         }
     }
-
-    // ======================================================================
-    // SELESAI
-    // ======================================================================
-    // Sisi 'else' (Pesan Gagal) sudah dihandle otomatis di dalam LoginController, 
-    // jadi kita tidak perlu menulis MessageBox.Show() gagal lagi di sini.
 }

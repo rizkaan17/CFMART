@@ -40,7 +40,7 @@ namespace CFMART
             btnCheckout = new Button();
             btnKeranjang = new Button();
             btnKatalog = new Button();
-            CFMARTLabel = new Label(); // Diubah namanya sedikit agar tidak konflik dengan nama namespace proyek
+            CFMARTLabel = new Label();
             panelsearch = new Panel();
             pbsearch = new PictureBox();
             txtSearch = new TextBox();
@@ -191,7 +191,7 @@ namespace CFMART
             CFMARTLabel.Location = new Point(92, 13);
             CFMARTLabel.Margin = new Padding(4, 0, 4, 0);
             CFMARTLabel.Name = "CFMARTLabel";
-            CFMARTLabel.Size = new Size(158, 60);
+            CFMARTLabel.Size = new Size(315, 118);
             CFMARTLabel.TabIndex = 0;
             CFMARTLabel.Text = "CFMART";
             // 
@@ -221,7 +221,7 @@ namespace CFMART
             txtSearch.Font = new Font("Dubai Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtSearch.Location = new Point(82, 12);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(879, 33);
+            txtSearch.Size = new Size(879, 58);
             txtSearch.TabIndex = 1;
             txtSearch.Text = "Cari lele bakar, goreng, ...";
             txtSearch.TextChanged += txtSearch_TextChanged;
@@ -280,7 +280,7 @@ namespace CFMART
             lblstokairmineral.Font = new Font("Dubai", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblstokairmineral.Location = new Point(45, 171);
             lblstokairmineral.Name = "lblstokairmineral";
-            lblstokairmineral.Size = new Size(28, 25);
+            lblstokairmineral.Size = new Size(54, 51);
             lblstokairmineral.TabIndex = 13;
             lblstokairmineral.Text = "20";
             // 
@@ -306,7 +306,7 @@ namespace CFMART
             label19.Location = new Point(6, 172);
             label19.Margin = new Padding(2, 0, 2, 0);
             label19.Name = "label19";
-            label19.Size = new Size(49, 24);
+            label19.Size = new Size(89, 45);
             label19.TabIndex = 8;
             label19.Text = "Stok: ";
             // 
@@ -318,9 +318,9 @@ namespace CFMART
             label20.Location = new Point(6, 151);
             label20.Margin = new Padding(2, 0, 2, 0);
             label20.Name = "label20";
-            label20.Size = new Size(78, 25);
+            label20.Size = new Size(139, 51);
             label20.TabIndex = 9;
-            label20.Text = "Rp. 5.000"; // Ganti info label statis sesuai harga lezat Air Mineral kelompokmu
+            label20.Text = "Rp. 5.000";
             // 
             // pbairmineral
             // 
@@ -342,7 +342,7 @@ namespace CFMART
             label21.Location = new Point(6, 125);
             label21.Margin = new Padding(2, 0, 2, 0);
             label21.Name = "label21";
-            label21.Size = new Size(94, 25);
+            label21.Size = new Size(171, 51);
             label21.TabIndex = 7;
             label21.Text = "Air Mineral";
             // 
@@ -367,7 +367,7 @@ namespace CFMART
             lblstokesjeruk.Font = new Font("Dubai", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblstokesjeruk.Location = new Point(48, 171);
             lblstokesjeruk.Name = "lblstokesjeruk";
-            lblstokesjeruk.Size = new Size(28, 25);
+            lblstokesjeruk.Size = new Size(54, 51);
             lblstokesjeruk.TabIndex = 14;
             lblstokesjeruk.Text = "20";
             // 
@@ -393,7 +393,7 @@ namespace CFMART
             label16.Location = new Point(6, 172);
             label16.Margin = new Padding(2, 0, 2, 0);
             label16.Name = "label16";
-            label16.Size = new Size(49, 24);
+            label16.Size = new Size(89, 45);
             label16.TabIndex = 8;
             label16.Text = "Stok: ";
             // 
@@ -405,7 +405,7 @@ namespace CFMART
             label17.Location = new Point(6, 151);
             label17.Margin = new Padding(2, 0, 2, 0);
             label17.Name = "label17";
-            label17.Size = new Size(78, 25);
+            label17.Size = new Size(139, 51);
             label17.TabIndex = 9;
             label17.Text = "Rp. 7.000";
             // 
@@ -429,7 +429,7 @@ namespace CFMART
             label18.Location = new Point(6, 125);
             label18.Margin = new Padding(2, 0, 2, 0);
             label18.Name = "label18";
-            label18.Size = new Size(72, 25);
+            label18.Size = new Size(136, 51);
             label18.TabIndex = 7;
             label18.Text = "Es Jeruk";
             // 
@@ -454,7 +454,7 @@ namespace CFMART
             lblstokesteh.Font = new Font("Dubai", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblstokesteh.Location = new Point(47, 171);
             lblstokesteh.Name = "lblstokesteh";
-            lblstokesteh.Size = new Size(28, 25);
+            lblstokesteh.Size = new Size(54, 51);
             lblstokesteh.TabIndex = 14;
             lblstokesteh.Text = "20";
             // 
@@ -480,7 +480,7 @@ namespace CFMART
             label13.Location = new Point(6, 172);
             label13.Margin = new Padding(2, 0, 2, 0);
             label13.Name = "label13";
-            label13.Size = new Size(49, 24);
+            label13.Size = new Size(89, 45);
             label13.TabIndex = 8;
             label13.Text = "Stok: ";
             // 
@@ -492,9 +492,9 @@ namespace CFMART
             label14.Location = new Point(6, 151);
             label14.Margin = new Padding(2, 0, 2, 0);
             label14.Name = "label14";
-            label14.Size = new Size(78, 25);
+            label14.Size = new Size(139, 51);
             label14.TabIndex = 9;
-            label14.Text = "Rp. 5.000"; // Sinkronisasi teks statis es teh manis andalan kasir
+            label14.Text = "Rp. 5.000";
             // 
             // pbesteh
             // 
@@ -516,7 +516,7 @@ namespace CFMART
             label15.Location = new Point(6, 125);
             label15.Margin = new Padding(2, 0, 2, 0);
             label15.Name = "label15";
-            label15.Size = new Size(59, 25);
+            label15.Size = new Size(111, 51);
             label15.TabIndex = 7;
             label15.Text = "Es Teh";
             // 
@@ -541,7 +541,7 @@ namespace CFMART
             lblstokmangutlele.Font = new Font("Dubai", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblstokmangutlele.Location = new Point(46, 171);
             lblstokmangutlele.Name = "lblstokmangutlele";
-            lblstokmangutlele.Size = new Size(28, 25);
+            lblstokmangutlele.Size = new Size(54, 51);
             lblstokmangutlele.TabIndex = 12;
             lblstokmangutlele.Text = "20";
             // 
@@ -567,7 +567,7 @@ namespace CFMART
             label10.Location = new Point(6, 172);
             label10.Margin = new Padding(2, 0, 2, 0);
             label10.Name = "label10";
-            label10.Size = new Size(49, 24);
+            label10.Size = new Size(89, 45);
             label10.TabIndex = 8;
             label10.Text = "Stok: ";
             // 
@@ -579,7 +579,7 @@ namespace CFMART
             label11.Location = new Point(6, 151);
             label11.Margin = new Padding(2, 0, 2, 0);
             label11.Name = "label11";
-            label11.Size = new Size(78, 25);
+            label11.Size = new Size(155, 51);
             label11.TabIndex = 9;
             label11.Text = "Rp. 22.000";
             // 
@@ -603,7 +603,7 @@ namespace CFMART
             label12.Location = new Point(6, 125);
             label12.Margin = new Padding(2, 0, 2, 0);
             label12.Name = "label12";
-            label12.Size = new Size(100, 25);
+            label12.Size = new Size(187, 51);
             label12.TabIndex = 7;
             label12.Text = "Mangut Lele";
             // 
@@ -628,7 +628,7 @@ namespace CFMART
             labelstoklelebakar.Font = new Font("Dubai", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelstoklelebakar.Location = new Point(47, 172);
             labelstoklelebakar.Name = "labelstoklelebakar";
-            labelstoklelebakar.Size = new Size(28, 25);
+            labelstoklelebakar.Size = new Size(54, 51);
             labelstoklelebakar.TabIndex = 11;
             labelstoklelebakar.Text = "20";
             // 
@@ -654,7 +654,7 @@ namespace CFMART
             label7.Location = new Point(6, 172);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
-            label7.Size = new Size(49, 24);
+            label7.Size = new Size(89, 45);
             label7.TabIndex = 8;
             label7.Text = "Stok: ";
             // 
@@ -666,7 +666,7 @@ namespace CFMART
             label8.Location = new Point(6, 151);
             label8.Margin = new Padding(2, 0, 2, 0);
             label8.Name = "label8";
-            label8.Size = new Size(78, 25);
+            label8.Size = new Size(155, 51);
             label8.TabIndex = 9;
             label8.Text = "Rp. 18.000";
             // 
@@ -690,7 +690,7 @@ namespace CFMART
             label9.Location = new Point(6, 125);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
-            label9.Size = new Size(87, 25);
+            label9.Size = new Size(161, 51);
             label9.TabIndex = 7;
             label9.Text = "Lele Bakar";
             // 
@@ -715,7 +715,7 @@ namespace CFMART
             lblstoklelegoreng.Font = new Font("Dubai", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblstoklelegoreng.Location = new Point(49, 172);
             lblstoklelegoreng.Name = "lblstoklelegoreng";
-            lblstoklelegoreng.Size = new Size(28, 25);
+            lblstoklelegoreng.Size = new Size(54, 51);
             lblstoklelegoreng.TabIndex = 10;
             lblstoklelegoreng.Text = "20";
             // 
@@ -741,7 +741,7 @@ namespace CFMART
             label5.Location = new Point(6, 172);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
-            label5.Size = new Size(49, 24);
+            label5.Size = new Size(89, 45);
             label5.TabIndex = 8;
             label5.Text = "Stok: ";
             // 
@@ -753,7 +753,7 @@ namespace CFMART
             label6.Location = new Point(6, 151);
             label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
-            label6.Size = new Size(78, 25);
+            label6.Size = new Size(155, 51);
             label6.TabIndex = 9;
             label6.Text = "Rp. 12.000";
             // 
@@ -777,7 +777,7 @@ namespace CFMART
             label4.Location = new Point(6, 125);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
-            label4.Size = new Size(99, 25);
+            label4.Size = new Size(181, 51);
             label4.TabIndex = 7;
             label4.Text = "Lele Goreng";
             // 
@@ -790,17 +790,17 @@ namespace CFMART
             label3.Location = new Point(39, 232);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(104, 27);
+            label3.Size = new Size(198, 54);
             label3.TabIndex = 11;
             label3.Text = "Pilih Produk";
             // 
             // DashboardPelanggan
             // 
-            AutoScaleDimensions = new SizeF(10F, 27F);
+            AutoScaleDimensions = new SizeF(18F, 54F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlText;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(1370, 749);
+            ClientSize = new Size(1611, 807);
             Controls.Add(panelAirMineral);
             Controls.Add(panelEsJeruk);
             Controls.Add(panelEsTeh);

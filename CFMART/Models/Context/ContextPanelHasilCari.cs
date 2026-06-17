@@ -15,7 +15,7 @@ namespace CFMART.Models.Context
             List<DataProdukCari> listHasil = new List<DataProdukCari>();
 
             // Menembak langsung ke tabel Produk dengan filter LIKE
-            string query = @"SELECT jenis_produk, harga, foto FROM ""Produk"" WHERE LOWER(jenis_produk) LIKE @key;";
+            string query = @"SELECT jenis_produk, harga, foto FROM produk WHERE LOWER(jenis_produk) LIKE @key;";
 
             try
             {

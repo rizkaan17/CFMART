@@ -13,16 +13,15 @@ namespace CFMART.Models.Context
         {
             if (items == null || items.Count == 0) return false;
 
-            // 🌟 Sudah benar menggunakan AmbilKoneksi bawaan BaseContext
             using var conn = AmbilKoneksi();
             if (conn.State != ConnectionState.Open) conn.Open();
 
             using var trans = conn.BeginTransaction();
             try
             {
-                // 🌟 FIX NAMA TABEL: Menggunakan "Order" huruf kapital dengan petik ganda
-                string sqlOrder = @"INSERT INTO ""Order"" (nama_pelanggan, status_order_id_status_order, user_id_user, meja_id_meja, tipe_pesanan_id_tipe_pesanan, status_pembayaran) 
-                                    VALUES (@nama, 1, 2, 1, 1, true) RETURNING id_order;";
+                // 1. Insert Header Order
+                string sqlOrder = @"INSERT INTO ""Order"" (nama_pelanggan, user_id_user, meja_id_meja, tipe_pesanan_id_tipe_pesanan, status_pembayaran) 
+                                    VALUES (@nama, 2, 1, 1, true) RETURNING id_order;";
 
                 int idBaru;
                 using (var cmd = new NpgsqlCommand(sqlOrder, conn, trans))
@@ -31,10 +30,11 @@ namespace CFMART.Models.Context
                     idBaru = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
+                // 2. Insert Detail Order & Update Stok
                 foreach (var item in items)
                 {
-                    // 🌟 FIX NAMA TABEL: Menggunakan "Detail_Order" huruf kapital dengan petik ganda
-                    string sqlDet = @"INSERT INTO ""Detail_Order"" (order_id_order, produk_id_produk, quantity, harga_per_item) 
+                    // Insert ke detail_order (tanpa kutip)
+                    string sqlDet = @"INSERT INTO detail_order (order_id_order, produk_id_produk, quantity, harga_per_item) 
                                       VALUES (@oid, @pid, @qty, @harga);";
 
                     using (var cmdD = new NpgsqlCommand(sqlDet, conn, trans))
@@ -46,8 +46,8 @@ namespace CFMART.Models.Context
                         cmdD.ExecuteNonQuery();
                     }
 
-                    // Potong stok produk di database
-                    string sqlUpdateStok = @"UPDATE ""Produk"" SET stok = stok - @qty WHERE id_produk = @pid;";
+                    // Update stok di tabel produk (tanpa kutip)
+                    string sqlUpdateStok = @"UPDATE produk SET stok = stok - @qty WHERE id_produk = @pid;";
                     using (var cmdUp = new NpgsqlCommand(sqlUpdateStok, conn, trans))
                     {
                         cmdUp.Parameters.AddWithValue("qty", item.quantity);
@@ -61,7 +61,7 @@ namespace CFMART.Models.Context
             catch (Exception ex)
             {
                 trans.Rollback();
-                MessageBox.Show("Gagal menyimpan: " + ex.Message);
+                MessageBox.Show("Gagal menyimpan pesanan: " + ex.Message);
                 return false;
             }
         }
@@ -69,15 +69,13 @@ namespace CFMART.Models.Context
         public double AmbilPendapatanHariIni()
         {
             double total = 0;
-            // 🌟 FIX QUERY: Menyelaraskan nama tabel kapital dan memfilter berdasarkan tanggal hari ini
             string query = @"
                 SELECT COALESCE(SUM(d.quantity * d.harga_per_item), 0) 
                 FROM ""Order"" o
-                JOIN ""Detail_Order"" d ON o.id_order = d.order_id_order
+                JOIN detail_order d ON o.id_order = d.order_id_order
                 WHERE o.status_pembayaran = true AND o.tgl_order::date = CURRENT_DATE;";
             try
             {
-                // 🌟 FIX INHERITANCE: Mengganti connectDB.GetConn() menjadi AmbilKoneksi()
                 using var conn = AmbilKoneksi();
                 if (conn.State != ConnectionState.Open) conn.Open();
                 using var cmd = new NpgsqlCommand(query, conn);

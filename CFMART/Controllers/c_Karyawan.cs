@@ -67,6 +67,18 @@ namespace CFMART.Controllers
                 return (false, "Kesalahan sistem: " + ex.Message);
             }
         }
+        public bool HapusKaryawan(int idUser)
+        {
+            try
+            {
+                return _contextUser.HapusKaryawan(idUser);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal menghapus: " + ex.Message);
+                return false;
+            }
+        }
 
         /// <summary>
         /// 3. AMBIL SEMUA KARYAWAN (GAYA OOP MURNI)

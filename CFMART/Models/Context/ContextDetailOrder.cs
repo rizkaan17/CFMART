@@ -10,7 +10,7 @@ namespace CFMART.Models.Context
         public List<DetailOrder> GetAllDetailOrder()
         {
             List<DetailOrder> detailOrders = new List<DetailOrder>();
-            string query = @"SELECT id_detail_order, quantity, catatan, order_id_order, produk_id_produk, sub_total FROM ""Detail_Order"" ORDER BY id_detail_order";
+            string query = @"SELECT id_detail_order, quantity, catatan, order_id_order, produk_id_produk, sub_total FROM detail_order ORDER BY id_detail_order";
 
             using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
@@ -34,7 +34,7 @@ namespace CFMART.Models.Context
 
         public bool AddDetailOrder(DetailOrder detail)
         {
-            string query = @"INSERT INTO ""Detail_Order"" (quantity, catatan, order_id_order, produk_id_produk) VALUES (@quantity, @catatan, @order, @produk)";
+            string query = @"INSERT INTO detail_order (quantity, catatan, order_id_order, produk_id_produk, sub_total) VALUES (@quantity, @catatan, @order, @produk, @subTotal)";
 
             using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
@@ -43,13 +43,14 @@ namespace CFMART.Models.Context
                 cmd.Parameters.AddWithValue("@catatan", (object?)detail.catatan ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@order", detail.order_id_order);
                 cmd.Parameters.AddWithValue("@produk", detail.produk_id_produk);
+                cmd.Parameters.AddWithValue("@subTotal", detail.sub_total);
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
 
         public bool UpdateDetailOrder(DetailOrder detail)
         {
-            string query = @"UPDATE ""Detail_Order"" SET quantity = @quantity, catatan = @catatan, order_id_order = @order, produk_id_produk = @produk WHERE id_detail_order = @id";
+            string query = @"UPDATE detail_order SET quantity = @quantity, catatan = @catatan, order_id_order = @order, produk_id_produk = @produk, sub_total = @subTotal WHERE id_detail_order = @id";
 
             using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
@@ -59,13 +60,14 @@ namespace CFMART.Models.Context
                 cmd.Parameters.AddWithValue("@catatan", (object?)detail.catatan ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@order", detail.order_id_order);
                 cmd.Parameters.AddWithValue("@produk", detail.produk_id_produk);
+                cmd.Parameters.AddWithValue("@subTotal", detail.sub_total);
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
 
         public bool DeleteDetailOrder(int id)
         {
-            string query = @"DELETE FROM ""Detail_Order"" WHERE id_detail_order = @id";
+            string query = @"DELETE FROM detail_order WHERE id_detail_order = @id";
 
             using (NpgsqlConnection conn = AmbilKoneksi()) // Menggunakan fungsi induk
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))

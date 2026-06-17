@@ -63,6 +63,7 @@ namespace CFMART.Views.Kasir
             PindahHalaman(new UCBiodataKasir());
         }
 
+
         // =========================================================================
         // 🌟 SINKRONISASI HALAMAN: MENYAMBUNGKAN TOMBOL KONFIRMASI KASIR
         // =========================================================================
