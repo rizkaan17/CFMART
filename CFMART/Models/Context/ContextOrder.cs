@@ -34,8 +34,8 @@ namespace CFMART.Models.Context
                 foreach (var item in items)
                 {
                     // Insert ke detail_order (tanpa kutip)
-                    string sqlDet = @"INSERT INTO detail_order (order_id_order, produk_id_produk, quantity, harga_per_item) 
-                                      VALUES (@oid, @pid, @qty, @harga);";
+                    string sqlDet = @"INSERT INTO detail_order (order_id_order, produk_id_produk, quantity, harga_per_item, catatan) 
+                                      VALUES (@oid, @pid, @qty, @harga, @catatan);";
 
                     using (var cmdD = new NpgsqlCommand(sqlDet, conn, trans))
                     {
@@ -43,6 +43,7 @@ namespace CFMART.Models.Context
                         cmdD.Parameters.AddWithValue("pid", item.id_produk);
                         cmdD.Parameters.AddWithValue("qty", item.quantity);
                         cmdD.Parameters.AddWithValue("harga", item.harga);
+                        cmdD.Parameters.AddWithValue("catatan", item.catatan ?? "");
                         cmdD.ExecuteNonQuery();
                     }
 

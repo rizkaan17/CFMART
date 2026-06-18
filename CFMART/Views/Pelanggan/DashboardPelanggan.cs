@@ -192,8 +192,19 @@ namespace CFMART
 
         private void btnloginkaryawan_Click(object sender, EventArgs e)
         {
+            this.Hide();
+
             FormLogin loginForm = new FormLogin();
             loginForm.ShowDialog();
+
+            if(loginForm.LoginBerhasil)
+            {
+                this.Hide();
+            }
+            else
+            {
+                this.Show();
+            }
             RefreshDataProduk(); // Segarkan angka stok setelah kasir/karyawan selesai melakukan input transaksi baru
         }
     }

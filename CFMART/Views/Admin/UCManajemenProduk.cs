@@ -127,7 +127,7 @@ namespace CFMART.Views.Admin
         private void dgvManajemenProduk_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // 1. Validasi: Jika klik header atau area kosong, abaikan
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
             // 2. Ambil baris yang diklik
             DataGridViewRow row = dgvManajemenProduk.Rows[e.RowIndex];

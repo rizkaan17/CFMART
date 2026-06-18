@@ -128,7 +128,7 @@
             Controls.Add(lblNamaItem);
             Margin = new Padding(4);
             Name = "UCItemKeranjang";
-            Size = new Size(962, 94);
+            Size = new Size(962, 102);
             ResumeLayout(false);
             PerformLayout();
         }

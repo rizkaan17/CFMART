@@ -6,11 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CFMART.Views.Kasir // 🌟 Murni CFMART
+namespace CFMART.Views.Kasir
 {
     public partial class UCPilihproduk : UserControl
     {
-        private readonly TransaksiController _transaksiController = new TransaksiController();
         private readonly ProdukController _produkController = new ProdukController();
         private List<ItemKeranjang> _keranjangBelanja = new List<ItemKeranjang>();
 
@@ -26,12 +25,11 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
         public UCPilihproduk()
         {
             InitializeComponent();
-            this.Load += new System.EventHandler(this.UCPilihproduk_Load);
-
-            if (tbSearchProduk != null)
-                tbSearchProduk.TextChanged += new System.EventHandler(this.tbSearchProduk_TextChanged);
+            this.Load += UCPilihproduk_Load;
 
             if (btnCetakNota != null) btnCetakNota.Click += btnCetakNota_Click;
+            if (tbSearchProduk != null) tbSearchProduk.TextChanged += tbSearchProduk_TextChanged;
+
             if (btnTunai != null && btnQris != null) btnTunai.Click += (s, e) => SetMetodePembayaran("Tunai", btnTunai, btnQris);
             if (btnQris != null && btnTunai != null) btnQris.Click += (s, e) => SetMetodePembayaran("QRIS", btnQris, btnTunai);
             if (btnLunas != null && btnBlmLunas != null) btnLunas.Click += (s, e) => SetStatusPembayaran("Lunas", btnLunas, btnBlmLunas);
@@ -95,16 +93,27 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
         {
             if (sender is not Button btnPlus || btnPlus.Tag is not Produk prod) return;
 
-            // 1. Cek & Kurangi di database dulu
             if (_produkController.KurangiStok(prod.id_produk, 1))
             {
-                // 2. Kalau database sukses, baru tambah ke keranjang
                 ItemKeranjang itemAda = _keranjangBelanja.FirstOrDefault(k => k.id_produk == prod.id_produk);
-                if (itemAda != null) itemAda.quantity++;
-                else _keranjangBelanja.Add(new ItemKeranjang { id_produk = prod.id_produk, nama_produk = prod.jenis_produk, harga = prod.harga, quantity = 1 });
+                if (itemAda != null)
+                {
+                    itemAda.quantity++;
+                }
+                else
+                {
+                    ItemKeranjang itemBaru = new ItemKeranjang
+                    {
+                        id_produk = prod.id_produk,
+                        nama_produk = prod.jenis_produk,
+                        harga = prod.harga,
+                        quantity = 1,
+                        catatan = ""
+                    };
+                    _keranjangBelanja.Add(itemBaru);
+                }
 
-                // 3. Refresh UI biar stok di layar update
-                MuatKatalogProduk(tbSearchProduk.Text);
+                MuatKatalogProduk(tbSearchProduk?.Text ?? "");
                 RenderListPanelKanan();
             }
             else
@@ -129,16 +138,12 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
                 cardItem.OnDataPerluRefresh += () => MuatKatalogProduk("");
                 cardItem.OnHapusItemKlik += (itemDihapus) =>
                 {
-                    // 1. KEMBALIKAN STOK ke database saat item dihapus (PENTING!)
                     _produkController.TambahStok(itemDihapus.id_produk, itemDihapus.quantity);
-
-                    // 2. Hapus dari keranjang
                     _keranjangBelanja.Remove(itemDihapus);
-
-                    // 3. Refresh tampilan
                     RenderListPanelKanan();
-                    MuatKatalogProduk(""); // Refresh katalog agar stok terbaru muncul
+                    MuatKatalogProduk("");
                 };
+
                 flpDaftarPesanan.Controls.Add(cardItem);
             }
 
@@ -167,7 +172,6 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
 
         private void btnCetakNota_Click(object? sender, EventArgs e)
         {
-            // 1. Validasi awal
             if (_keranjangBelanja.Count == 0)
             {
                 MessageBox.Show("Daftar pesanan kasir masih kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -182,6 +186,8 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
                 if (tbAtasNama != null) tbAtasNama.Focus();
                 return;
             }
+
+            string catatanUmum = tbCatatn != null ? tbCatatn.Text.Trim() : "";
 
             double totalBelanja = _keranjangBelanja.Sum(item => item.sub_total);
             double uangDibayar = totalBelanja;
@@ -198,46 +204,53 @@ namespace CFMART.Views.Kasir // 🌟 Murni CFMART
 
             double kembalian = uangDibayar - totalBelanja;
 
-            // 2. Simpan ke Database
-            bool statusSimpanDb;
+            bool statusSimpanDb = false;
             try
             {
-                statusSimpanDb = _transaksiController.KirimPesanan(namaPemesan, _keranjangBelanja, _pilihanStatus);
+                CFMART.Controllers.TransaksiController controllerSakti = new CFMART.Controllers.TransaksiController();
+                statusSimpanDb = controllerSakti.KirimPesanan(namaPemesan, _keranjangBelanja, _pilihanStatus, catatanUmum);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ERROR: " + ex.Message, "Debug Error");
+                MessageBox.Show("ERROR DATABASE: " + ex.Message, "Debug Error");
                 return;
             }
 
-            // 3. Tampilkan Nota (Hanya sekali saja!)
             if (statusSimpanDb)
             {
                 FormCetakNota notaForm = new FormCetakNota();
-
-                // Kirim semua data termasuk namaPemesan
-                notaForm.TampilkanDataNotaBaru(_keranjangBelanja, totalBelanja, kembalian, _pilihanMetode, namaPemesan, DateTime.Now.ToString("yyyyMMddHHmmss"),_pilihanStatus);
-
+                notaForm.TampilkanDataNotaBaru(_keranjangBelanja, totalBelanja, kembalian, _pilihanMetode, namaPemesan, DateTime.Now.ToString("yyyyMMddHHmmss"), _pilihanStatus, catatanUmum);
                 notaForm.ShowDialog();
 
-                // 4. Reset form setelah nota ditutup
-                _keranjangBelanja.Clear();
-                if (tbAtasNama != null) tbAtasNama.Text = "";
-                if (tbUangDiterima != null) tbUangDiterima.Text = "";
-
-                RenderListPanelKanan();
-                MuatKatalogProduk("");
+                ResetHalaman();
             }
             else
             {
                 MessageBox.Show("Gagal menyimpan transaksi ke database.", "Gagal");
             }
         }
+
+        private void ResetHalaman()
+        {
+            _keranjangBelanja.Clear();
+            if (tbAtasNama != null) tbAtasNama.Text = "";
+            if (tbUangDiterima != null) tbUangDiterima.Text = "";
+            if (tbCatatn != null) tbCatatn.Clear();
+
+            RenderListPanelKanan();
+            MuatKatalogProduk("");
+        }
+
         private void tbSearchProduk_TextChanged(object? sender, EventArgs e)
         {
             if (tbSearchProduk == null) return;
             string keyword = tbSearchProduk.Text;
             if (keyword != "Cari produk di sini..." && keyword != "Cari Produk...") MuatKatalogProduk(keyword);
+        }
+
+        public List<ItemKeranjang> GetDaftarPesanan()
+        {
+            return _keranjangBelanja;
         }
 
         private void AturKomponenOtomatis()

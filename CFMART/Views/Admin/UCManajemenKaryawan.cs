@@ -152,29 +152,50 @@ namespace CFMART.Views.Admin
 
         private void dgvManajemenKaryawan_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return; // tambahan: jaga-jaga klik di row-selector kiri
+
+            DataGridViewRow row = dgvManajemenKaryawan.Rows[e.RowIndex];
+
+            // tambahan: cek dulu apakah yang diklik adalah kolom tombol Hapus
+            if (dgvManajemenKaryawan.Columns[e.ColumnIndex].Name == "btnHapus")
             {
-                DataGridViewRow row = dgvManajemenKaryawan.Rows[e.RowIndex];
+                int idHapus = Convert.ToInt32(row.Cells["ID"].Value);
 
-                selectedIdUser = Convert.ToInt32(row.Cells["ID"].Value);
-
-                tbUsernameEdit.Text = row.Cells["Username"].Value?.ToString() ?? "";
-                tbNamaEdit.Text = row.Cells["Nama"].Value?.ToString() ?? "";
-                tbNoHP.Text = row.Cells["No HP"].Value?.ToString() ?? "";
-
-                cbRole.SelectedItem = row.Cells["Role"].Value?.ToString() ?? "Kasir";
-                cbStatusKaryawan.SelectedItem = row.Cells["Status"].Value?.ToString() ?? "Aktif";
-
-                tbPassword.Text = "********";
-
-                // Kunci input yang tidak boleh diganti saat edit status/role oleh admin
-                tbUsernameEdit.Enabled = false;
-                tbNamaEdit.Enabled = false;
-                tbNoHP.Enabled = false;
-                tbPassword.Enabled = false;
-
-                lblTambahKaryawan.Text = "Edit Status Karyawan (ID: " + selectedIdUser + ")";
+                var confirm = MessageBox.Show("Yakin ingin menghapus karyawan ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.Yes)
+                {
+                    if (c_Karyawan.HapusKaryawan(idHapus))
+                    {
+                        MessageBox.Show("Karyawan berhasil dihapus!");
+                        TampilkanSemuaKaryawan();
+                        BersihkanForm();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gagal menghapus karyawan. Kemungkinan karyawan ini masih memiliki riwayat transaksi terkait.", "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                return; // tambahan: jangan lanjut isi form edit kalau yang diklik tombol hapus
             }
+
+            // Logic yang sudah ada — isi form untuk mode edit
+            selectedIdUser = Convert.ToInt32(row.Cells["ID"].Value);
+
+            tbUsernameEdit.Text = row.Cells["Username"].Value?.ToString() ?? "";
+            tbNamaEdit.Text = row.Cells["Nama"].Value?.ToString() ?? "";
+            tbNoHP.Text = row.Cells["No HP"].Value?.ToString() ?? "";
+
+            cbRole.SelectedItem = row.Cells["Role"].Value?.ToString() ?? "Kasir";
+            cbStatusKaryawan.SelectedItem = row.Cells["Status"].Value?.ToString() ?? "Aktif";
+
+            tbPassword.Text = "********";
+
+            tbUsernameEdit.Enabled = false;
+            tbNamaEdit.Enabled = false;
+            tbNoHP.Enabled = false;
+            tbPassword.Enabled = false;
+
+            lblTambahKaryawan.Text = "Edit Status Karyawan (ID: " + selectedIdUser + ")";
         }
 
         private void dgvManajemenKaryawan_CellContentClick(object sender, DataGridViewCellEventArgs e)

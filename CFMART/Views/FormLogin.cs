@@ -15,6 +15,7 @@ namespace CFMART.Views
 {
     public partial class FormLogin : Form
     {
+        public bool LoginBerhasil { get; private set; } = false; 
         public FormLogin()
         {
             InitializeComponent();
@@ -35,7 +36,8 @@ namespace CFMART.Views
 
             if (userAktif != null)
             {
-                // Login Sukses! Cek role untuk mengarahkan halaman
+                LoginBerhasil = true;
+              
                 if (userAktif.role_id_role == 1)
                 {
                     // Jika Role ID 1 adalah Admin, buka Form Utama Admin

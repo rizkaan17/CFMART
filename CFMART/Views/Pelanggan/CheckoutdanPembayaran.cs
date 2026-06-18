@@ -81,15 +81,34 @@ namespace CFMART.Views.Pelanggan
                 return;
             }
 
+            if (string.IsNullOrEmpty(_metodePembayaranTerpilih))
+            {
+                MessageBox.Show("Silakan pilih metode pembayaran (Tunai/QRIS) terlebih dahulu!");
+                return;
+            }
+
             string isiCatatan = tbCatatan.Text;
             string nomorMejaDipilih = comboBox1.SelectedItem.ToString();
-
             Program.CatatanPesanan = isiCatatan;
+
+            // tambahan: simpan pesanan ke database
+            bool sukses = _transaksiController.KirimPesananPelanggan(
+                nomorMejaDipilih,
+                Program.TipePesanan,
+                _metodePembayaranTerpilih,
+                isiCatatan,
+                Program.DaftarBelanjaan
+            );
+
+            if (!sukses)
+            {
+                MessageBox.Show("Gagal menyimpan pesanan ke database. Silakan coba lagi atau hubungi kasir.", "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             string notaNotifikasi = $"Pesanan untuk [{nomorMejaDipilih}] sukses dibuat!\n" +
                                      $"Catatan: {isiCatatan}\n\n" +
                                      "⚠️ SILAKAN SEGERA KE KASIR.";
-
             MessageBox.Show(notaNotifikasi, "Sukses Pemesanan CFMART", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             Program.DaftarBelanjaan.Clear();

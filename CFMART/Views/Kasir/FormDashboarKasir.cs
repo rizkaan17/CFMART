@@ -1,4 +1,5 @@
-﻿using CFMART.Views.Admin;
+﻿using CFMART.Models;
+using CFMART.Views.Admin;
 using CFMART.Views.Kasir;
 using System;
 using System.Collections.Generic;
@@ -67,11 +68,11 @@ namespace CFMART.Views.Kasir
         // =========================================================================
         // 🌟 SINKRONISASI HALAMAN: MENYAMBUNGKAN TOMBOL KONFIRMASI KASIR
         // =========================================================================
+        // Di FormDashboardKasir.cs
         private void btnKonfirmasi_Click(object sender, EventArgs e)
         {
-            // 💡 Catatan Penting: Jika nama file UC konfirmasi di kelompokmu sedikit berbeda,
-            // (misal cuma 'UCKonfirmasi' atau 'UCKonfirmasiPesanan'), silakan ganti nama class di bawah ini ya!
-            PindahHalaman(new UCKonfirmasiPembayaran());
+            UCKonfirmasiPembayaran ucKonfirmasi = new UCKonfirmasiPembayaran();
+            PindahHalaman(ucKonfirmasi); // Biarkan dia memuat data sendiri lewat event Load
         }
 
         private void btnLogoutKasir_Click(object sender, EventArgs e)

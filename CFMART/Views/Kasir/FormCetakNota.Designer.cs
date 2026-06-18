@@ -58,6 +58,8 @@
             lblIsiNamaMeja = new Label();
             lblNamaMeja = new Label();
             panel1 = new Panel();
+            lblIsiCatatan = new Label();
+            lblCatatanNota = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -184,7 +186,7 @@
             flpItemNota.Location = new Point(62, 237);
             flpItemNota.Margin = new Padding(4);
             flpItemNota.Name = "flpItemNota";
-            flpItemNota.Size = new Size(525, 255);
+            flpItemNota.Size = new Size(525, 188);
             flpItemNota.TabIndex = 10;
             // 
             // label8
@@ -422,6 +424,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(lblIsiCatatan);
+            panel1.Controls.Add(lblCatatanNota);
             panel1.Controls.Add(lblCFMART);
             panel1.Controls.Add(lblIsiNamaMeja);
             panel1.Controls.Add(label18);
@@ -450,6 +454,32 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(643, 743);
             panel1.TabIndex = 31;
+            // 
+            // lblIsiCatatan
+            // 
+            lblIsiCatatan.AutoSize = true;
+            lblIsiCatatan.BackColor = Color.White;
+            lblIsiCatatan.Font = new Font("Dubai", 8F);
+            lblIsiCatatan.ForeColor = Color.Black;
+            lblIsiCatatan.Location = new Point(63, 466);
+            lblIsiCatatan.Margin = new Padding(4, 0, 4, 0);
+            lblIsiCatatan.Name = "lblIsiCatatan";
+            lblIsiCatatan.Size = new Size(190, 37);
+            lblIsiCatatan.TabIndex = 32;
+            lblIsiCatatan.Text = "catatan pelanggan...";
+            // 
+            // lblCatatanNota
+            // 
+            lblCatatanNota.AutoSize = true;
+            lblCatatanNota.BackColor = Color.White;
+            lblCatatanNota.Font = new Font("Dubai", 8F);
+            lblCatatanNota.ForeColor = Color.Black;
+            lblCatatanNota.Location = new Point(62, 429);
+            lblCatatanNota.Margin = new Padding(4, 0, 4, 0);
+            lblCatatanNota.Name = "lblCatatanNota";
+            lblCatatanNota.Size = new Size(96, 37);
+            lblCatatanNota.TabIndex = 31;
+            lblCatatanNota.Text = "Catatan :";
             // 
             // FormCetakNota
             // 
@@ -502,5 +532,7 @@
         private Label lblIsiNamaMeja;
         private Label lblNamaMeja;
         private Panel panel1;
+        private Label lblCatatanNota;
+        private Label lblIsiCatatan;
     }
 }

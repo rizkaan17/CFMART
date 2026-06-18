@@ -18,6 +18,8 @@ namespace CFMART.Models
         // 4. Qty (Kuantitas) barang yang dibeli oleh pelanggan
         public int quantity { get; set; }
 
+        public string catatan { get; set; } // Opsional: Catatan khusus untuk item ini, misal "tanpa es" atau "extra pedas"
+
         // 5. 🌟 ENKAPSULASI: Properti read-only otomatis (tanpa set) untuk menghitung sub-total per baris menu.
         // Dosen sangat suka ini karena menerapkan pilar encapsulation murni lewat logic program C#.
         public double sub_total => harga * quantity; 

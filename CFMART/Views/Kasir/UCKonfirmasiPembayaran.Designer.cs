@@ -2,16 +2,16 @@
 {
     partial class UCKonfirmasiPembayaran
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
             {
@@ -20,13 +20,13 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
+        #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UCKonfirmasiPembayaran));
             lblKonfirmasiPembayaran = new Label();
@@ -58,8 +58,11 @@
             lblTitik2 = new Label();
             panel1 = new Panel();
             dgvKonfirmasiPembayaran = new DataGridView();
+            pnlSearch = new Panel();
+            tbSearch = new TextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvKonfirmasiPembayaran).BeginInit();
+            pnlSearch.SuspendLayout();
             SuspendLayout();
             // 
             // lblKonfirmasiPembayaran
@@ -375,18 +378,37 @@
             dgvKonfirmasiPembayaran.AllowUserToAddRows = false;
             dgvKonfirmasiPembayaran.AllowUserToDeleteRows = false;
             dgvKonfirmasiPembayaran.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvKonfirmasiPembayaran.Location = new Point(22, 18);
+            dgvKonfirmasiPembayaran.Location = new Point(22, 122);
             dgvKonfirmasiPembayaran.Name = "dgvKonfirmasiPembayaran";
             dgvKonfirmasiPembayaran.ReadOnly = true;
             dgvKonfirmasiPembayaran.RowHeadersWidth = 82;
-            dgvKonfirmasiPembayaran.Size = new Size(1395, 1017);
+            dgvKonfirmasiPembayaran.Size = new Size(1395, 913);
             dgvKonfirmasiPembayaran.TabIndex = 28;
+            dgvKonfirmasiPembayaran.CellClick += dgvKonfirmasiPembayaran_CellClick;
+            // 
+            // pnlSearch
+            // 
+            pnlSearch.BackColor = Color.SlateGray;
+            pnlSearch.Controls.Add(tbSearch);
+            pnlSearch.Location = new Point(22, 1);
+            pnlSearch.Name = "pnlSearch";
+            pnlSearch.Size = new Size(1395, 99);
+            pnlSearch.TabIndex = 29;
+            // 
+            // tbSearch
+            // 
+            tbSearch.Location = new Point(46, 32);
+            tbSearch.Name = "tbSearch";
+            tbSearch.Size = new Size(1309, 39);
+            tbSearch.TabIndex = 30;
+            tbSearch.TextChanged += tbSearch_TextChanged;
             // 
             // UCKonfirmasiPembayaran
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            Controls.Add(pnlSearch);
             Controls.Add(dgvKonfirmasiPembayaran);
             Controls.Add(panel1);
             ForeColor = Color.Black;
@@ -395,12 +417,14 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvKonfirmasiPembayaran).EndInit();
+            pnlSearch.ResumeLayout(false);
+            pnlSearch.PerformLayout();
             ResumeLayout(false);
         }
 
-        #endregion
+        #endregion
 
-        private Label lblKonfirmasiPembayaran;
+        private Label lblKonfirmasiPembayaran;
         private Label lblGaris;
         private Label lblNoPesanan;
         private Label lblMeja;
@@ -429,5 +453,7 @@
         private Label lblTitik2;
         private Panel panel1;
         private DataGridView dgvKonfirmasiPembayaran;
+        private Panel pnlSearch;
+        private TextBox tbSearch;
     }
 }

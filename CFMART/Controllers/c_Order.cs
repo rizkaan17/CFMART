@@ -14,7 +14,7 @@ namespace CFMART.Controllers
         // 🌟 1. Jembatan Simpan Nota Kasir
         public bool KirimPesanan(string namaPelanggan, List<ItemKeranjang> items, string statusTeks)
         {
-            return _context.InsertNotaDanDetail(2, 0, "1", items);
+            return _context.InsertNotaDanDetail(2, 0, "1", items, string.Empty);
         }
 
         // 🌟 2. Jembatan Kotak Kiri Dashboard (Menghilangkan Merah Pertama)
@@ -35,10 +35,24 @@ namespace CFMART.Controllers
             return _context.GetTotalProdukTerlaris();
         }
 
+        // Di OrderController.cs
+        public DataTable AmbilDaftarPesananPending()
+        {
+            return _context.GetPesananPending();
+        }
+
         // 🌟 5. Jembatan Tabel Riwayat Bawah (Menghilangkan Merah Ketiga)
         public DataTable AmbilRiwayatTransaksi()
         {
             return _context.GetRiwayatTransaksi();
+        }
+        public DataTable AmbilDetailPesanan(string idOrder)
+        {
+            return _context.GetDetailPesanan(idOrder);
+        }
+        public bool UpdateStatusPembayaran(string idOrder, bool statusLunas, int idKasir)
+        {
+            return _context.UpdateStatusPembayaran(idOrder, statusLunas, idKasir);
         }
     }
 }

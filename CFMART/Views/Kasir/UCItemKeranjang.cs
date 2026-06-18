@@ -96,5 +96,11 @@ namespace CFMART.Views.Kasir
             // Beri tahu form induk kasir untuk mendepak item ini dari FlowLayoutPanel dan list RAM global
             OnHapusItemKlik?.Invoke(_itemData);
         }
+
+
+        private void lblCatatanItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
